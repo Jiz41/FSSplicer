@@ -3,43 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-version" content="0.1.0">
+<meta name="app-version" content="0.2.0">
 <title>FSSplicer</title>
-<link rel="stylesheet" href="style.css?v=0.1.0">
+<link rel="stylesheet" href="style.css?v=0.2.0">
 </head>
 <body>
 <header>
-  <h1>FSSplicer <span class="version">v0.1.0</span></h1>
-  <p class="subtitle">Full Stride 馬データ改変ツール（非公式ファンツール）</p>
+  <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+  <h1>FSSplicer <span class="version">v0.2.0</span></h1>
+  <p class="subtitle" data-i18n="subtitle">Full Stride 馬データ改変ツール（非公式ファンツール）</p>
 </header>
 
 <main>
   <section id="section-basic">
-    <h2>基本情報</h2>
-    <!-- id / name_jp / name_en / gender / birth_year / growth_curve / running_style 等 -->
+    <h2 data-i18n="section_basic">基本情報</h2>
+
+    <div class="form-row">
+      <label for="id" data-i18n="label_id">ID</label>
+      <input type="text" id="id" inputmode="numeric" placeholder="10100733">
+    </div>
+
+    <div class="form-row">
+      <label for="name_jp" data-i18n="label_name_jp">馬名（日本語）</label>
+      <input type="text" id="name_jp">
+    </div>
+
+    <div class="form-row">
+      <label for="name_en" data-i18n="label_name_en">馬名（英語）</label>
+      <input type="text" id="name_en">
+    </div>
+
+    <div class="form-row">
+      <label for="gender" data-i18n="label_gender">性別</label>
+      <select id="gender">
+        <option value="0" data-i18n="gender_0">牡</option>
+        <option value="1" data-i18n="gender_1">牝</option>
+        <option value="2" data-i18n="gender_2">セン</option>
+      </select>
+    </div>
+
+    <div class="form-row form-row-triple">
+      <div>
+        <label for="birth_year" data-i18n="label_birth_year">生年</label>
+        <input type="number" id="birth_year" step="1">
+      </div>
+      <div>
+        <label for="birth_month" data-i18n="label_birth_month">生月</label>
+        <input type="number" id="birth_month" step="1" min="1" max="12">
+      </div>
+      <div>
+        <label for="birth_day" data-i18n="label_birth_day">生日</label>
+        <input type="number" id="birth_day" step="1" min="1" max="31">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="horse_color" data-i18n="label_horse_color">毛色</label>
+      <select id="horse_color">
+        <option value="0" data-i18n="color_0">鹿毛</option>
+        <option value="1" data-i18n="color_1">黒鹿毛</option>
+        <option value="2" data-i18n="color_2">青鹿毛</option>
+        <option value="3" data-i18n="color_3">青毛</option>
+        <option value="4" data-i18n="color_4">栗毛</option>
+        <option value="5" data-i18n="color_5">栃栗毛</option>
+        <option value="6" data-i18n="color_6">尾花栗毛</option>
+        <option value="7" data-i18n="color_7">芦毛</option>
+        <option value="8" data-i18n="color_8">白毛</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="physical" data-i18n="label_physical">体格（0〜1）</label>
+      <input type="number" id="physical" step="0.01" min="0" max="1" value="0.5">
+    </div>
+
+    <div class="form-row form-row-fixed">
+      <label data-i18n="label_owner">馬主（固定値）</label>
+      <input type="text" id="owner" value="30100001" disabled>
+    </div>
+
+    <div class="form-row form-row-fixed">
+      <label data-i18n="label_main_jockey">主戦騎手（固定値）</label>
+      <input type="text" id="main_jockey" value="20100100" disabled>
+    </div>
+
+    <div class="form-row form-row-fixed">
+      <label data-i18n="label_region">地域（固定値）</label>
+      <input type="text" id="region" value="100" disabled>
+    </div>
+
+    <div class="form-row">
+      <label for="turf_rating" data-i18n="label_turf_rating">芝評価</label>
+      <input type="number" id="turf_rating" step="0.01">
+    </div>
+
+    <div class="form-row">
+      <label for="dirt_rating" data-i18n="label_dirt_rating">ダート評価</label>
+      <input type="number" id="dirt_rating" step="0.01">
+    </div>
+
+    <div class="form-row form-row-triple">
+      <div>
+        <label for="min_distance" data-i18n="label_min_distance">最短距離(m)</label>
+        <input type="number" id="min_distance" step="1">
+      </div>
+      <div>
+        <label for="max_distance" data-i18n="label_max_distance">最長距離(m)</label>
+        <input type="number" id="max_distance" step="1">
+      </div>
+      <div>
+        <label for="optimal_distance" data-i18n="label_optimal_distance">得意距離(m)</label>
+        <input type="number" id="optimal_distance" step="1">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="preferred_pace" data-i18n="label_preferred_pace">得意ペース（-1〜1）</label>
+      <input type="number" id="preferred_pace" step="0.01" min="-2" max="2" value="0">
+    </div>
+
+    <div class="form-row">
+      <label for="direction_aptitude" data-i18n="label_direction_aptitude">回り適性（-1〜1）</label>
+      <input type="number" id="direction_aptitude" step="0.01" min="-2" max="2" value="0">
+    </div>
+
+    <div class="form-row">
+      <label data-i18n="label_running_style">脚質（4値 / 区切り）</label>
+      <div class="form-row-quad">
+        <input type="number" id="running_style_0" step="0.01" min="-2" max="2" value="0" data-i18n-placeholder="running_style_0_ph" placeholder="逃げ">
+        <input type="number" id="running_style_1" step="0.01" min="-2" max="2" value="0" placeholder="先行">
+        <input type="number" id="running_style_2" step="0.01" min="-2" max="2" value="0" placeholder="差し">
+        <input type="number" id="running_style_3" step="0.01" min="-2" max="2" value="0" placeholder="追込">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="growth_curve" data-i18n="label_growth_curve">成長タイプ</label>
+      <select id="growth_curve">
+        <option value="prodigy" data-i18n="growth_prodigy">天才</option>
+        <option value="early" data-i18n="growth_early">早熟</option>
+        <option value="normal" data-i18n="growth_normal" selected>普通</option>
+        <option value="late" data-i18n="growth_late">晩成</option>
+      </select>
+    </div>
+
+    <div class="form-row form-row-triple">
+      <div>
+        <label for="peak_age" data-i18n="label_peak_age">全盛期年齢</label>
+        <input type="number" id="peak_age" step="0.01">
+      </div>
+      <div>
+        <label for="retire_age" data-i18n="label_retire_age">引退年齢</label>
+        <input type="number" id="retire_age" step="0.01">
+      </div>
+    </div>
   </section>
 
   <section id="section-stats">
-    <h2>能力値</h2>
-    <!-- acceleration〜health の8軸 -->
+    <h2 data-i18n="section_stats">能力値</h2>
+    <div id="stat-grid"></div>
   </section>
 
   <section id="section-gear">
-    <h2>馬具設定</h2>
-    <!-- head_mark / bridle系 / mask系 / bandage系 等 -->
+    <h2 data-i18n="section_gear">馬具設定</h2>
+
+    <div class="gear-copy-box">
+      <label for="gear-copy-id" data-i18n="label_gear_copy">既存馬から馬具をコピー（ID指定）</label>
+      <div class="gear-copy-row">
+        <input type="text" id="gear-copy-id" inputmode="numeric" placeholder="10100733">
+        <button type="button" id="gear-copy-btn" data-i18n="btn_gear_copy">馬具を読み込む</button>
+      </div>
+      <p class="gear-copy-status" id="gear-copy-status"></p>
+    </div>
+
+    <div id="gear-grid"></div>
   </section>
 
   <section id="section-output">
-    <h2>CSV出力</h2>
-    <button id="generate-btn">CSVを生成</button>
+    <h2 data-i18n="section_output">CSV出力</h2>
+    <button id="generate-btn" class="search-btn" data-i18n="btn_generate">CSVを生成</button>
     <textarea id="csv-output" readonly rows="4"></textarea>
+    <button id="copy-btn" data-i18n="btn_copy">クリップボードにコピー</button>
+    <p class="copy-status" id="copy-status"></p>
   </section>
 </main>
 
 <footer>
-  <p>非公式ファンツール・Full Strideの商標は各権利者に帰属します。</p>
+  <p data-i18n="footer_note">非公式ファンツール・Full Strideの商標は各権利者に帰属します。</p>
 </footer>
 
-<script src="script.js?v=0.1.0"></script>
+<script src="script.js?v=0.2.0"></script>
 </body>
 </html>
