@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="app-version" content="0.1.0">
+<title>FSSplicer</title>
+<link rel="stylesheet" href="style.css?v=0.1.0">
+</head>
+<body>
+<header>
+  <h1>FSSplicer <span class="version">v0.1.0</span></h1>
+  <p class="subtitle">Full Stride 馬データ改変ツール（非公式ファンツール）</p>
+</header>
+
+<main>
+  <section id="section-basic">
+    <h2>基本情報</h2>
+    <!-- id / name_jp / name_en / gender / birth_year / growth_curve / running_style 等 -->
+  </section>
+
+  <section id="section-stats">
+    <h2>能力値</h2>
+    <!-- acceleration〜health の8軸 -->
+  </section>
+
+  <section id="section-gear">
+    <h2>馬具設定</h2>
+    <!-- head_mark / bridle系 / mask系 / bandage系 等 -->
+  </section>
+
+  <section id="section-output">
+    <h2>CSV出力</h2>
+    <button id="generate-btn">CSVを生成</button>
+    <textarea id="csv-output" readonly rows="4"></textarea>
+  </section>
+</main>
+
+<footer>
+  <p>非公式ファンツール・Full Strideの商標は各権利者に帰属します。</p>
+</footer>
+
+<script src="script.js?v=0.1.0"></script>
+</body>
+</html>

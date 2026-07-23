@@ -1,0 +1,36 @@
+:root {
+  --ink: #1a1a1a;
+  --bg: #fafafa;
+  --muted: #999;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #f2f2f2;
+    --bg: #181818;
+    --muted: #777;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: sans-serif;
+  margin: 0 auto;
+  max-width: 720px;
+  padding: 1rem;
+}
+
+header .version {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+section {
+  margin-bottom: 1.5rem;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
