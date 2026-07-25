@@ -27,12 +27,6 @@ const COLUMN_ORDER = [
 
 const GEAR_COLUMNS = COLUMN_ORDER.slice(COLUMN_ORDER.indexOf("head_mark"));
 
-const FIXED_VALUES = {
-  owner: "30100001",
-  main_jockey: "20100100",
-  region: "100"
-};
-
 const STAT_AXES = [
   { key: "acceleration", label: "加速力", label_en: "Acceleration" },
   { key: "start_score", label: "スタート", label_en: "Start" },
@@ -341,9 +335,6 @@ function csvEscape(value) {
 }
 
 function collectValue(column) {
-  if (Object.prototype.hasOwnProperty.call(FIXED_VALUES, column)) {
-    return FIXED_VALUES[column];
-  }
   if (column === "preferred_pace" || column === "direction_aptitude") {
     return "";
   }
