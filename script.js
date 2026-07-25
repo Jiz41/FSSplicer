@@ -40,7 +40,7 @@ const STAT_AXES = [
   { key: "hill_score", label: "坂", label_en: "Hill" },
   { key: "heavy_track_score", label: "重馬場", label_en: "Heavy Track" },
   { key: "fighting_spirit", label: "闘争心", label_en: "Fighting Spirit" },
-  { key: "consistency", label: "安定性", label_en: "Consistency" },
+  { key: "consistency", label: "安定感", label_en: "Consistency" },
   { key: "health", label: "健康", label_en: "Health" }
 ];
 
@@ -101,28 +101,29 @@ const I18N = {
     label_horse_color: "毛色",
     color_0: "鹿毛", color_1: "黒鹿毛", color_2: "青鹿毛", color_3: "青毛", color_4: "栗毛",
     color_5: "栃栗毛", color_6: "尾花栗毛", color_7: "芦毛", color_8: "白毛",
-    label_physical: "体格（0〜1）",
+    label_physical: "フィジカル（0〜1）",
     label_owner: "馬主（固定値）",
     label_main_jockey: "主戦騎手（固定値）",
     label_region: "地域（固定値）",
-    label_turf_rating: "芝評価",
-    label_dirt_rating: "ダート評価",
-    label_min_distance: "最短距離(m)",
-    label_max_distance: "最長距離(m)",
+    label_turf_rating: "芝レーティング",
+    label_dirt_rating: "ダートレーティング",
+    label_min_distance: "距離適性（下限）(m)",
+    label_max_distance: "距離適性（上限）(m)",
     label_optimal_distance: "得意距離(m)",
     label_preferred_pace: "得意ペース（-1〜1）",
     label_direction_aptitude: "回り適性（-1〜1）",
-    label_running_style: "脚質（4値 / 区切り）",
+    label_running_style: "脚質",
+    hint_running_style: "メイン脚質は1、サブ脚質は0.5〜0.7を推奨",
     label_growth_curve: "成長タイプ",
     growth_prodigy: "天才", growth_early: "早熟", growth_normal: "普通", growth_late: "晩成",
-    label_peak_age: "全盛期年齢",
+    label_peak_age: "ピーク年齢",
     label_retire_age: "引退年齢",
     label_gear_copy: "既存馬から馬具をコピー（ID指定）",
     btn_gear_copy: "馬具を読み込む",
     btn_generate: "CSVを生成",
     btn_copy: "クリップボードにコピー",
     footer_note: "非公式ファンツール・Full Strideの商標は各権利者に帰属します。",
-    alert_required: "ID・馬名（日本語）・馬名（英語）は必須です。",
+    alert_required: "馬名（日本語）・馬名（英語）は必須です。",
     copy_success: "コピーしました",
     copy_failed: "コピーに失敗しました",
     gear_copy_notfound: "サンプルデータに該当IDが見つかりませんでした",
@@ -151,13 +152,14 @@ const I18N = {
     label_region: "Region (fixed)",
     label_turf_rating: "Turf Rating",
     label_dirt_rating: "Dirt Rating",
-    label_min_distance: "Min Distance (m)",
-    label_max_distance: "Max Distance (m)",
+    label_min_distance: "Distance Aptitude (Min, m)",
+    label_max_distance: "Distance Aptitude (Max, m)",
     label_optimal_distance: "Optimal Distance (m)",
     label_preferred_pace: "Preferred Pace (-1 to 1)",
     label_direction_aptitude: "Direction Aptitude (-1 to 1)",
-    label_running_style: "Running Style (4 values / separated)",
-    label_growth_curve: "Growth Curve",
+    label_running_style: "Running Style",
+    hint_running_style: "Recommended: 1 for main running style, 0.5-0.7 for sub styles",
+    label_growth_curve: "Growth Type",
     growth_prodigy: "Prodigy", growth_early: "Early Bloomer", growth_normal: "Normal", growth_late: "Late Bloomer",
     label_peak_age: "Peak Age",
     label_retire_age: "Retire Age",
@@ -166,7 +168,7 @@ const I18N = {
     btn_generate: "Generate CSV",
     btn_copy: "Copy to Clipboard",
     footer_note: "Unofficial fan tool. \"FULL STRIDE\" is a trademark of its respective owner.",
-    alert_required: "ID, Name (Japanese), and Name (English) are required.",
+    alert_required: "Name (Japanese) and Name (English) are required.",
     copy_success: "Copied",
     copy_failed: "Copy failed",
     gear_copy_notfound: "No matching ID found in the sample data",
@@ -342,6 +344,9 @@ function collectValue(column) {
   if (Object.prototype.hasOwnProperty.call(FIXED_VALUES, column)) {
     return FIXED_VALUES[column];
   }
+  if (column === "preferred_pace" || column === "direction_aptitude") {
+    return "";
+  }
   if (column === "running_style") {
     const parts = [0, 1, 2, 3].map(i => {
       const el = document.getElementById("running_style_" + i);
@@ -354,7 +359,7 @@ function collectValue(column) {
 }
 
 function generateCsvRow() {
-  return COLUMN_ORDER.map(col => csvEscape(collectValue(col))).join(",");
+  return COLUMN_ORDER.filter(col => col !== "id").map(col => csvEscape(collectValue(col))).join(",");
 }
 
 function setupGenerate() {
@@ -362,11 +367,10 @@ function setupGenerate() {
   const output = document.getElementById("csv-output");
 
   btn.addEventListener("click", () => {
-    const id = document.getElementById("id").value.trim();
     const nameJp = document.getElementById("name_jp").value.trim();
     const nameEn = document.getElementById("name_en").value.trim();
 
-    if (!id || !nameJp || !nameEn) {
+    if (!nameJp || !nameEn) {
       alert(t("alert_required"));
       return;
     }
@@ -393,8 +397,7 @@ function setupCopy() {
 
 // ---- 初期化 ----
 document.addEventListener("DOMContentLoaded", () => {
-  buildStatGrid();
-  buildGearGrid();
+  applyLanguage(currentLang());
   setupLangToggle();
   setupGearCopy();
   setupGenerate();
