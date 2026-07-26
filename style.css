@@ -51,6 +51,31 @@ header .subtitle {
   font-size: 0.8rem;
 }
 
+.tab-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 0.6rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.9em;
+  font-weight: 700;
+  color: var(--bg);
+  background: var(--muted);
+  border: 1px solid var(--muted);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
 section {
   margin-bottom: 1.5rem;
 }

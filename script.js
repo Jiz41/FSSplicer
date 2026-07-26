@@ -82,6 +82,17 @@ const GEAR_LABELS_EN = {
 const I18N = {
   ja: {
     subtitle: "Full Stride 馬データ改変ツール（非公式ファンツール）",
+    tab_input: "馬データ入力",
+    tab_parse: "解析",
+    btn_share_copy: "Xシェア用にコピー",
+    share_copy_success: "｜区切りでコピーしました",
+    share_copy_failed: "コピーに失敗しました",
+    share_copy_empty: "先にCSVを生成してください",
+    section_parse: "｜区切りをタブ区切りに変換",
+    hint_parse: "Xで共有された｜区切りの文字列を貼り付けて「解析」を押すと、Sheetsにそのまま貼り付けられるタブ区切りに変換します",
+    btn_parse_run: "解析",
+    parse_empty: "貼り付け内容が空です",
+    parse_success: "変換しました",
     section_source: "元の馬データを読み込む",
     hint_source: "シートの行をID列から丸ごとコピーして貼り付け、読み込むボタンを押すと未編集の項目は元の馬の値のまま出力されます",
     btn_load_source: "読み込む",
@@ -133,6 +144,17 @@ const I18N = {
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
+    tab_input: "Horse Data Input",
+    tab_parse: "Parse",
+    btn_share_copy: "Copy for X Sharing",
+    share_copy_success: "Copied with｜separators",
+    share_copy_failed: "Copy failed",
+    share_copy_empty: "Generate the CSV first",
+    section_parse: "Convert｜separators to tabs",
+    hint_parse: "Paste a｜-separated string shared on X and press Parse to convert it into tab-separated text ready to paste into Sheets",
+    btn_parse_run: "Parse",
+    parse_empty: "Pasted content is empty",
+    parse_success: "Converted",
     section_source: "Load Source Horse Data",
     hint_source: "Copy an entire row from the sheet (including the ID column) and paste it, then press Load. Unedited fields will be output using the original horse's values.",
     btn_load_source: "Load",
@@ -438,12 +460,79 @@ function setupCopy() {
   });
 }
 
+// ---- Xシェア用コピー(タブを｜に置換) ----
+function setupShareCopy() {
+  const btn = document.getElementById("share-copy-btn");
+  const output = document.getElementById("csv-output");
+  const status = document.getElementById("copy-status");
+
+  btn.addEventListener("click", async () => {
+    if (!output.value) {
+      status.textContent = t("share_copy_empty");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(output.value.split("\t").join("｜"));
+      status.textContent = t("share_copy_success");
+    } catch (e) {
+      status.textContent = t("share_copy_failed");
+    }
+  });
+}
+
+// ---- 解析パネル(｜区切り→タブ区切り変換) ----
+function setupParsePanel() {
+  const input = document.getElementById("parse-input");
+  const btn = document.getElementById("parse-btn");
+  const output = document.getElementById("parse-output");
+  const status = document.getElementById("parse-status");
+  const copyBtn = document.getElementById("parse-copy-btn");
+
+  btn.addEventListener("click", () => {
+    const raw = input.value.trim();
+    if (!raw) {
+      status.textContent = t("parse_empty");
+      return;
+    }
+    output.value = raw.split("｜").join("\t");
+    status.textContent = t("parse_success");
+  });
+
+  copyBtn.addEventListener("click", async () => {
+    if (!output.value) return;
+    try {
+      await navigator.clipboard.writeText(output.value);
+      status.textContent = t("copy_success");
+    } catch (e) {
+      status.textContent = t("copy_failed");
+    }
+  });
+}
+
+// ---- タブ切り替え ----
+function switchTab(tab) {
+  const isParse = tab === "parse";
+  document.getElementById("input-panel").style.display = isParse ? "none" : "";
+  document.getElementById("parse-panel").style.display = isParse ? "" : "none";
+  document.getElementById("tab-btn-input").classList.toggle("active", !isParse);
+  document.getElementById("tab-btn-parse").classList.toggle("active", isParse);
+}
+
+function setupTabs() {
+  document.querySelectorAll("#tab-bar .tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+  });
+}
+
 // ---- 初期化 ----
 document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
   setupLangToggle();
+  setupTabs();
   setupLoadSource();
   setupGearCopy();
   setupGenerate();
   setupCopy();
+  setupShareCopy();
+  setupParsePanel();
 });

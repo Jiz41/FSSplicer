@@ -3,18 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-version" content="0.4.0">
+<meta name="app-version" content="0.5.0">
 <title>FSSplicer</title>
-<link rel="stylesheet" href="style.css?v=0.4.0">
+<link rel="stylesheet" href="style.css?v=0.5.0">
 </head>
 <body>
 <header>
   <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
-  <h1>FSSplicer <span class="version">v0.4.0</span></h1>
+  <h1>FSSplicer <span class="version">v0.5.0</span></h1>
   <p class="subtitle" data-i18n="subtitle">Full Stride 馬データ改変ツール（非公式ファンツール）</p>
 </header>
 
+<nav class="tab-bar" id="tab-bar">
+  <button class="tab-btn active" data-tab="input" id="tab-btn-input" data-i18n="tab_input">馬データ入力</button>
+  <button class="tab-btn" data-tab="parse" id="tab-btn-parse" data-i18n="tab_parse">解析</button>
+</nav>
+
 <main>
+<div id="input-panel" class="panel">
   <section id="section-source">
     <h2 data-i18n="section_source">元の馬データを読み込む</h2>
     <p class="gear-copy-status" data-i18n="hint_source">シートの行をID列から丸ごとコピーして貼り付け、読み込むボタンを押すと未編集の項目は元の馬の値のまま出力されます</p>
@@ -150,14 +156,28 @@
     <button id="generate-btn" class="search-btn" data-i18n="btn_generate">CSVを生成</button>
     <textarea id="csv-output" readonly rows="4"></textarea>
     <button id="copy-btn" data-i18n="btn_copy">クリップボードにコピー</button>
+    <button id="share-copy-btn" data-i18n="btn_share_copy">Xシェア用にコピー</button>
     <p class="copy-status" id="copy-status"></p>
   </section>
+</div>
+
+<div id="parse-panel" class="panel" style="display:none;">
+  <section id="section-parse">
+    <h2 data-i18n="section_parse">｜区切りをタブ区切りに変換</h2>
+    <p class="gear-copy-status" data-i18n="hint_parse">Xで共有された｜区切りの文字列を貼り付けて「解析」を押すと、Sheetsにそのまま貼り付けられるタブ区切りに変換します</p>
+    <textarea id="parse-input" rows="3"></textarea>
+    <button type="button" id="parse-btn" data-i18n="btn_parse_run">解析</button>
+    <textarea id="parse-output" readonly rows="4"></textarea>
+    <button id="parse-copy-btn" data-i18n="btn_copy">クリップボードにコピー</button>
+    <p class="copy-status" id="parse-status"></p>
+  </section>
+</div>
 </main>
 
 <footer>
   <p data-i18n="footer_note">非公式ファンツール・Full Strideの商標は各権利者に帰属します。</p>
 </footer>
 
-<script src="script.js?v=0.4.0"></script>
+<script src="script.js?v=0.5.0"></script>
 </body>
 </html>
