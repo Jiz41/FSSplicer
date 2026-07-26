@@ -328,12 +328,7 @@ function setupGearCopy() {
   });
 }
 
-// ---- CSV生成 ----
-function csvEscape(value) {
-  const str = String(value === undefined || value === null ? "" : value);
-  return '"' + str.replace(/"/g, '""') + '"';
-}
-
+// ---- 行データ生成（タブ区切り。Google Sheetsへの直接貼り付けで自動列分割させるため） ----
 function collectValue(column) {
   if (column === "preferred_pace" || column === "direction_aptitude") {
     return "";
@@ -350,7 +345,7 @@ function collectValue(column) {
 }
 
 function generateCsvRow() {
-  return COLUMN_ORDER.filter(col => col !== "id").map(col => csvEscape(collectValue(col))).join(",");
+  return COLUMN_ORDER.filter(col => col !== "id").map(col => collectValue(col)).join("\t");
 }
 
 function setupGenerate() {
