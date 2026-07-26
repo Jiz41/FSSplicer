@@ -210,16 +210,16 @@ function buildStatGrid() {
     const range = document.createElement("input");
     range.type = "range";
     range.id = axis.key + "_range";
-    range.min = "-0.5";
-    range.max = "1.5";
+    range.min = "0";
+    range.max = "1";
     range.step = "0.01";
     range.value = "0";
 
     const num = document.createElement("input");
     num.type = "number";
     num.id = axis.key;
-    num.min = "-0.5";
-    num.max = "1.5";
+    num.min = "0";
+    num.max = "1";
     num.step = "0.01";
     num.value = "0";
 
