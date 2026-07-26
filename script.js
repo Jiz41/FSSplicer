@@ -85,11 +85,11 @@ const I18N = {
     tab_input: "馬データ入力",
     tab_parse: "解析",
     btn_share_copy: "Xシェア用にコピー",
-    share_copy_success: "｜区切りでコピーしました",
+    share_copy_success: "|区切りでコピーしました",
     share_copy_failed: "コピーに失敗しました",
     share_copy_empty: "先にCSVを生成してください",
-    section_parse: "｜区切りをタブ区切りに変換",
-    hint_parse: "Xで共有された｜区切りの文字列を貼り付けて「解析」を押すと、Sheetsにそのまま貼り付けられるタブ区切りに変換します",
+    section_parse: "|区切りをタブ区切りに変換",
+    hint_parse: "Xで共有された|区切りの文字列を貼り付けて「解析」を押すと、Sheetsにそのまま貼り付けられるタブ区切りに変換します",
     btn_parse_run: "解析",
     parse_empty: "貼り付け内容が空です",
     parse_success: "変換しました",
@@ -147,11 +147,11 @@ const I18N = {
     tab_input: "Horse Data Input",
     tab_parse: "Parse",
     btn_share_copy: "Copy for X Sharing",
-    share_copy_success: "Copied with｜separators",
+    share_copy_success: "Copied with | separators",
     share_copy_failed: "Copy failed",
     share_copy_empty: "Generate the CSV first",
-    section_parse: "Convert｜separators to tabs",
-    hint_parse: "Paste a｜-separated string shared on X and press Parse to convert it into tab-separated text ready to paste into Sheets",
+    section_parse: "Convert | separators to tabs",
+    hint_parse: "Paste a |-separated string shared on X and press Parse to convert it into tab-separated text ready to paste into Sheets",
     btn_parse_run: "Parse",
     parse_empty: "Pasted content is empty",
     parse_success: "Converted",
@@ -460,7 +460,7 @@ function setupCopy() {
   });
 }
 
-// ---- Xシェア用コピー(タブを｜に置換) ----
+// ---- Xシェア用コピー(タブを|に置換) ----
 function setupShareCopy() {
   const btn = document.getElementById("share-copy-btn");
   const output = document.getElementById("csv-output");
@@ -472,7 +472,7 @@ function setupShareCopy() {
       return;
     }
     try {
-      await navigator.clipboard.writeText(output.value.split("\t").join("｜"));
+      await navigator.clipboard.writeText(output.value.split("\t").join("|"));
       status.textContent = t("share_copy_success");
     } catch (e) {
       status.textContent = t("share_copy_failed");
@@ -480,7 +480,7 @@ function setupShareCopy() {
   });
 }
 
-// ---- 解析パネル(｜区切り→タブ区切り変換) ----
+// ---- 解析パネル(|区切り→タブ区切り変換) ----
 function setupParsePanel() {
   const input = document.getElementById("parse-input");
   const btn = document.getElementById("parse-btn");
@@ -494,7 +494,7 @@ function setupParsePanel() {
       status.textContent = t("parse_empty");
       return;
     }
-    output.value = raw.split("｜").join("\t");
+    output.value = raw.split("|").join("\t");
     status.textContent = t("parse_success");
   });
 
