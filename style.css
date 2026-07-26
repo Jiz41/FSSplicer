@@ -2,14 +2,38 @@
   --ink: #1a1a1a;
   --bg: #fafafa;
   --muted: #999;
+  --accent: #1a7a4c;
+  --scanline:
+    repeating-linear-gradient(to bottom, color-mix(in srgb, var(--muted) 25%, transparent) 0px, color-mix(in srgb, var(--muted) 25%, transparent) 1px, transparent 1px, transparent 24px),
+    repeating-linear-gradient(to right, color-mix(in srgb, var(--muted) 25%, transparent) 0px, color-mix(in srgb, var(--muted) 25%, transparent) 1px, transparent 1px, transparent 24px);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --ink: #f2f2f2;
-    --bg: #181818;
-    --muted: #777;
+    --ink: #e8ffe8;
+    --bg: #0a0e0a;
+    --muted: #3a5a3a;
+    --accent: #33ff66;
+    --scanline: repeating-linear-gradient(to bottom, rgba(51, 255, 102, 0.05) 0px, rgba(51, 255, 102, 0.05) 1px, transparent 1px, transparent 3px);
   }
+}
+
+:root[data-theme="dark"] {
+  --ink: #e8ffe8;
+  --bg: #0a0e0a;
+  --muted: #3a5a3a;
+  --accent: #33ff66;
+  --scanline: repeating-linear-gradient(to bottom, rgba(51, 255, 102, 0.05) 0px, rgba(51, 255, 102, 0.05) 1px, transparent 1px, transparent 3px);
+}
+
+:root[data-theme="light"] {
+  --ink: #1a1a1a;
+  --bg: #fafafa;
+  --muted: #999;
+  --accent: #1a7a4c;
+  --scanline:
+    repeating-linear-gradient(to bottom, color-mix(in srgb, var(--muted) 25%, transparent) 0px, color-mix(in srgb, var(--muted) 25%, transparent) 1px, transparent 1px, transparent 24px),
+    repeating-linear-gradient(to right, color-mix(in srgb, var(--muted) 25%, transparent) 0px, color-mix(in srgb, var(--muted) 25%, transparent) 1px, transparent 1px, transparent 24px);
 }
 
 * {
@@ -23,27 +47,83 @@ body {
   margin: 0 auto;
   max-width: 720px;
   padding: 1rem;
-}
-
-header {
   position: relative;
 }
 
-header .version {
-  color: var(--muted);
-  font-size: 0.8rem;
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: var(--scanline);
 }
 
-header .subtitle {
+header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.wordmark {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 1.6em;
+  color: var(--ink);
+  min-width: 0;
+}
+
+.wordmark span {
+  color: var(--accent);
+}
+
+.version-badge {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.4em;
+  font-weight: 400;
+  color: var(--muted);
+  vertical-align: super;
+  margin-left: 0.3em;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.header-sub-row .subtitle {
   color: var(--muted);
   font-size: 0.85rem;
+  margin: 0;
+}
+
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--accent);
+  background: var(--bg);
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  border-radius: 4px;
 }
 
 .lang-toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: var(--muted);
+  background: var(--accent);
   color: var(--bg);
   border: none;
   border-radius: 4px;
@@ -71,8 +151,8 @@ header .subtitle {
 }
 
 .tab-btn.active {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--accent);
+  border-color: var(--accent);
   color: var(--bg);
 }
 
@@ -81,13 +161,14 @@ section {
 }
 
 section h2 {
-  border-bottom: 1px solid var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  border-bottom: 1px solid var(--accent);
   padding-bottom: 0.3rem;
 }
 
 summary {
   cursor: pointer;
-  border-bottom: 1px solid var(--muted);
+  border-bottom: 1px solid var(--accent);
   padding-bottom: 0.3rem;
 }
 
@@ -255,12 +336,14 @@ summary h2 {
 .search-btn {
   display: block;
   width: 100%;
-  background: var(--ink);
+  background: var(--accent);
   color: var(--bg);
   border: none;
   border-radius: 6px;
   padding: 0.7rem;
   font-size: 1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
   margin-bottom: 0.6rem;
 }
 

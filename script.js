@@ -534,10 +534,36 @@ function setupTabs() {
   });
 }
 
+// ---- テーマ切り替え ----
+function setupThemeToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById("theme-toggle");
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  function effectiveTheme() {
+    const forced = root.getAttribute("data-theme");
+    if (forced) return forced;
+    return systemDark ? "dark" : "light";
+  }
+
+  function updateIcon() {
+    btn.textContent = effectiveTheme() === "dark" ? "🌙" : "☀️";
+  }
+
+  btn.addEventListener("click", () => {
+    const next = effectiveTheme() === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    updateIcon();
+  });
+
+  updateIcon();
+}
+
 // ---- 初期化 ----
 document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
   setupLangToggle();
+  setupThemeToggle();
   setupTabs();
   setupLoadSource();
   setupGearCopy();
