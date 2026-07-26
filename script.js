@@ -82,6 +82,12 @@ const GEAR_LABELS_EN = {
 const I18N = {
   ja: {
     subtitle: "Full Stride 馬データ改変ツール（非公式ファンツール）",
+    section_source: "元の馬データを読み込む",
+    hint_source: "シートの行をID列から丸ごとコピーして貼り付け、読み込むボタンを押すと未編集の項目は元の馬の値のまま出力されます",
+    btn_load_source: "読み込む",
+    load_source_empty: "貼り付け内容が空です",
+    load_source_mismatch: "列数が一致しません（{n}列検出、75列または74列が必要）",
+    load_source_success: "元データを読み込みました。編集したい項目だけ変更してください",
     section_basic: "基本情報",
     section_stats: "能力値",
     section_gear: "馬具設定",
@@ -127,6 +133,12 @@ const I18N = {
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
+    section_source: "Load Source Horse Data",
+    hint_source: "Copy an entire row from the sheet (including the ID column) and paste it, then press Load. Unedited fields will be output using the original horse's values.",
+    btn_load_source: "Load",
+    load_source_empty: "Pasted content is empty",
+    load_source_mismatch: "Column count mismatch ({n} columns detected, expected 75 or 74)",
+    load_source_success: "Source data loaded. Only change the fields you want to edit",
     section_basic: "Basic Info",
     section_stats: "Stats",
     section_gear: "Gear Settings",
@@ -328,11 +340,55 @@ function setupGearCopy() {
   });
 }
 
+// ---- 元馬データの読み込み（スキップ列を元馬の値で埋めるため） ----
+let sourceRowValues = {};
+
+function setupLoadSource() {
+  const btn = document.getElementById("load-source-btn");
+  const input = document.getElementById("source-input");
+  const status = document.getElementById("load-source-status");
+
+  btn.addEventListener("click", () => {
+    const raw = input.value.trim();
+    if (!raw) {
+      status.textContent = t("load_source_empty");
+      return;
+    }
+    const fields = raw.split("\t");
+    let cols;
+    if (fields.length === COLUMN_ORDER.length) {
+      cols = COLUMN_ORDER;
+    } else if (fields.length === COLUMN_ORDER.length - 1) {
+      cols = COLUMN_ORDER.filter(c => c !== "id");
+    } else {
+      status.textContent = t("load_source_mismatch").replace("{n}", fields.length);
+      return;
+    }
+
+    sourceRowValues = {};
+    cols.forEach((col, i) => { sourceRowValues[col] = fields[i]; });
+
+    COLUMN_ORDER.forEach(col => {
+      if (col === "id" || col === "running_style" || sourceRowValues[col] === undefined) return;
+      const el = document.getElementById(col);
+      if (el) el.value = sourceRowValues[col];
+      const rangeEl = document.getElementById(col + "_range");
+      if (rangeEl) rangeEl.value = sourceRowValues[col];
+    });
+    if (sourceRowValues.running_style !== undefined) {
+      const parts = sourceRowValues.running_style.split("/");
+      [0, 1, 2, 3].forEach(i => {
+        const el = document.getElementById("running_style_" + i);
+        if (el && parts[i] !== undefined) el.value = parts[i];
+      });
+    }
+
+    status.textContent = t("load_source_success");
+  });
+}
+
 // ---- 行データ生成（タブ区切り。Google Sheetsへの直接貼り付けで自動列分割させるため） ----
 function collectValue(column) {
-  if (column === "preferred_pace" || column === "direction_aptitude") {
-    return "";
-  }
   if (column === "running_style") {
     const parts = [0, 1, 2, 3].map(i => {
       const el = document.getElementById("running_style_" + i);
@@ -341,7 +397,8 @@ function collectValue(column) {
     return parts.join("/");
   }
   const el = document.getElementById(column);
-  return el ? el.value : "";
+  if (el) return el.value;
+  return sourceRowValues[column] !== undefined ? sourceRowValues[column] : "";
 }
 
 function generateCsvRow() {
@@ -385,6 +442,7 @@ function setupCopy() {
 document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
   setupLangToggle();
+  setupLoadSource();
   setupGearCopy();
   setupGenerate();
   setupCopy();
