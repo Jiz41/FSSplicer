@@ -301,7 +301,10 @@ footer .fnote,
 .related-tools {
   text-align: center;
   padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 10px;
   border-top: 1px solid var(--muted);
+  border-bottom: 1px solid var(--muted);
 }
 
 footer a,
