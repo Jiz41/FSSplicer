@@ -309,6 +309,15 @@ footer a,
   color: var(--muted);
 }
 
+footer .fnote.footer-credit {
+  margin-top: 10px;
+}
+
+.visit-counter {
+  margin-top: 8px;
+  opacity: 0.7;
+}
+
 @media (max-width: 480px) {
   #gear-grid {
     grid-template-columns: 1fr;
