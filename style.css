@@ -1,8 +1,9 @@
 :root {
   --ink: #e8ffe8;
   --bg: #0a0e0a;
-  --muted: #e8d84a;
+  --muted: #6fa66f;
   --accent: #33ff66;
+  --accent2: #e8d84a;
   --scanline: repeating-linear-gradient(to bottom, rgba(51, 255, 102, 0.05) 0px, rgba(51, 255, 102, 0.05) 1px, transparent 1px, transparent 3px);
 }
 
@@ -60,7 +61,7 @@ header {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.4em;
   font-weight: 400;
-  color: var(--muted);
+  color: var(--accent2);
   vertical-align: super;
   margin-left: 0.3em;
 }
@@ -182,6 +183,7 @@ summary h2 {
 .form-row-triple label {
   font-size: 0.85rem;
   color: var(--muted);
+  display: block;
   min-height: 2.4em;
 }
 
