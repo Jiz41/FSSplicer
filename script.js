@@ -124,11 +124,16 @@ const I18N = {
     label_preferred_pace: "得意ペース（-1〜1）",
     label_direction_aptitude: "回り適性（-1〜1）",
     label_running_style: "脚質",
+    running_style_0_label: "逃げ",
+    running_style_1_label: "先行",
+    running_style_2_label: "差し",
+    running_style_3_label: "追込",
     hint_running_style: "メイン脚質は1、サブ脚質は0.5〜0.7を推奨",
     label_growth_curve: "成長タイプ",
     growth_prodigy: "天才", growth_early: "早熟", growth_normal: "普通", growth_late: "晩成",
     label_peak_age: "ピーク年齢",
     label_retire_age: "引退年齢",
+    hint_age_decimal: "小数点は年内の経過月数を表します（例：0.5＝約6ヶ月＝6月ごろ、0.92＝約11ヶ月＝年末ごろ）",
     label_gear_copy: "既存馬から馬具をコピー（ID指定）",
     btn_gear_copy: "馬具を読み込む",
     btn_generate: "CSVを生成",
@@ -191,11 +196,16 @@ const I18N = {
     label_preferred_pace: "Preferred Pace (-1 to 1)",
     label_direction_aptitude: "Direction Aptitude (-1 to 1)",
     label_running_style: "Running Style",
+    running_style_0_label: "Front Runner",
+    running_style_1_label: "Stalker",
+    running_style_2_label: "Chaser",
+    running_style_3_label: "Closer",
     hint_running_style: "Recommended: 1 for main running style, 0.5-0.7 for sub styles",
     label_growth_curve: "Growth Type",
     growth_prodigy: "Prodigy", growth_early: "Early Bloomer", growth_normal: "Normal", growth_late: "Late Bloomer",
     label_peak_age: "Peak Age",
     label_retire_age: "Retire Age",
+    hint_age_decimal: "The decimal represents elapsed months within the year (e.g. 0.5 ≈ 6 months, around June; 0.92 ≈ 11 months, around year-end).",
     label_gear_copy: "Copy gear from existing horse (by ID)",
     btn_gear_copy: "Load Gear",
     btn_generate: "Generate CSV",
@@ -534,36 +544,10 @@ function setupTabs() {
   });
 }
 
-// ---- テーマ切り替え ----
-function setupThemeToggle() {
-  const root = document.documentElement;
-  const btn = document.getElementById("theme-toggle");
-  const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  function effectiveTheme() {
-    const forced = root.getAttribute("data-theme");
-    if (forced) return forced;
-    return systemDark ? "dark" : "light";
-  }
-
-  function updateIcon() {
-    btn.textContent = effectiveTheme() === "dark" ? "🌙" : "☀️";
-  }
-
-  btn.addEventListener("click", () => {
-    const next = effectiveTheme() === "dark" ? "light" : "dark";
-    root.setAttribute("data-theme", next);
-    updateIcon();
-  });
-
-  updateIcon();
-}
-
 // ---- 初期化 ----
 document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
   setupLangToggle();
-  setupThemeToggle();
   setupTabs();
   setupLoadSource();
   setupGearCopy();

@@ -3,20 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-version" content="0.6.0">
+<meta name="app-version" content="0.7.0">
 <title>FSSplicer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=0.6.0">
+<link rel="stylesheet" href="style.css?v=0.7.0">
 </head>
 <body>
 <header>
   <div class="header-top">
-    <h1 class="wordmark">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v0.6.0</span></h1>
+    <h1 class="wordmark">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v0.7.0</span></h1>
     <div class="header-buttons">
       <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
-      <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切り替え">🌙</button>
     </div>
   </div>
   <div class="header-sub-row">
@@ -109,10 +108,22 @@
     <div class="form-row">
       <label data-i18n="label_running_style">脚質（4値 / 区切り）</label>
       <div class="form-row-quad">
-        <input type="number" id="running_style_0" step="0.01" min="-2" max="2" value="0" data-i18n-placeholder="running_style_0_ph" placeholder="逃げ">
-        <input type="number" id="running_style_1" step="0.01" min="-2" max="2" value="0" placeholder="先行">
-        <input type="number" id="running_style_2" step="0.01" min="-2" max="2" value="0" placeholder="差し">
-        <input type="number" id="running_style_3" step="0.01" min="-2" max="2" value="0" placeholder="追込">
+        <div class="form-row-quad-item">
+          <label for="running_style_0" data-i18n="running_style_0_label">逃げ</label>
+          <input type="number" id="running_style_0" step="0.01" min="-2" max="2" value="0">
+        </div>
+        <div class="form-row-quad-item">
+          <label for="running_style_1" data-i18n="running_style_1_label">先行</label>
+          <input type="number" id="running_style_1" step="0.01" min="-2" max="2" value="0">
+        </div>
+        <div class="form-row-quad-item">
+          <label for="running_style_2" data-i18n="running_style_2_label">差し</label>
+          <input type="number" id="running_style_2" step="0.01" min="-2" max="2" value="0">
+        </div>
+        <div class="form-row-quad-item">
+          <label for="running_style_3" data-i18n="running_style_3_label">追込</label>
+          <input type="number" id="running_style_3" step="0.01" min="-2" max="2" value="0">
+        </div>
       </div>
       <p class="gear-copy-status" data-i18n="hint_running_style">メイン脚質は1、サブ脚質は0.5〜0.7を推奨</p>
     </div>
@@ -137,6 +148,7 @@
         <input type="number" id="retire_age" step="0.01">
       </div>
     </div>
+    <p class="gear-copy-status" data-i18n="hint_age_decimal">小数点は年内の経過月数を表します（例：0.5＝約6ヶ月＝6月ごろ、0.92＝約11ヶ月＝年末ごろ）</p>
   </section>
 
   <section id="section-stats">
@@ -197,6 +209,6 @@
   <div class="visit-counter"><img src="https://visitor-badge.laobi.icu/badge?page_id=jiz41.FSSplicer" alt="visit counter"></div>
 </footer>
 
-<script src="script.js?v=0.6.0"></script>
+<script src="script.js?v=0.7.0"></script>
 </body>
 </html>
