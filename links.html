@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FULL STRIDE 非公式ツール集 | Mushyn Reagan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradientBG 18s ease infinite;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #fff;
+  padding: 40px 20px 60px;
+}
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.hub-header {
+  max-width: 960px;
+  margin: 0 auto 36px;
+  position: relative;
+  text-align: center;
+}
+.lang-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 999px;
+  color: #fff;
+  padding: 8px 16px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.hub-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  margin: 0 0 8px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.hub-credit {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+.hub-credit a {
+  color: #fff;
+  font-weight: 600;
+}
+.card-grid {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.25);
+  padding: 28px 24px;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.card-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin: 0;
+}
+.card-title .fs-prefix { color: #fff; }
+.card-desc {
+  margin: 0;
+  flex-grow: 1;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.card-btn {
+  display: inline-block;
+  text-align: center;
+  border-radius: 999px;
+  padding: 10px 18px;
+  text-decoration: none;
+  font-weight: 700;
+  font-family: "IBM Plex Mono", monospace;
+  color: #1a1a1a;
+}
+.card-fssc .card-title .accent { color: #ffb703; }
+.card-fssc .card-btn { background: #ffb703; }
+.card-fssp .card-title .accent { color: #33ff66; }
+.card-fssp .card-btn { background: #33ff66; }
+.card-fsst .card-title .accent { color: #d4af37; }
+.card-fsst .card-btn { background: #d4af37; }
+footer {
+  max-width: 960px;
+  margin: 40px auto 0;
+  text-align: center;
+}
+.fnote {
+  margin: 4px 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+.fnote a { color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="hub-header">
+  <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+  <h1 class="hub-title" data-i18n="title">FULL STRIDE 非公式ツール集</h1>
+  <p class="hub-credit"><a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Mushyn Reagan</a><span data-i18n="credit_suffix"> 謹製</span></p>
+</div>
+
+<div class="card-grid">
+  <div class="glass-card card-fssc">
+    <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Screener</span></h2>
+    <p class="card-desc" data-i18n="desc_fssc">馬情報検索ツール</p>
+    <a class="card-btn" href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener" data-i18n="btn_open">開く</a>
+  </div>
+  <div class="glass-card card-fssp">
+    <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Splicer</span></h2>
+    <p class="card-desc" data-i18n="desc_fssp">馬データ改変ツール</p>
+    <a class="card-btn" href="https://jiz41.github.io/FSSplicer/" target="_blank" rel="noopener" data-i18n="btn_open">開く</a>
+  </div>
+  <div class="glass-card card-fsst">
+    <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Striders</span></h2>
+    <p class="card-desc" data-i18n="desc_fsst">プロフィールカードジェネレーター</p>
+    <a class="card-btn" href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener" data-i18n="btn_open">開く</a>
+  </div>
+</div>
+
+<footer>
+  <p class="fnote" data-i18n="footer_unofficial">本ページはファンによる非公式リンク集です。</p>
+  <p class="fnote"><span data-i18n="footer_trademark_pre">『FULL STRIDE』の名称は、</span><a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a><span data-i18n="footer_trademark_post">の商標または登録商標です。</span></p>
+  <p class="fnote footer-credit">Created by ©<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Musyn Reagan</a> / <a href="https://x.com/Kayoutouidou01" target="_blank" rel="noopener">華耀東夷堂</a></p>
+</footer>
+
+<script>
+(function() {
+  var dict = {
+    ja: {
+      title: "FULL STRIDE 非公式ツール集",
+      credit_suffix: " 謹製",
+      desc_fssc: "馬情報検索ツール",
+      desc_fssp: "馬データ改変ツール",
+      desc_fsst: "プロフィールカードジェネレーター",
+      btn_open: "開く",
+      footer_unofficial: "本ページはファンによる非公式リンク集です。",
+      footer_trademark_pre: "『FULL STRIDE』の名称は、",
+      footer_trademark_post: "の商標または登録商標です。"
+    },
+    en: {
+      title: "Unofficial FULL STRIDE Tools",
+      credit_suffix: "",
+      desc_fssc: "Horse search tool",
+      desc_fssp: "Horse data editor",
+      desc_fsst: "Profile card generator",
+      btn_open: "Open",
+      footer_unofficial: "This page is an unofficial fan-made link collection.",
+      footer_trademark_pre: "\"FULL STRIDE\" is a trademark or registered trademark of ",
+      footer_trademark_post: "."
+    }
+  };
+  var lang = "ja";
+  var toggle = document.getElementById("lang-toggle");
+  function apply() {
+    var d = dict[lang];
+    document.querySelectorAll("[data-i18n]").forEach(function(el) {
+      var key = el.getAttribute("data-i18n");
+      if (d[key] !== undefined) el.textContent = d[key];
+    });
+    document.documentElement.lang = lang;
+    toggle.textContent = lang === "ja" ? "ENG" : "JP";
+  }
+  toggle.addEventListener("click", function() {
+    lang = lang === "ja" ? "en" : "ja";
+    apply();
+  });
+  apply();
+})();
+</script>
+</body>
+</html>
