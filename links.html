@@ -12,17 +12,25 @@
 body {
   min-height: 100vh;
   margin: 0;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-size: 400% 400%;
-  animation: gradientBG 18s ease infinite;
+  background: linear-gradient(180deg, #ffffff 0%, #eaf6ff 40%, #bde3fb 100%);
+  position: relative;
+  overflow-x: hidden;
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  color: #fff;
+  color: #0f172a;
   padding: 40px 20px 60px;
 }
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,0.5) 50%, transparent 60%);
+  background-size: 250% 250%;
+  animation: sheen 8s linear infinite;
+  pointer-events: none;
+}
+@keyframes sheen {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
 }
 .hub-header {
   max-width: 960px;
@@ -34,21 +42,28 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.6);
+  border: 1px solid #7dd3fc;
   border-radius: 999px;
-  color: #fff;
+  color: #0369a1;
   padding: 8px 16px;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.85rem;
   cursor: pointer;
 }
+.hub-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 0 8px;
+}
 .hub-title {
   font-family: "IBM Plex Mono", monospace;
   font-weight: 700;
   font-size: clamp(1.4rem, 4vw, 2.2rem);
-  margin: 0 0 8px;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  margin: 0;
+  text-shadow: none;
 }
 .hub-credit {
   margin: 0;
@@ -56,7 +71,7 @@ body {
   opacity: 0.9;
 }
 .hub-credit a {
-  color: #fff;
+  color: #0369a1;
   font-weight: 600;
 }
 .card-grid {
@@ -67,15 +82,15 @@ body {
   gap: 24px;
 }
 .glass-card {
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.25);
-  padding: 28px 24px;
-  color: #fff;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #7dd3fc;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(14, 116, 190, 0.15);
+  padding: 24px 20px;
+  color: #0f172a;
+  text-shadow: none;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -86,7 +101,7 @@ body {
   font-size: 1.4rem;
   margin: 0;
 }
-.card-title .fs-prefix { color: #fff; }
+.card-title .fs-prefix { color: #0f172a; }
 .card-desc {
   margin: 0;
   flex-grow: 1;
@@ -101,14 +116,13 @@ body {
   text-decoration: none;
   font-weight: 700;
   font-family: "IBM Plex Mono", monospace;
-  color: #1a1a1a;
 }
-.card-fssc .card-title .accent { color: #ffb703; }
-.card-fssc .card-btn { background: #ffb703; }
-.card-fssp .card-title .accent { color: #33ff66; }
-.card-fssp .card-btn { background: #33ff66; }
-.card-fsst .card-title .accent { color: #d4af37; }
-.card-fsst .card-btn { background: #d4af37; }
+.card-fssc .card-title .accent { color: #f97316; }
+.card-fssc .card-btn { background: rgba(249, 115, 22, 0.12); border: 1.5px solid #f97316; color: #f97316; }
+.card-fssp .card-title .accent { color: #22c55e; }
+.card-fssp .card-btn { background: rgba(34, 197, 94, 0.12); border: 1.5px solid #22c55e; color: #22c55e; }
+.card-fsst .card-title .accent { color: #eab308; }
+.card-fsst .card-btn { background: rgba(234, 179, 8, 0.12); border: 1.5px solid #eab308; color: #eab308; }
 footer {
   max-width: 960px;
   margin: 40px auto 0;
@@ -119,14 +133,26 @@ footer {
   font-size: 0.8rem;
   opacity: 0.9;
 }
-.fnote a { color: #fff; }
+.fnote a { color: #0369a1; }
+.horse-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
 </style>
 </head>
 <body>
 
 <div class="hub-header">
   <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
-  <h1 class="hub-title" data-i18n="title">FULL STRIDE 非公式ツール集</h1>
+  <div class="hub-title-row">
+    <svg class="horse-icon" viewBox="0 0 64 64" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M46 14c-2-4-6-6-10-6-3 0-5 2-6 4-1 2-1 4 0 6l-4 3-8-2-4 4 7 4-2 6-6 2-1 4 8 1 3 6h4l-1-6 6-3 3 5h4l-2-6c4-2 6-6 6-10 0-2 0-4 1-6l4-2-2-4z"/>
+      <path d="M40 12c2-2 5-3 7-2" />
+      <circle cx="41" cy="15" r="1" fill="#0369a1" stroke="none"/>
+    </svg>
+    <h1 class="hub-title" data-i18n="title">FULL STRIDE 非公式ツール集</h1>
+  </div>
   <p class="hub-credit"><a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Mushyn Reagan</a><span data-i18n="credit_suffix"> 謹製</span></p>
 </div>
 
