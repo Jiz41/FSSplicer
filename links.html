@@ -106,6 +106,12 @@ body::before {
   opacity: 0.75;
   margin: -4px 0 0;
 }
+.card-desc-warn {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #dc2626;
+  margin: -4px 0 0;
+}
 .card-btn {
   display: inline-block;
   text-align: center;
@@ -148,18 +154,21 @@ footer {
 <div class="card-grid">
   <div class="glass-card card-fsst">
     <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Striders</span></h2>
-    <p class="card-desc" data-i18n="desc_fsst">プロフィールカードジェネレーター</p>
+    <p class="card-desc" data-i18n="desc_fsst">フルスト勢向け自己紹介カード作成</p>
+    <p class="card-desc-note" data-i18n="desc_fsst_note">#FSstriders を付けて投稿すると拡散するかも</p>
     <a class="card-btn" href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener" data-i18n="btn_open">開く</a>
   </div>
   <div class="glass-card card-fssc">
     <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Screener</span></h2>
-    <p class="card-desc" data-i18n="desc_fssc">馬情報検索ツール</p>
+    <p class="card-desc" data-i18n="desc_fssc">ゲーム内全実在馬を条件で絞り込み検索、お気に入りの馬を検索できるツール</p>
+    <p class="card-desc-note" data-i18n="desc_fssc_note">マイ厩舎機能でゲームに即した情報整理、史実コラムも読めます</p>
     <a class="card-btn" href="https://jiz41.github.io/FSScreener/" target="_blank" rel="noopener" data-i18n="btn_open">開く</a>
   </div>
   <div class="glass-card card-fssp">
     <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Splicer</span></h2>
-    <p class="card-desc" data-i18n="desc_fssp">馬データ改変ツール</p>
-    <p class="card-desc-note" data-i18n="desc_fssp_note">現在、公開を一時停止しています</p>
+    <p class="card-desc" data-i18n="desc_fssp">馬データ編集をフォームで直感的に、CSVを貼るだけで反映</p>
+    <p class="card-desc-note" data-i18n="desc_fssp_note">X共有用テンプレ変換機能つき</p>
+    <p class="card-desc-warn" data-i18n="desc_fssp_warn">現在、公開を一時停止しています</p>
     <a class="card-btn" href="https://jiz41.github.io/FSSplicer/" target="_blank" rel="noopener" data-i18n="btn_open">開く</a>
   </div>
 </div>
@@ -175,10 +184,13 @@ footer {
   var dict = {
     ja: {
       title: "FULL STRIDE 関連<br>補助ツール",
-      desc_fssc: "理想の一頭、探しに行こう",
-      desc_fssp: "馬データを自在に編集",
-      desc_fssp_note: "現在、公開を一時停止しています",
-      desc_fsst: "推し馬の一枚を作ろう",
+      desc_fssc: "ゲーム内全実在馬を条件で絞り込み検索、お気に入りの馬を検索できるツール",
+      desc_fssc_note: "マイ厩舎機能でゲームに即した情報整理、史実コラムも読めます",
+      desc_fssp: "馬データ編集をフォームで直感的に、CSVを貼るだけで反映",
+      desc_fssp_note: "X共有用テンプレ変換機能つき",
+      desc_fssp_warn: "現在、公開を一時停止しています",
+      desc_fsst: "フルスト勢向け自己紹介カード作成",
+      desc_fsst_note: "#FSstriders を付けて投稿すると拡散するかも",
       btn_open: "開く",
       footer_unofficial: "本ページはファンによる非公式リンク集です。",
       footer_trademark_pre: "『FULL STRIDE』の名称は、",
@@ -186,10 +198,13 @@ footer {
     },
     en: {
       title: "FULL STRIDE<br>Companion Tools",
-      desc_fssc: "Go find your dream horse",
-      desc_fssp: "Customize any horse's stats",
-      desc_fssp_note: "Currently paused for now.",
-      desc_fsst: "Craft your horse's fan card",
+      desc_fssc: "Filter every in-game horse by your conditions to find favorites",
+      desc_fssc_note: "Stable manager for in-game organizing, plus real-world horse stories",
+      desc_fssp: "Edit horse data with an intuitive form, paste the CSV to apply",
+      desc_fssp_note: "Includes a template converter for sharing on X",
+      desc_fssp_warn: "Currently paused for now.",
+      desc_fsst: "Create your FULL STRIDE player intro card",
+      desc_fsst_note: "Tag #FSstriders when you post it!",
       btn_open: "Open",
       footer_unofficial: "This page is an unofficial fan-made link collection.",
       footer_trademark_pre: "\"FULL STRIDE\" is a trademark or registered trademark of ",
