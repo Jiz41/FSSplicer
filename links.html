@@ -38,10 +38,12 @@ body::before {
   position: relative;
   text-align: center;
 }
+.hub-toggle-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
 .lang-toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
   background: rgba(255,255,255,0.6);
   border: 1px solid #7dd3fc;
   border-radius: 999px;
@@ -64,15 +66,6 @@ body::before {
   font-size: clamp(1.4rem, 4vw, 2.2rem);
   margin: 0;
   text-shadow: none;
-}
-.hub-credit {
-  margin: 0;
-  font-size: 0.95rem;
-  opacity: 0.9;
-}
-.hub-credit a {
-  color: #0369a1;
-  font-weight: 600;
 }
 .card-grid {
   max-width: 960px;
@@ -108,6 +101,11 @@ body::before {
   font-size: 0.95rem;
   line-height: 1.5;
 }
+.card-desc-note {
+  font-size: 0.82rem;
+  opacity: 0.75;
+  margin: -4px 0 0;
+}
 .card-btn {
   display: inline-block;
   text-align: center;
@@ -134,29 +132,25 @@ footer {
   opacity: 0.9;
 }
 .fnote a { color: #0369a1; }
-.horse-icon {
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-}
 </style>
 </head>
 <body>
 
 <div class="hub-header">
-  <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
-  <div class="hub-title-row">
-    <svg class="horse-icon" viewBox="0 0 64 64" fill="none" stroke="#0369a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M46 14c-2-4-6-6-10-6-3 0-5 2-6 4-1 2-1 4 0 6l-4 3-8-2-4 4 7 4-2 6-6 2-1 4 8 1 3 6h4l-1-6 6-3 3 5h4l-2-6c4-2 6-6 6-10 0-2 0-4 1-6l4-2-2-4z"/>
-      <path d="M40 12c2-2 5-3 7-2" />
-      <circle cx="41" cy="15" r="1" fill="#0369a1" stroke="none"/>
-    </svg>
-    <h1 class="hub-title" data-i18n="title">FULL STRIDE 非公式ツール集</h1>
+  <div class="hub-toggle-row">
+    <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
   </div>
-  <p class="hub-credit"><a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Mushyn Reagan</a><span data-i18n="credit_suffix"> 謹製</span></p>
+  <div class="hub-title-row">
+    <h1 class="hub-title" data-i18n="title">FULL STRIDE 関連<br>補助ツール</h1>
+  </div>
 </div>
 
 <div class="card-grid">
+  <div class="glass-card card-fsst">
+    <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Striders</span></h2>
+    <p class="card-desc" data-i18n="desc_fsst">プロフィールカードジェネレーター</p>
+    <a class="card-btn" href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener" data-i18n="btn_open">開く</a>
+  </div>
   <div class="glass-card card-fssc">
     <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Screener</span></h2>
     <p class="card-desc" data-i18n="desc_fssc">馬情報検索ツール</p>
@@ -165,12 +159,8 @@ footer {
   <div class="glass-card card-fssp">
     <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Splicer</span></h2>
     <p class="card-desc" data-i18n="desc_fssp">馬データ改変ツール</p>
+    <p class="card-desc-note" data-i18n="desc_fssp_note">現在、公開を一時停止しています</p>
     <a class="card-btn" href="https://jiz41.github.io/FSSplicer/" target="_blank" rel="noopener" data-i18n="btn_open">開く</a>
-  </div>
-  <div class="glass-card card-fsst">
-    <h2 class="card-title"><span class="fs-prefix">FS</span><span class="accent">Striders</span></h2>
-    <p class="card-desc" data-i18n="desc_fsst">プロフィールカードジェネレーター</p>
-    <a class="card-btn" href="https://jiz41.github.io/FSstriders/" target="_blank" rel="noopener" data-i18n="btn_open">開く</a>
   </div>
 </div>
 
@@ -184,35 +174,39 @@ footer {
 (function() {
   var dict = {
     ja: {
-      title: "FULL STRIDE 非公式ツール集",
-      credit_suffix: " 謹製",
-      desc_fssc: "馬情報検索ツール",
-      desc_fssp: "馬データ改変ツール",
-      desc_fsst: "プロフィールカードジェネレーター",
+      title: "FULL STRIDE 関連<br>補助ツール",
+      desc_fssc: "理想の一頭、探しに行こう",
+      desc_fssp: "馬データを自在に編集",
+      desc_fssp_note: "現在、公開を一時停止しています",
+      desc_fsst: "推し馬の一枚を作ろう",
       btn_open: "開く",
       footer_unofficial: "本ページはファンによる非公式リンク集です。",
       footer_trademark_pre: "『FULL STRIDE』の名称は、",
       footer_trademark_post: "の商標または登録商標です。"
     },
     en: {
-      title: "Unofficial FULL STRIDE Tools",
-      credit_suffix: "",
-      desc_fssc: "Horse search tool",
-      desc_fssp: "Horse data editor",
-      desc_fsst: "Profile card generator",
+      title: "FULL STRIDE<br>Companion Tools",
+      desc_fssc: "Go find your dream horse",
+      desc_fssp: "Customize any horse's stats",
+      desc_fssp_note: "Currently paused for now.",
+      desc_fsst: "Craft your horse's fan card",
       btn_open: "Open",
       footer_unofficial: "This page is an unofficial fan-made link collection.",
       footer_trademark_pre: "\"FULL STRIDE\" is a trademark or registered trademark of ",
       footer_trademark_post: "."
     }
   };
+  var htmlKeys = { title: true };
   var lang = "ja";
   var toggle = document.getElementById("lang-toggle");
   function apply() {
     var d = dict[lang];
     document.querySelectorAll("[data-i18n]").forEach(function(el) {
       var key = el.getAttribute("data-i18n");
-      if (d[key] !== undefined) el.textContent = d[key];
+      if (d[key] !== undefined) {
+        if (htmlKeys[key]) el.innerHTML = d[key];
+        else el.textContent = d[key];
+      }
     });
     document.documentElement.lang = lang;
     toggle.textContent = lang === "ja" ? "ENG" : "JP";
