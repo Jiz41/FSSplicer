@@ -1,0 +1,7 @@
+name = "fssplicer"
+compatibility_date = "2026-08-06"
+pages_build_output_dir = "."
+
+[[kv_namespaces]]
+binding = "CODES"
+id = "cdd15d3d1eb54f63a007a15768961303"
