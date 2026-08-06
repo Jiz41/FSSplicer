@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-version" content="0.7.5">
+<meta name="app-version" content="1.0.0">
 <title>FSSplicer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=0.7.5">
+<link rel="stylesheet" href="style.css?v=1.0.0">
 </head>
 <body>
 <header>
   <div class="header-top">
-    <h1 class="wordmark">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v0.7.5</span></h1>
+    <h1 class="wordmark">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v1.0.0</span></h1>
     <div class="header-buttons">
       <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
     </div>
@@ -22,6 +22,18 @@
     <p class="subtitle" data-i18n="subtitle">Full Stride 馬データ改変ツール（非公式ファンツール）</p>
   </div>
 </header>
+
+<details class="usage-details">
+  <summary data-i18n="howto_summary">使い方</summary>
+  <ol>
+    <li data-i18n="howto_1">改変したい馬のID列の値を「元の馬データを読み込む」に貼り付け、読み込むボタンを押します（未編集の項目は元の馬の値のまま出力されます）</li>
+    <li data-i18n="howto_2">基本情報・能力値（8軸）を好きな値に変更します</li>
+    <li data-i18n="howto_3">馬具を変えたい場合は「馬具設定」を開き、既存馬のIDを指定してコピーできます</li>
+    <li data-i18n="howto_4">「CSVを生成」を押すとタブ区切りのCSVができ、Sheetsにそのまま貼り付けられます</li>
+    <li data-i18n="howto_5">Xで共有したい場合は「Xシェア用にコピー」を押すと、タブ文字がXで潰れないよう｜区切りに変換してコピーされます</li>
+    <li data-i18n="howto_6">Xで共有された｜区切りの文字列を受け取ったら、「解析」タブに貼り付けて「解析」を押すとタブ区切りに戻り、そのままSheetsに貼り付けられます</li>
+  </ol>
+</details>
 
 <nav class="tab-bar" id="tab-bar">
   <button class="tab-btn active" data-tab="input" id="tab-btn-input" data-i18n="tab_input">馬データ入力</button>
@@ -208,6 +220,6 @@
   <div class="visit-counter"><img src="https://visitor-badge.laobi.icu/badge?page_id=jiz41.FSSplicer" alt="visit counter"></div>
 </footer>
 
-<script src="script.js?v=0.7.5"></script>
+<script src="script.js?v=1.0.0"></script>
 </body>
 </html>

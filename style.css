@@ -386,3 +386,51 @@ footer .fnote.footer-credit {
   }
 }
 
+/* ---- usage guide (howto accordion) ---- */
+.usage-details {
+  margin: 0 16px 18px;
+  border: 1px solid var(--muted);
+  background: color-mix(in srgb, var(--muted) 10%, var(--bg) 90%);
+}
+
+.usage-details summary {
+  padding: 10px 14px;
+  font-size: 0.85em;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ink);
+}
+
+.usage-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.usage-details summary::before {
+  content: "▶ ";
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+.usage-details[open] summary::before {
+  content: "▼ ";
+}
+
+.usage-details ol {
+  margin: 0;
+  padding: 0 14px 4px 32px;
+  font-size: 0.82em;
+  color: var(--muted);
+  line-height: 1.7;
+  border-top: 1px solid var(--muted);
+}
+
+.usage-details ol li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--muted);
+}
+
+.usage-details ol li:last-child {
+  border-bottom: none;
+}
+
