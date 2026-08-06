@@ -3,219 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-version" content="0.7.5">
-<title>FSSplicer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=0.7.5">
+<title>FSSplicer - 移動しました</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    color: #eee;
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", serif;
+    text-align: center;
+  }
+  p {
+    font-size: 1.25rem;
+    line-height: 1.9;
+    margin: 0;
+  }
+  a {
+    color: #eee;
+  }
+</style>
 </head>
-<body class="construction-mode">
-<div id="construction-overlay">
-  <div class="construction-tape">
-    <div class="construction-box">
-      <p class="construction-main">現在諸般の事情により<br>公開を一時停止しています🙇‍♀️</p>
-      <p class="construction-sub">考えと現実に折り合いがついたら<br>そのうち公開するかもです。</p>
-    </div>
-  </div>
-</div>
-<header>
-  <div class="header-top">
-    <h1 class="wordmark">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v0.7.5</span></h1>
-    <div class="header-buttons">
-      <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
-    </div>
-  </div>
-  <div class="header-sub-row">
-    <p class="subtitle" data-i18n="subtitle">Full Stride 馬データ改変ツール（非公式ファンツール）</p>
-  </div>
-</header>
-
-<nav class="tab-bar" id="tab-bar">
-  <button class="tab-btn active" data-tab="input" id="tab-btn-input" data-i18n="tab_input">馬データ入力</button>
-  <button class="tab-btn" data-tab="parse" id="tab-btn-parse" data-i18n="tab_parse">解析</button>
-</nav>
-
-<main>
-<div id="input-panel" class="panel">
-  <section id="section-source">
-    <h2 data-i18n="section_source">元の馬データを読み込む</h2>
-    <p class="gear-copy-status" data-i18n="hint_source">シートの行をID列から丸ごとコピーして貼り付け、読み込むボタンを押すと未編集の項目は元の馬の値のまま出力されます</p>
-    <textarea id="source-input" rows="3"></textarea>
-    <button type="button" id="load-source-btn" data-i18n="btn_load_source">読み込む</button>
-    <p class="gear-copy-status" id="load-source-status"></p>
-  </section>
-
-  <section id="section-basic">
-    <h2 data-i18n="section_basic">基本情報</h2>
-
-    <div class="form-row">
-      <label for="name_jp" data-i18n="label_name_jp">馬名（日本語）</label>
-      <input type="text" id="name_jp">
-    </div>
-
-    <div class="form-row">
-      <label for="name_en" data-i18n="label_name_en">馬名（英語）</label>
-      <input type="text" id="name_en">
-    </div>
-
-    <div class="form-row">
-      <label for="gender" data-i18n="label_gender">性別</label>
-      <select id="gender">
-        <option value="0" data-i18n="gender_0">牡</option>
-        <option value="1" data-i18n="gender_1">牝</option>
-        <option value="2" data-i18n="gender_2">セン</option>
-      </select>
-    </div>
-
-    <div class="form-row">
-      <label for="horse_color" data-i18n="label_horse_color">毛色</label>
-      <select id="horse_color">
-        <option value="0" data-i18n="color_0">鹿毛</option>
-        <option value="1" data-i18n="color_1">黒鹿毛</option>
-        <option value="2" data-i18n="color_2">青鹿毛</option>
-        <option value="3" data-i18n="color_3">青毛</option>
-        <option value="4" data-i18n="color_4">栗毛</option>
-        <option value="5" data-i18n="color_5">栃栗毛</option>
-        <option value="6" data-i18n="color_6">尾花栗毛</option>
-        <option value="7" data-i18n="color_7">芦毛</option>
-        <option value="8" data-i18n="color_8">白毛</option>
-      </select>
-    </div>
-
-    <div class="form-row">
-      <label for="physical" data-i18n="label_physical">体格（0〜1）</label>
-      <input type="number" id="physical" step="0.01" min="0" max="1" value="0.5">
-    </div>
-
-    <div class="form-row">
-      <label for="turf_rating" data-i18n="label_turf_rating">芝評価</label>
-      <input type="number" id="turf_rating" step="0.01">
-    </div>
-
-    <div class="form-row">
-      <label for="dirt_rating" data-i18n="label_dirt_rating">ダート評価</label>
-      <input type="number" id="dirt_rating" step="0.01">
-    </div>
-
-    <div class="form-row form-row-triple">
-      <div>
-        <label for="min_distance" data-i18n="label_min_distance">最短距離(m)</label>
-        <input type="number" id="min_distance" step="1">
-      </div>
-      <div>
-        <label for="max_distance" data-i18n="label_max_distance">最長距離(m)</label>
-        <input type="number" id="max_distance" step="1">
-      </div>
-    </div>
-
-    <div class="form-row">
-      <label for="optimal_distance" data-i18n="label_optimal_distance">得意距離(m)</label>
-      <input type="number" id="optimal_distance" step="1">
-    </div>
-
-    <div class="form-row">
-      <label data-i18n="label_running_style">脚質（4値 / 区切り）</label>
-      <div class="form-row-quad">
-        <div class="form-row-quad-item">
-          <label for="running_style_0" data-i18n="running_style_0_label">逃げ</label>
-          <input type="number" id="running_style_0" step="0.01" min="-2" max="2" value="0">
-        </div>
-        <div class="form-row-quad-item">
-          <label for="running_style_1" data-i18n="running_style_1_label">先行</label>
-          <input type="number" id="running_style_1" step="0.01" min="-2" max="2" value="0">
-        </div>
-        <div class="form-row-quad-item">
-          <label for="running_style_2" data-i18n="running_style_2_label">差し</label>
-          <input type="number" id="running_style_2" step="0.01" min="-2" max="2" value="0">
-        </div>
-        <div class="form-row-quad-item">
-          <label for="running_style_3" data-i18n="running_style_3_label">追込</label>
-          <input type="number" id="running_style_3" step="0.01" min="-2" max="2" value="0">
-        </div>
-      </div>
-      <p class="gear-copy-status" data-i18n="hint_running_style">メイン脚質は1、サブ脚質は0.5〜0.7を推奨</p>
-    </div>
-
-    <div class="form-row">
-      <label for="growth_curve" data-i18n="label_growth_curve">成長タイプ</label>
-      <select id="growth_curve">
-        <option value="prodigy" data-i18n="growth_prodigy">天才</option>
-        <option value="early" data-i18n="growth_early">早熟</option>
-        <option value="normal" data-i18n="growth_normal" selected>普通</option>
-        <option value="late" data-i18n="growth_late">晩成</option>
-      </select>
-    </div>
-
-    <div class="form-row form-row-triple">
-      <div>
-        <label for="peak_age" data-i18n="label_peak_age">全盛期年齢</label>
-        <input type="number" id="peak_age" step="0.01">
-      </div>
-      <div>
-        <label for="retire_age" data-i18n="label_retire_age">引退年齢</label>
-        <input type="number" id="retire_age" step="0.01">
-      </div>
-    </div>
-    <p class="gear-copy-status" data-i18n="hint_age_decimal">小数点は年内の経過月数を表します（例：0.5＝約6ヶ月＝6月ごろ、0.92＝約11ヶ月＝年末ごろ）</p>
-  </section>
-
-  <section id="section-stats">
-    <h2 data-i18n="section_stats">能力値</h2>
-    <div id="stat-grid"></div>
-  </section>
-
-  <section id="section-gear">
-    <details>
-      <summary><h2 data-i18n="section_gear">馬具設定</h2></summary>
-
-      <div class="gear-copy-box">
-        <label for="gear-copy-id" data-i18n="label_gear_copy">既存馬から馬具をコピー（ID指定）</label>
-        <div class="gear-copy-row">
-          <input type="text" id="gear-copy-id" inputmode="numeric" placeholder="10100733">
-          <button type="button" id="gear-copy-btn" data-i18n="btn_gear_copy">馬具を読み込む</button>
-        </div>
-        <p class="gear-copy-status" id="gear-copy-status"></p>
-      </div>
-
-      <div id="gear-grid"></div>
-    </details>
-  </section>
-
-  <section id="section-output">
-    <h2 data-i18n="section_output">CSV出力</h2>
-    <button id="generate-btn" class="search-btn" data-i18n="btn_generate">CSVを生成</button>
-    <textarea id="csv-output" readonly rows="4"></textarea>
-    <button id="copy-btn" data-i18n="btn_copy">クリップボードにコピー</button>
-    <button id="share-copy-btn" data-i18n="btn_share_copy">Xシェア用にコピー</button>
-    <p class="copy-status" id="copy-status"></p>
-  </section>
-</div>
-
-<div id="parse-panel" class="panel" style="display:none;">
-  <section id="section-parse">
-    <h2 data-i18n="section_parse">|区切りをタブ区切りに変換</h2>
-    <p class="gear-copy-status" data-i18n="hint_parse">Xで共有された|区切りの文字列を貼り付けて「解析」を押すと、Sheetsにそのまま貼り付けられるタブ区切りに変換します</p>
-    <textarea id="parse-input" rows="3"></textarea>
-    <button type="button" id="parse-btn" data-i18n="btn_parse_run">解析</button>
-    <textarea id="parse-output" readonly rows="4"></textarea>
-    <button id="parse-copy-btn" data-i18n="btn_copy">クリップボードにコピー</button>
-    <p class="copy-status" id="parse-status"></p>
-  </section>
-</div>
-</main>
-
-<div class="related-tools">
-  <p class="fnote"><a href="links.html" data-i18n="related_hub">FULL STRIDE 非公式ツール集はこちら</a></p>
-</div>
-
-<footer>
-  <p class="fnote" data-i18n="footer_unofficial">本ツールはファンによる非公式データ改変ツールです。</p>
-  <p class="fnote"><span data-i18n="footer_trademark_pre">『FULL STRIDE』の名称は、</span><a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a><span data-i18n="footer_trademark_post">の商標または登録商標です。</span></p>
-  <p class="fnote footer-credit">Created by ©<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Musyn Reagan</a> / <a href="https://x.com/Kayoutouidou01" target="_blank" rel="noopener">華耀東夷堂</a></p>
-  <div class="visit-counter"><img src="https://visitor-badge.laobi.icu/badge?page_id=jiz41.FSSplicer" alt="visit counter"></div>
-</footer>
-
-<script src="script.js?v=0.7.5"></script>
+<body>
+<p>サイトは下記URLに移動しました<br>
+<a href="https://fssplicer.pages.dev/">https://fssplicer.pages.dev/</a></p>
 </body>
 </html>
