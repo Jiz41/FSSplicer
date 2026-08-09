@@ -40,7 +40,6 @@ async function sendLog(env, request, nickname) {
         path: url.pathname,
         country: request.cf?.country,
         region: request.cf?.region,
-        city: request.cf?.city,
         timestamp: new Date().toISOString(),
       }),
     });
@@ -57,6 +56,8 @@ export async function checkAndLog(request, env, ctx) {
   const record = await env.CODES.get(`code:${code}`, { type: 'json' });
   if (!record || record.active !== true) return false;
 
-  ctx.waitUntil(sendLog(env, request, record.nickname));
+  if (request.headers.get('Sec-Fetch-Dest') === 'document') {
+    ctx.waitUntil(sendLog(env, request, record.nickname));
+  }
   return true;
 }
