@@ -4,7 +4,7 @@ export async function onRequest(context) {
   const { request, env, next } = context;
   const url = new URL(request.url);
 
-  if (url.pathname.startsWith('/k/') || url.pathname === '/links.html') {
+  if (url.pathname.startsWith('/k/') || url.pathname === '/links.html' || url.pathname === '/intro.html') {
     return next();
   }
 
