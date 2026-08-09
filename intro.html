@@ -425,12 +425,19 @@
     body.appendChild(tr);
   }
 
+  var DAYS_IN_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31];
   function sampleValue(name, r){
     if (name === 'name_jp') return TEST_NAMES[(r - 1) % TEST_NAMES.length];
     if (name === 'name_en') return TEST_NAMES[(r - 1) % TEST_NAMES.length];
-    if (name === 'gender') return (r % 2 === 0) ? '牝' : '牡';
+    if (name === 'gender') return String(r % 3);
     if (name === 'id') return 'H' + (1000 + r);
-    return String((r * 7 + name.length * 3) % 100);
+    if (name === 'birth_year') return String(2014 + (r % 10));
+    if (name === 'birth_month') return String(1 + (r % 12));
+    if (name === 'birth_day') {
+      var m = 1 + (r % 12);
+      return String(1 + (r % DAYS_IN_MONTH[m - 1]));
+    }
+    return (((r * 7 + name.length * 3) % 100) / 100).toFixed(2);
   }
 
   document.getElementById('col-total').textContent = String(COLS.length);
