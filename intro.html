@@ -394,6 +394,7 @@
     "テストーブル","テースントアイ","テスントレイル","テストンブラック",
     "テーストシップ","テストハヤヒデ"
   ];
+  var DAYS_IN_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31];
   var TARGET_ID = 'H' + (1000 + TARGET_ROW);
   var idInline = document.getElementById('target-id-inline');
   if (idInline) idInline.textContent = TARGET_ID;
@@ -425,7 +426,6 @@
     body.appendChild(tr);
   }
 
-  var DAYS_IN_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31];
   function sampleValue(name, r){
     if (name === 'name_jp') return TEST_NAMES[(r - 1) % TEST_NAMES.length];
     if (name === 'name_en') return TEST_NAMES[(r - 1) % TEST_NAMES.length];
