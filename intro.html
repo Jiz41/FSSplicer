@@ -11,13 +11,19 @@
     --bg2:#161923;
     --fg:#e8e8ec;
     --fg-dim:#a3a7b3;
-    --accent:#7fd3c2;
+    --accent:#ff8a5c;
+    --accent-hero:#ff6f61;
+    --accent-turn:#ffc23c;
+    --accent-after:#4fd1ff;
+    --accent-summary:#b98cff;
+    --accent-footer:#7fd3c2;
+    --band-turn:#241a12;
+    --band-summary:#1b1730;
     --grid-header:#e2e2e2;
     --grid-header-fg:#333;
     --grid-line:#d9d9d9;
     --grid-bg:#fff;
     --grid-fg:#1a1a1a;
-    --marked:#fff2b3;
     --danger:#e2765f;
   }
   @media (prefers-color-scheme: light){
@@ -26,6 +32,8 @@
       --bg2:#ffffff;
       --fg:#1a1a1e;
       --fg-dim:#5a5f6b;
+      --band-turn:#fff3de;
+      --band-summary:#f1ebff;
     }
   }
   *{box-sizing:border-box;}
@@ -69,6 +77,7 @@
     font-size:1.05rem;
     color:var(--fg-dim);
   }
+  #hero h1{color:var(--accent-hero);}
 
   /* ===== Before: シート模写 ===== */
   #before{max-width:none; padding-left:0; padding-right:0;}
@@ -126,23 +135,25 @@
     text-align:center;
   }
   table.sheet thead th.rownum{ z-index:3; }
-  table.sheet tbody tr.marked td{
-    background:var(--marked);
-    color:#1a1a1a;
-  }
-  table.sheet tbody tr.marked td.rownum{
-    background:#f0c94a;
-  }
 
   /* ===== 転換 ===== */
   #turn{
     text-align:center;
     padding:4rem 1.2rem;
+    max-width:none;
+    background:var(--band-turn);
+    border-top:1px solid var(--accent-turn);
+    border-bottom:1px solid var(--accent-turn);
   }
   #turn .arrow{
     font-size:2rem;
-    color:var(--accent);
+    color:var(--accent-turn);
     margin:1rem 0;
+  }
+  #turn p{
+    max-width:720px;
+    margin-left:auto;
+    margin-right:auto;
   }
   @media (prefers-reduced-motion: no-preference){
     #turn .arrow{
@@ -182,11 +193,12 @@
     width:3ch;
     text-align:right;
     font-weight:bold;
-    color:var(--accent);
+    color:var(--accent-after);
   }
+  #after{border-left:3px solid var(--accent-after); padding-left:1.4rem;}
   #csv-btn{
     margin-top:0.6rem;
-    background:var(--accent);
+    background:var(--accent-after);
     color:#0f1115;
     border:none;
     padding:0.6rem 1.2rem;
@@ -213,6 +225,16 @@
   }
 
   /* ===== 3点整理 ===== */
+  #summary{
+    max-width:none;
+    background:var(--band-summary);
+    border-top:1px solid var(--accent-summary);
+  }
+  #summary .inner{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 1.2rem;
+  }
   #summary ul{
     list-style:none;
     padding:0;
@@ -224,20 +246,19 @@
     font-size:0.95rem;
   }
   #summary li:last-child{border-bottom:none;}
-  #summary li b{color:var(--accent);}
+  #summary li b{color:var(--accent-summary);}
 
   /* ===== フッター ===== */
   footer{
     text-align:center;
     padding:2rem 1.2rem 3rem;
+    border-top:1px solid var(--accent-footer);
   }
   .fnote{
     font-size:0.75rem;
     color:var(--fg-dim);
     margin:0.4rem 0;
   }
-  .visit-counter{margin-top:1rem;}
-
   a:focus-visible, button:focus-visible, input:focus-visible{
     outline:2px solid var(--accent);
     outline-offset:2px;
@@ -269,6 +290,7 @@
   <div class="inner">
     <h2>これが「馬データ改変」の入口です</h2>
     <p class="fg-dim">本来、Full Strideの馬データ編集は、ゲーム内に能力エディット画面がありません。競走馬の名前・能力はすべて外部のスプレッドシートで管理し、ゲームに取り込む方式です。馬具や毛色など見た目だけでも50種類を超えるパラメータが並び、目当ての1頭を探し、正しい列を見つけ、意味を推測しながら数値を手打ちする——1頭仕上げるだけでも不慣れな方は相応の集中力を要します。列を1つ取り違えれば、それに気づく手段もありません。横にスクロールしてみてください。</p>
+    <p class="fg-dim">試しに、馬ID <strong id="target-id-inline">H1024</strong> の <code>mane_color_2</code>（たてがみ色2）だけを直したいとします。見つけられますか？</p>
   </div>
   <div class="sheet-wrap">
     <div class="sheet-status">現在地：列 <strong id="col-current">1</strong> ／ 全 <strong id="col-total">30</strong> 列</div>
@@ -282,14 +304,14 @@
     </div>
   </div>
   <div class="inner">
-    <p class="note">※表示は再現イメージです。実際の列数・列名とは異なります。</p>
+    <p class="note">※列構成は実際のHorseMasterData形式に準拠しています。表示される数値・馬名はサンプルです。</p>
   </div>
 </section>
 
 <section id="turn">
-  <p class="fg-dim">目当ての馬は、この数十列のどこかにいる。</p>
+  <p class="fg-dim">直したいのはたった1項目。なのに、そこへ辿り着くまでに列を数え、行を数える。</p>
   <div class="arrow" aria-hidden="true">↓</div>
-  <p>列を数えず、名前を選ぶだけにしたら。</p>
+  <p>項目名を見て、値を変えるだけにしたら。</p>
 </section>
 
 <section id="after">
@@ -317,24 +339,20 @@
 </section>
 
 <section id="summary">
-  <h2>変わること</h2>
-  <p>「この馬はもう少しスタミナがあったはずだ」「この馬はもっと全体的につよいはず、スタートは最悪だが」——など、人それぞれある競走馬の解釈をそのまま楽に数値に落とし込める。それがFSSplicerです。</p>
+  <div class="inner">
+    <h2>変わること</h2>
+    <p>「この馬はもう少しスタミナがあったはずだ」「この馬はもっと全体的につよいはず、スタートは最悪だが」——など、人それぞれある競走馬の解釈をそのまま楽に数値に落とし込める。それがFSSplicerです。</p>
+  </div>
 </section>
 
 <section id="cta">
   <a class="btn" href="index.html">FSSplicerを使ってみる</a>
 </section>
 
-<div style="max-width:720px;margin:0 auto;padding:0 1.2rem;">
-  <p class="fnote"><a href="links.html">FULL STRIDE 非公式ツール集はこちら</a></p>
-</div>
-
 <footer>
   <p class="fnote">本ツールはファンによる非公式データ改変ツールです。</p>
   <p class="fnote">『FULL STRIDE』の名称は、<a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a>の商標または登録商標です。</p>
   <p class="fnote footer-credit">Created by ©<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Musyn Reagan</a> / <a href="https://x.com/Kayoutouidou01" target="_blank" rel="noopener">華耀東夷堂</a></p>
-  <p class="fnote">現在招待制でご利用いただけます。募集情報は<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">こちら</a>。</p>
-  <div class="visit-counter"><img src="https://visitor-badge.laobi.icu/badge?page_id=jiz41.FSSpIntro" alt="visit counter"></div>
 </footer>
 
 <script>
@@ -342,16 +360,43 @@
   "use strict";
 
   // ---- Beforeセクション: シート模写を生成 ----
+  // HorseMasterData実列（script.jsのCOLUMN_ORDERと同一・同順）
   var COLS = [
-    "horse_id","name","gender","age","turf_rating","dirt_rating",
-    "running_style","acceleration","cornering","stamina","stamina_recovery",
-    "growth_curve","optimal_distance","distance_aptitude_short","distance_aptitude_mid",
-    "distance_aptitude_long","temperament","condition","sire","dam",
-    "sire_bloodline","weight","weight_growth","training_fatigue","form_index",
-    "track_bias_soft","track_bias_heavy","race_count","win_count","last_updated"
+    "id", "name_jp", "name_en", "gender", "birth_year", "birth_month", "birth_day",
+    "horse_color", "physical", "owner", "main_jockey", "region",
+    "turf_rating", "dirt_rating", "min_distance", "max_distance", "optimal_distance",
+    "acceleration", "start_score", "cornering_score", "hill_score", "heavy_track_score",
+    "fighting_spirit", "consistency", "health",
+    "preferred_pace", "direction_aptitude", "running_style", "growth_curve",
+    "peak_age", "retire_age",
+    "head_mark", "right_front_leg_mark", "left_front_leg_mark", "right_hind_leg_mark", "left_hind_leg_mark",
+    "bridle_type", "bridle_color_1", "bridle_color_2", "bridle_design", "bridle_design_color_1", "bridle_design_color_2",
+    "bit_type", "bit_guard_type", "bit_guard_color",
+    "mask_type", "mask_pattern", "mask_color_1", "mask_color_2",
+    "ear_cover_type", "ear_cover_color_1", "ear_cover_color_2",
+    "blinker_pacifier_type", "blinker_pacifier_color",
+    "shadow_roll_type", "shadow_roll_color",
+    "cheek_pieces_type", "cheek_pieces_color",
+    "brow_band_type", "brow_band_color",
+    "breast_girth_type", "neck_strap_type", "chest_color_1", "chest_color_2", "breast_girth_fur_color",
+    "front_bandage_type", "front_bandage_color_1", "front_bandage_color_2",
+    "hind_bandage_type", "hind_bandage_color_1", "hind_bandage_color_2",
+    "front_mane_type", "back_mane_type", "mane_color_1", "mane_color_2"
   ];
-  var ROWS = 14;
-  var MARK_ROW = 6;
+  var ROWS = 28;
+  var TARGET_ROW = 26; // 24〜28の範囲
+  var TARGET_COL_INDEX = COLS.length - 1; // mane_color_2（右端）
+
+  // 一目でテストデータとわかる、実在馬名パロディの馬名リスト
+  var TEST_NAMES = [
+    "テストマックイーン","テストブライアン","テストブルボン","テストシンボリ",
+    "テストサイレンス","テストタイキン","テストウオッカ","テストディープ",
+    "テストオルフェ","テストアーモンド","テストコントレイル","テストキタサン",
+    "テストゴールドシップ","テストナリタブライアン"
+  ];
+  var TARGET_ID = 'H' + (1000 + TARGET_ROW);
+  var idInline = document.getElementById('target-id-inline');
+  if (idInline) idInline.textContent = TARGET_ID;
 
   var headRow = document.getElementById('sheet-head-row');
   var thRow = document.createElement('th');
@@ -368,23 +413,23 @@
   var body = document.getElementById('sheet-body');
   for (var r = 1; r <= ROWS; r++){
     var tr = document.createElement('tr');
-    if (r === MARK_ROW) tr.className = 'marked';
     var tdNum = document.createElement('td');
     tdNum.className = 'rownum';
     tdNum.textContent = String(r);
     tr.appendChild(tdNum);
     COLS.forEach(function(name){
       var td = document.createElement('td');
-      td.textContent = (r === MARK_ROW) ? sampleValue(name, r) : sampleValue(name, r);
+      td.textContent = sampleValue(name, r);
       tr.appendChild(td);
     });
     body.appendChild(tr);
   }
 
   function sampleValue(name, r){
-    if (name === 'name') return (r === MARK_ROW) ? '対象の馬' : '馬' + r;
+    if (name === 'name_jp') return TEST_NAMES[(r - 1) % TEST_NAMES.length];
+    if (name === 'name_en') return TEST_NAMES[(r - 1) % TEST_NAMES.length];
     if (name === 'gender') return (r % 2 === 0) ? '牝' : '牡';
-    if (name === 'horse_id') return 'H' + (1000 + r);
+    if (name === 'id') return 'H' + (1000 + r);
     return String((r * 7 + name.length * 3) % 100);
   }
 
@@ -428,7 +473,7 @@
     var speed = document.getElementById('slider-speed').value;
     var stamina = document.getElementById('slider-stamina').value;
     var cornering = document.getElementById('slider-cornering').value;
-    var row = ['H1006', '対象の馬', speed, stamina, cornering].join(',');
+    var row = [TARGET_ID, TEST_NAMES[(TARGET_ROW - 1) % TEST_NAMES.length], speed, stamina, cornering].join(',');
     csvOut.textContent = row;
   });
 })();
