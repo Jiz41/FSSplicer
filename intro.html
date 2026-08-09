@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSSplicer とは — スプレッドシートと睨めっこ、もう卒業</title>
+<meta name="description" content="Full Strideの馬データ改変は、外部スプレッドシートを直接触るしかない。その痛みを体感して、FSSplicerが何を解決するのか見てほしい。">
+<style>
+  :root{
+    --bg:#0f1115;
+    --bg2:#161923;
+    --fg:#e8e8ec;
+    --fg-dim:#a3a7b3;
+    --accent:#7fd3c2;
+    --grid-header:#e2e2e2;
+    --grid-header-fg:#333;
+    --grid-line:#d9d9d9;
+    --grid-bg:#fff;
+    --grid-fg:#1a1a1a;
+    --marked:#fff2b3;
+    --danger:#e2765f;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#f4f4f6;
+      --bg2:#ffffff;
+      --fg:#1a1a1e;
+      --fg-dim:#5a5f6b;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    line-height:1.8;
+    overflow-x:hidden;
+  }
+  a{color:var(--accent);}
+  section{
+    padding:2.5rem 1.2rem;
+    max-width:720px;
+    margin:0 auto;
+  }
+  h1,h2{
+    font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, Menlo, monospace;
+    line-height:1.4;
+    margin:0 0 0.8rem 0;
+  }
+  h1{font-size:1.6rem;}
+  h2{font-size:1.25rem;}
+  p{margin:0.6rem 0;}
+  .fg-dim{color:var(--fg-dim);}
+  .note{
+    font-size:0.8rem;
+    color:var(--fg-dim);
+    border-left:2px solid var(--danger);
+    padding-left:0.6rem;
+    margin-top:1rem;
+  }
+
+  /* ===== ヘッダー ===== */
+  #hero{
+    text-align:center;
+    padding-top:3rem;
+  }
+  #hero .catch{
+    font-size:1.05rem;
+    color:var(--fg-dim);
+  }
+
+  /* ===== Before: シート模写 ===== */
+  #before{max-width:none; padding-left:0; padding-right:0;}
+  #before .inner{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 1.2rem;
+  }
+  .sheet-wrap{
+    margin:1.2rem 0;
+    border:1px solid #999;
+    max-width:100%;
+  }
+  .sheet-status{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:0.85rem;
+    color:var(--fg-dim);
+    padding:0.4rem 1.2rem;
+    background:var(--bg2);
+    border-bottom:1px solid #999;
+  }
+  .sheet-status strong{color:var(--accent);}
+  .sheet-scroll{
+    overflow-x:auto;
+    overflow-y:auto;
+    max-height:320px;
+    background:var(--grid-bg);
+    -webkit-overflow-scrolling:touch;
+  }
+  table.sheet{
+    border-collapse:collapse;
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:0.78rem;
+    color:var(--grid-fg);
+  }
+  table.sheet th, table.sheet td{
+    border:1px solid var(--grid-line);
+    padding:0.35rem 0.6rem;
+    white-space:nowrap;
+    text-align:left;
+  }
+  table.sheet thead th{
+    background:var(--grid-header);
+    color:var(--grid-header-fg);
+    position:sticky;
+    top:0;
+    z-index:2;
+  }
+  table.sheet th.rownum, table.sheet td.rownum{
+    background:var(--grid-header);
+    color:var(--grid-header-fg);
+    position:sticky;
+    left:0;
+    z-index:1;
+    text-align:center;
+  }
+  table.sheet thead th.rownum{ z-index:3; }
+  table.sheet tbody tr.marked td{
+    background:var(--marked);
+    color:#1a1a1a;
+  }
+  table.sheet tbody tr.marked td.rownum{
+    background:#f0c94a;
+  }
+
+  /* ===== 転換 ===== */
+  #turn{
+    text-align:center;
+    padding:4rem 1.2rem;
+  }
+  #turn .arrow{
+    font-size:2rem;
+    color:var(--accent);
+    margin:1rem 0;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    #turn .arrow{
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+  }
+  @keyframes pulse{
+    0%,100%{opacity:0.5;}
+    50%{opacity:1;}
+  }
+
+  /* ===== After: 操作画面 ===== */
+  .fssp-card{
+    background:var(--bg2);
+    border:1px solid var(--fg-dim);
+    border-radius:8px;
+    padding:1.2rem;
+    margin:1rem 0;
+  }
+  .fssp-row{
+    display:flex;
+    align-items:center;
+    gap:0.8rem;
+    margin:0.9rem 0;
+  }
+  .fssp-row label{
+    flex:0 0 auto;
+    width:130px;
+    font-size:0.85rem;
+    color:var(--fg-dim);
+  }
+  .fssp-row input[type=range]{
+    flex:1 1 auto;
+  }
+  .fssp-row output{
+    flex:0 0 auto;
+    width:3ch;
+    text-align:right;
+    font-weight:bold;
+    color:var(--accent);
+  }
+  #csv-btn{
+    margin-top:0.6rem;
+    background:var(--accent);
+    color:#0f1115;
+    border:none;
+    padding:0.6rem 1.2rem;
+    border-radius:6px;
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:0.9rem;
+    font-weight:bold;
+    cursor:pointer;
+  }
+  #csv-output{
+    margin-top:0.8rem;
+    background:#0b0d12;
+    color:#c8e6d8;
+    padding:0.7rem;
+    border-radius:6px;
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:0.75rem;
+    overflow-x:auto;
+    white-space:pre;
+    min-height:1.4em;
+  }
+  @media (prefers-color-scheme: light){
+    #csv-output{ background:#1a1c22; }
+  }
+
+  /* ===== 3点整理 ===== */
+  #summary ul{
+    list-style:none;
+    padding:0;
+    margin:1rem 0;
+  }
+  #summary li{
+    padding:0.8rem 0;
+    border-bottom:1px solid var(--fg-dim);
+    font-size:0.95rem;
+  }
+  #summary li:last-child{border-bottom:none;}
+  #summary li b{color:var(--accent);}
+
+  /* ===== フッター ===== */
+  footer{
+    text-align:center;
+    padding:2rem 1.2rem 3rem;
+  }
+  .fnote{
+    font-size:0.75rem;
+    color:var(--fg-dim);
+    margin:0.4rem 0;
+  }
+  .visit-counter{margin-top:1rem;}
+
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+
+  #cta{
+    text-align:center;
+    padding:1rem 1.2rem 0;
+  }
+  #cta a.btn{
+    display:inline-block;
+    background:var(--accent);
+    color:#0f1115;
+    text-decoration:none;
+    padding:0.7rem 1.4rem;
+    border-radius:6px;
+    font-weight:bold;
+  }
+</style>
+</head>
+<body>
+
+<section id="hero">
+  <h1>FSSplicer</h1>
+  <p class="catch">スプレッドシートの生の数値と睨めっこ、もう卒業。</p>
+</section>
+
+<section id="before">
+  <div class="inner">
+    <h2>これが「馬データ改変」の入口です</h2>
+    <p class="fg-dim">本来、Full Strideの馬データ編集は、ゲーム内に能力エディット画面がありません。競走馬の名前・能力はすべて外部のスプレッドシートで管理し、ゲームに取り込む方式です。馬具や毛色など見た目だけでも50種類を超えるパラメータが並び、目当ての1頭を探し、正しい列を見つけ、意味を推測しながら数値を手打ちする——1頭仕上げるだけでも不慣れな方は相応の集中力を要します。列を1つ取り違えれば、それに気づく手段もありません。横にスクロールしてみてください。</p>
+  </div>
+  <div class="sheet-wrap">
+    <div class="sheet-status">現在地：列 <strong id="col-current">1</strong> ／ 全 <strong id="col-total">30</strong> 列</div>
+    <div class="sheet-scroll" id="sheet-scroll">
+      <table class="sheet" id="sheet-table">
+        <thead>
+          <tr id="sheet-head-row"></tr>
+        </thead>
+        <tbody id="sheet-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="inner">
+    <p class="note">※表示は再現イメージです。実際の列数・列名とは異なります。</p>
+  </div>
+</section>
+
+<section id="turn">
+  <p class="fg-dim">目当ての馬は、この数十列のどこかにいる。</p>
+  <div class="arrow" aria-hidden="true">↓</div>
+  <p>列を数えず、名前を選ぶだけにしたら。</p>
+</section>
+
+<section id="after">
+  <h2>FSSplicerならこう変わります</h2>
+  <p class="fg-dim">FSSplicerを使えば、ブラウザ上で、項目名と現在値を見ながら値を調整するだけ。確定すると、その馬1頭分の行だけを差し替えたCSVが出力されます。列位置を意識する必要はなく、他の馬のデータに触れる心配もありません。出力されたCSVを該当行にピッとペーストするだけ。</p>
+  <div class="fssp-card">
+    <div class="fssp-row">
+      <label for="slider-speed">acceleration</label>
+      <input type="range" id="slider-speed" min="0" max="100" value="62">
+      <output id="out-speed">62</output>
+    </div>
+    <div class="fssp-row">
+      <label for="slider-stamina">stamina</label>
+      <input type="range" id="slider-stamina" min="0" max="100" value="48">
+      <output id="out-stamina">48</output>
+    </div>
+    <div class="fssp-row">
+      <label for="slider-cornering">cornering</label>
+      <input type="range" id="slider-cornering" min="0" max="100" value="55">
+      <output id="out-cornering">55</output>
+    </div>
+    <button type="button" id="csv-btn">CSVを出力</button>
+    <div id="csv-output" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="summary">
+  <h2>変わること</h2>
+  <p>「この馬はもう少しスタミナがあったはずだ」「この馬はもっと全体的につよいはず、スタートは最悪だが」——など、人それぞれある競走馬の解釈をそのまま楽に数値に落とし込める。それがFSSplicerです。</p>
+</section>
+
+<section id="cta">
+  <a class="btn" href="index.html">FSSplicerを使ってみる</a>
+</section>
+
+<div style="max-width:720px;margin:0 auto;padding:0 1.2rem;">
+  <p class="fnote"><a href="links.html">FULL STRIDE 非公式ツール集はこちら</a></p>
+</div>
+
+<footer>
+  <p class="fnote">本ツールはファンによる非公式データ改変ツールです。</p>
+  <p class="fnote">『FULL STRIDE』の名称は、<a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a>の商標または登録商標です。</p>
+  <p class="fnote footer-credit">Created by ©<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Musyn Reagan</a> / <a href="https://x.com/Kayoutouidou01" target="_blank" rel="noopener">華耀東夷堂</a></p>
+  <p class="fnote">現在招待制でご利用いただけます。募集情報は<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">こちら</a>。</p>
+  <div class="visit-counter"><img src="https://visitor-badge.laobi.icu/badge?page_id=jiz41.FSSpIntro" alt="visit counter"></div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---- Beforeセクション: シート模写を生成 ----
+  var COLS = [
+    "horse_id","name","gender","age","turf_rating","dirt_rating",
+    "running_style","acceleration","cornering","stamina","stamina_recovery",
+    "growth_curve","optimal_distance","distance_aptitude_short","distance_aptitude_mid",
+    "distance_aptitude_long","temperament","condition","sire","dam",
+    "sire_bloodline","weight","weight_growth","training_fatigue","form_index",
+    "track_bias_soft","track_bias_heavy","race_count","win_count","last_updated"
+  ];
+  var ROWS = 14;
+  var MARK_ROW = 6;
+
+  var headRow = document.getElementById('sheet-head-row');
+  var thRow = document.createElement('th');
+  thRow.className = 'rownum';
+  thRow.textContent = '';
+  headRow.appendChild(thRow);
+  COLS.forEach(function(name, i){
+    var th = document.createElement('th');
+    th.textContent = String.fromCharCode(65 + (i % 26)) + ' / ' + name;
+    th.dataset.colIndex = i;
+    headRow.appendChild(th);
+  });
+
+  var body = document.getElementById('sheet-body');
+  for (var r = 1; r <= ROWS; r++){
+    var tr = document.createElement('tr');
+    if (r === MARK_ROW) tr.className = 'marked';
+    var tdNum = document.createElement('td');
+    tdNum.className = 'rownum';
+    tdNum.textContent = String(r);
+    tr.appendChild(tdNum);
+    COLS.forEach(function(name){
+      var td = document.createElement('td');
+      td.textContent = (r === MARK_ROW) ? sampleValue(name, r) : sampleValue(name, r);
+      tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  }
+
+  function sampleValue(name, r){
+    if (name === 'name') return (r === MARK_ROW) ? '対象の馬' : '馬' + r;
+    if (name === 'gender') return (r % 2 === 0) ? '牝' : '牡';
+    if (name === 'horse_id') return 'H' + (1000 + r);
+    return String((r * 7 + name.length * 3) % 100);
+  }
+
+  document.getElementById('col-total').textContent = String(COLS.length);
+
+  var scrollBox = document.getElementById('sheet-scroll');
+  var headerCells = headRow.querySelectorAll('th[data-col-index]');
+  var colCurrentEl = document.getElementById('col-current');
+
+  function updateCurrentCol(){
+    var boxRect = scrollBox.getBoundingClientRect();
+    var stickyLeft = boxRect.left + 60; // 行番号列の幅ぶんオフセット
+    var current = 1;
+    headerCells.forEach(function(th){
+      var rect = th.getBoundingClientRect();
+      if (rect.left <= stickyLeft + 4) {
+        current = Number(th.dataset.colIndex) + 1;
+      }
+    });
+    colCurrentEl.textContent = String(current);
+  }
+  scrollBox.addEventListener('scroll', updateCurrentCol, { passive: true });
+  updateCurrentCol();
+
+  // ---- Afterセクション: スライダー ----
+  function wireSlider(sliderId, outId){
+    var slider = document.getElementById(sliderId);
+    var out = document.getElementById(outId);
+    slider.addEventListener('input', function(){
+      out.textContent = slider.value;
+    });
+  }
+  wireSlider('slider-speed', 'out-speed');
+  wireSlider('slider-stamina', 'out-stamina');
+  wireSlider('slider-cornering', 'out-cornering');
+
+  // ---- CSV出力 ----
+  var csvBtn = document.getElementById('csv-btn');
+  var csvOut = document.getElementById('csv-output');
+  csvBtn.addEventListener('click', function(){
+    var speed = document.getElementById('slider-speed').value;
+    var stamina = document.getElementById('slider-stamina').value;
+    var cornering = document.getElementById('slider-cornering').value;
+    var row = ['H1006', '対象の馬', speed, stamina, cornering].join(',');
+    csvOut.textContent = row;
+  });
+})();
+</script>
+
+</body>
+</html>
