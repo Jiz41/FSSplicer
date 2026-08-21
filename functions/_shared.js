@@ -40,6 +40,7 @@ async function sendLog(env, request, nickname) {
         path: url.pathname,
         country: request.cf?.country,
         region: request.cf?.region,
+        ip: request.headers.get('cf-connecting-ip'),
         timestamp: new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().replace('Z', '+09:00'),
       }),
     });

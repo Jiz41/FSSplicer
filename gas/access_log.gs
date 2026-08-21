@@ -3,7 +3,7 @@
  *
  * 送信元: /root/FSSplicer/functions/_shared.js の sendLog()
  *   Content-Type: application/json で以下のボディをPOSTしてくる:
- *     { nickname, path, country, region, city, timestamp }
+ *     { nickname, path, country, region, city, ip, timestamp }
  *
  * 対象スプレッドシート: 1petpT5nLQKq1Cph1W6DoN5zVSbFqLFLWDlQSoUbF6_Q
  * シート名: log（無ければ自動作成しヘッダー行を書き込む）
@@ -14,7 +14,7 @@
 
 var SPREADSHEET_ID = '1petpT5nLQKq1Cph1W6DoN5zVSbFqLFLWDlQSoUbF6_Q';
 var SHEET_NAME = 'log';
-var LOG_HEADERS = ['timestamp', 'nickname', 'path', 'country', 'region', 'city'];
+var LOG_HEADERS = ['timestamp', 'nickname', 'path', 'country', 'region', 'city', 'ip'];
 
 function getOrCreateLogSheet_() {
   var ss = SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -22,6 +22,11 @@ function getOrCreateLogSheet_() {
   if (sheet === null) {
     sheet = ss.insertSheet(SHEET_NAME);
     sheet.appendRow(LOG_HEADERS);
+  } else if (sheet.getLastColumn() < LOG_HEADERS.length) {
+    // 既存シートに新規追加した列(ip等)のヘッダーが無い場合、不足分だけ補完する
+    var lastCol = sheet.getLastColumn();
+    sheet.getRange(1, lastCol + 1, 1, LOG_HEADERS.length - lastCol)
+      .setValues([LOG_HEADERS.slice(lastCol)]);
   }
   return sheet;
 }
@@ -47,7 +52,8 @@ function doPost(e) {
       data.path || '',
       data.country || '',
       data.region || '',
-      data.city || ''
+      data.city || '',
+      data.ip || ''
     ]);
   } finally {
     lock.releaseLock();
