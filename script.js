@@ -85,6 +85,7 @@ const I18N = {
     tab_input: "馬データ入力",
     tab_parse: "解析",
     btn_share_copy: "Xシェア用にコピー",
+    btn_x_post: "Xにポスト",
     share_copy_success: "|区切りでコピーしました",
     share_copy_failed: "コピーに失敗しました",
     share_copy_empty: "先にCSVを生成してください",
@@ -163,6 +164,7 @@ const I18N = {
     tab_input: "Horse Data Input",
     tab_parse: "Parse",
     btn_share_copy: "Copy for X Sharing",
+    btn_x_post: "Post to X",
     share_copy_success: "Copied with | separators",
     share_copy_failed: "Copy failed",
     share_copy_empty: "Generate the CSV first",
@@ -512,6 +514,20 @@ function setupShareCopy() {
   });
 }
 
+// ---- Xにポスト ----
+function setupXPost() {
+  const btn = document.getElementById("x-post-btn");
+  const nameInput = document.getElementById("name_jp");
+
+  btn.addEventListener("click", () => {
+    const horseName = nameInput.value.trim() || "新しい馬";
+    const url = "https://fssplicer.pages.dev/";
+    const text = `FSSplicerで${horseName}を作ってみました\n${url}でCSVに変換出来ます\n#FSSplicer`;
+    const intentUrl = "https://x.com/intent/post?text=" + encodeURIComponent(text);
+    window.open(intentUrl, "_blank", "noopener,noreferrer");
+  });
+}
+
 // ---- 解析パネル(|区切り→タブ区切り変換) ----
 function setupParsePanel() {
   const input = document.getElementById("parse-input");
@@ -566,5 +582,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupGenerate();
   setupCopy();
   setupShareCopy();
+  setupXPost();
   setupParsePanel();
 });
