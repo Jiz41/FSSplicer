@@ -85,7 +85,10 @@ const I18N = {
     tab_input: "馬データ入力",
     tab_parse: "解析",
     btn_share_copy: "Xシェア用にコピー",
-    btn_x_post: "Xにポスト",
+    x_share_summary: "Xで共有する",
+    x_share_step1: "①下のテンプレをコピーしてポスト",
+    x_share_step2: "②投稿したツイートにリプライ（スレッドで繋げる）して、以下をコピペ",
+    btn_x_template_copy: "Xテンプレをコピー",
     share_copy_success: "|区切りでコピーしました",
     share_copy_failed: "コピーに失敗しました",
     share_copy_empty: "先にCSVを生成してください",
@@ -164,7 +167,10 @@ const I18N = {
     tab_input: "Horse Data Input",
     tab_parse: "Parse",
     btn_share_copy: "Copy for X Sharing",
-    btn_x_post: "Post to X",
+    x_share_summary: "Share on X",
+    x_share_step1: "① Copy the template below and post it",
+    x_share_step2: "② Reply to that post (as a thread) and paste the following",
+    btn_x_template_copy: "Copy X Template",
     share_copy_success: "Copied with | separators",
     share_copy_failed: "Copy failed",
     share_copy_empty: "Generate the CSV first",
@@ -514,24 +520,55 @@ function setupShareCopy() {
   });
 }
 
-// ---- Xにポスト ----
-function setupXPost() {
-  const btn = document.getElementById("x-post-btn");
+// ---- Xテンプレプレビューの更新 ----
+function buildXTemplateText() {
   const nameInput = document.getElementById("name_jp");
-  const output = document.getElementById("csv-output");
-  const status = document.getElementById("copy-status");
+  const horseName = nameInput.value.trim() || "新しい馬";
+  const url = "https://fssplicer.pages.dev/";
+  return `FSSplicerで${horseName}を作ってみました\n${url}でCSVに変換出来ます\n#FSSplicer`;
+}
 
-  btn.addEventListener("click", () => {
+// ---- Xテンプレコピー ----
+function setupXTemplateCopy() {
+  const btn = document.getElementById("x-template-copy-btn");
+  const preview = document.getElementById("x-template-preview");
+  const status = document.getElementById("x-template-copy-status");
+  const details = document.getElementById("x-share-guide");
+
+  details.addEventListener("toggle", () => {
+    if (details.open) {
+      preview.value = buildXTemplateText();
+    }
+  });
+
+  btn.addEventListener("click", async () => {
+    preview.value = buildXTemplateText();
+    try {
+      await navigator.clipboard.writeText(preview.value);
+      status.textContent = t("share_copy_success");
+    } catch (e) {
+      status.textContent = t("share_copy_failed");
+    }
+  });
+}
+
+// ---- アコーディオン内のXシェア用コピー(既存ロジックを新ボタンに再配線) ----
+function setupXShareCopyInner() {
+  const btn = document.getElementById("x-share-copy-btn-inner");
+  const output = document.getElementById("csv-output");
+  const status = document.getElementById("x-share-copy-status");
+
+  btn.addEventListener("click", async () => {
     if (!output.value) {
       status.textContent = t("share_copy_empty");
       return;
     }
-    const horseName = nameInput.value.trim() || "新しい馬";
-    const url = "https://fssplicer.pages.dev/";
-    const csv = output.value.split("\t").join("|");
-    const text = `FSSplicerで${horseName}を作ってみました\n${url}でCSVに変換出来ます\n#FSSplicer\n\n${csv}`;
-    const intentUrl = "https://x.com/intent/post?text=" + encodeURIComponent(text);
-    window.open(intentUrl, "_blank", "noopener,noreferrer");
+    try {
+      await navigator.clipboard.writeText(output.value.split("\t").join("|"));
+      status.textContent = t("share_copy_success");
+    } catch (e) {
+      status.textContent = t("share_copy_failed");
+    }
   });
 }
 
@@ -589,6 +626,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupGenerate();
   setupCopy();
   setupShareCopy();
-  setupXPost();
+  setupXTemplateCopy();
+  setupXShareCopyInner();
   setupParsePanel();
 });
