@@ -461,6 +461,7 @@ footer .fnote.footer-credit {
 }
 .color-sample-imgwrap {
   position: relative;
+  z-index: 10000;
   display: block;
   width: 72px;
   height: 72px;
@@ -481,5 +482,17 @@ footer .fnote.footer-credit {
   color: rgba(255,255,255,0.85);
   text-shadow: 0 0 2px rgba(0,0,0,0.9);
   pointer-events: none;
+}
+.color-sample-legend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.color-sample-legend-num {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--ink, #333);
 }
 

@@ -157,7 +157,7 @@ const I18N = {
     copy_success: "コピーしました",
     copy_failed: "コピーに失敗しました",
     color_sample_note: "タップで選択できます（画像の著作権はBlue Bullet社に帰属します）",
-    leg_sample_note: "4本まとめて反映されます（画像の著作権はBlue Bullet社に帰属します）"
+    leg_sample_note: "番号は各脚マークの値に対応します（4本まとめて変更した際の見た目です。画像の著作権はBlue Bullet社に帰属します）"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -236,7 +236,7 @@ const I18N = {
     copy_success: "Copied",
     copy_failed: "Copy failed",
     color_sample_note: "Tap to select (images © Blue Bullet Inc.)",
-    leg_sample_note: "Applies to all four legs at once (images © Blue Bullet Inc.)"
+    leg_sample_note: "Numbers correspond to each leg mark's value (shown as all four legs changed together. Images © Blue Bullet Inc.)"
   }
 };
 
@@ -370,6 +370,7 @@ function buildStatGrid() {
 function buildGearGrid() {
   const grid = document.getElementById("gear-grid");
   grid.innerHTML = "";
+  grid.appendChild(buildLegMarkLegend());
   GEAR_COLUMNS.forEach(key => {
     const field = document.createElement("div");
     field.className = "gear-field";
@@ -389,8 +390,51 @@ function buildGearGrid() {
     grid.appendChild(field);
   });
 
-  const legInputs = LEG_MARK_KEYS.map(key => document.getElementById(key));
-  grid.appendChild(buildMarkSampleStrip(legInputs, LEG_MARK_SAMPLES, "assets/reference/leg_mark/", "leg_sample_note"));
+}
+
+function buildLegMarkLegend() {
+  const wrap = document.createElement("div");
+  wrap.className = "color-sample-strip";
+
+  const note = document.createElement("p");
+  note.className = "color-sample-note";
+  note.setAttribute("data-i18n", "leg_sample_note");
+  note.textContent = t("leg_sample_note");
+
+  const row = document.createElement("div");
+  row.className = "color-sample-row";
+
+  LEG_MARK_SAMPLES.forEach((sample) => {
+    const item = document.createElement("div");
+    item.className = "color-sample-legend-item";
+
+    const imgWrap = document.createElement("span");
+    imgWrap.className = "color-sample-imgwrap";
+
+    const img = document.createElement("img");
+    img.src = "assets/reference/leg_mark/" + sample.file + ".webp";
+    img.alt = "";
+    img.loading = "lazy";
+
+    const credit = document.createElement("span");
+    credit.className = "color-sample-credit";
+    credit.textContent = "©BLUE BULLET";
+
+    imgWrap.appendChild(img);
+    imgWrap.appendChild(credit);
+
+    const num = document.createElement("span");
+    num.className = "color-sample-legend-num";
+    num.textContent = sample.value;
+
+    item.appendChild(imgWrap);
+    item.appendChild(num);
+    row.appendChild(item);
+  });
+
+  wrap.appendChild(note);
+  wrap.appendChild(row);
+  return wrap;
 }
 
 function buildMarkSampleStrip(targetInputs, samples, basePath, noteKey) {
