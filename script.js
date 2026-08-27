@@ -156,7 +156,8 @@ const I18N = {
     alert_required: "馬名（日本語）・馬名（英語）は必須です。",
     copy_success: "コピーしました",
     copy_failed: "コピーに失敗しました",
-    color_sample_note: "タップで選択できます（画像の著作権はBlue Bullet社に帰属します）"
+    color_sample_note: "タップで選択できます（画像の著作権はBlue Bullet社に帰属します）",
+    leg_sample_note: "4本まとめて反映されます（画像の著作権はBlue Bullet社に帰属します）"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -234,7 +235,8 @@ const I18N = {
     alert_required: "Name (Japanese) and Name (English) are required.",
     copy_success: "Copied",
     copy_failed: "Copy failed",
-    color_sample_note: "Tap to select (images © Blue Bullet Inc.)"
+    color_sample_note: "Tap to select (images © Blue Bullet Inc.)",
+    leg_sample_note: "Applies to all four legs at once (images © Blue Bullet Inc.)"
   }
 };
 
@@ -384,23 +386,22 @@ function buildGearGrid() {
 
     field.appendChild(label);
     field.appendChild(input);
-
-    if (LEG_MARK_KEYS.includes(key)) {
-      field.appendChild(buildMarkSampleStrip(input, LEG_MARK_SAMPLES, "assets/reference/leg_mark/"));
-    }
-
     grid.appendChild(field);
   });
+
+  const legInputs = LEG_MARK_KEYS.map(key => document.getElementById(key));
+  grid.appendChild(buildMarkSampleStrip(legInputs, LEG_MARK_SAMPLES, "assets/reference/leg_mark/", "leg_sample_note"));
 }
 
-function buildMarkSampleStrip(targetInput, samples, basePath) {
+function buildMarkSampleStrip(targetInputs, samples, basePath, noteKey) {
   const strip = document.createElement("div");
   strip.className = "color-sample-strip";
 
+  const key = noteKey || "color_sample_note";
   const note = document.createElement("p");
   note.className = "color-sample-note";
-  note.setAttribute("data-i18n", "color_sample_note");
-  note.textContent = t("color_sample_note");
+  note.setAttribute("data-i18n", key);
+  note.textContent = t(key);
 
   const row = document.createElement("div");
   row.className = "color-sample-row";
@@ -427,7 +428,7 @@ function buildMarkSampleStrip(targetInput, samples, basePath) {
 
     btn.appendChild(wrap);
     btn.addEventListener("click", () => {
-      targetInput.value = sample.value;
+      targetInputs.forEach((el) => { if (el) el.value = sample.value; });
       row.querySelectorAll(".color-sample-btn").forEach((b) => b.classList.remove("is-selected"));
       btn.classList.add("is-selected");
     });
