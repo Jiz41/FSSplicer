@@ -436,6 +436,8 @@ footer .fnote.footer-credit {
 
 .color-sample-strip {
   margin-top: 6px;
+  min-width: 0;
+  grid-column: 1 / -1;
 }
 .color-sample-note {
   font-size: 11px;
@@ -447,6 +449,8 @@ footer .fnote.footer-credit {
   gap: 8px;
   overflow-x: auto;
   padding-bottom: 4px;
+  min-width: 0;
+  max-width: 100%;
 }
 .color-sample-btn {
   flex-shrink: 0;
