@@ -25,7 +25,7 @@ const COLUMN_ORDER = [
   "front_mane_type", "back_mane_type", "mane_color_1", "mane_color_2"
 ];
 
-const GEAR_COLUMNS = COLUMN_ORDER.slice(COLUMN_ORDER.indexOf("head_mark"));
+const GEAR_COLUMNS = COLUMN_ORDER.slice(COLUMN_ORDER.indexOf("head_mark"), COLUMN_ORDER.indexOf("head_mark") + 5);
 
 const STAT_AXES = [
   { key: "acceleration", label: "加速力", label_en: "Acceleration" },
@@ -100,14 +100,14 @@ const I18N = {
     parse_success: "変換しました",
     section_source: "元の馬データを読み込む",
     hint_source: "シートの行をID列から丸ごとコピーして貼り付け、読み込むボタンを押すと未編集の項目は元の馬の値のまま出力されます",
-    hint_gear_preview: "現在は番号のみの入力ですが、今後は番号ごとの見た目を画像で確認できるようにする予定です",
+    hint_gear_tack_ingame: "馬具（頭絡・ハミ・マスク等）とたてがみは、CSV貼り付け後にゲーム内で直接編集してください",
     btn_load_source: "読み込む",
     load_source_empty: "貼り付け内容が空です",
     load_source_mismatch: "列数が一致しません（{n}列検出、75列または74列が必要）",
     load_source_success: "元データを読み込みました。編集したい項目だけ変更してください",
     section_basic: "基本情報",
     section_stats: "能力値",
-    section_gear: "馬具設定",
+    section_gear: "顔・脚マーク",
     section_output: "CSV出力",
     label_id: "ID",
     label_name_jp: "馬名（日本語）",
@@ -140,8 +140,6 @@ const I18N = {
     label_peak_age: "ピーク年齢",
     label_retire_age: "引退年齢",
     hint_age_decimal: "小数点は年内の経過月数を表します（例：0.5＝約6ヶ月＝6月ごろ、0.92＝約11ヶ月＝年末ごろ）",
-    label_gear_copy: "既存馬から馬具をコピー（ID指定）",
-    btn_gear_copy: "馬具を読み込む",
     howto_summary: "使い方",
     howto_1: "改変したい馬のID列の値を「元の馬データを読み込む」に貼り付け、読み込むボタンを押します（未編集の項目は元の馬の値のまま出力されます）",
     howto_2: "基本情報・能力値（8軸）を好きな値に変更します",
@@ -158,10 +156,6 @@ const I18N = {
     alert_required: "馬名（日本語）・馬名（英語）は必須です。",
     copy_success: "コピーしました",
     copy_failed: "コピーに失敗しました",
-    gear_copy_notfound: "サンプルデータに該当IDが見つかりませんでした",
-    gear_copy_success: "馬具データを読み込みました",
-    gear_copy_load_failed: "サンプルデータの読み込みに失敗しました",
-    gear_copy_empty: "IDを入力してください",
     color_sample_note: "タップで選択できます（画像の著作権はBlue Bullet社に帰属します）"
   },
   en: {
@@ -184,14 +178,14 @@ const I18N = {
     parse_success: "Converted",
     section_source: "Load Source Horse Data",
     hint_source: "Copy an entire row from the sheet (including the ID column) and paste it, then press Load. Unedited fields will be output using the original horse's values.",
-    hint_gear_preview: "Gear settings are currently number-only; a visual preview for each number is planned for a future update.",
+    hint_gear_tack_ingame: "Please edit tack (bridle, bit, mask, etc.) and mane directly in-game after pasting the CSV.",
     btn_load_source: "Load",
     load_source_empty: "Pasted content is empty",
     load_source_mismatch: "Column count mismatch ({n} columns detected, expected 75 or 74)",
     load_source_success: "Source data loaded. Only change the fields you want to edit",
     section_basic: "Basic Info",
     section_stats: "Stats",
-    section_gear: "Gear Settings",
+    section_gear: "Face & Leg Marks",
     section_output: "CSV Output",
     label_id: "ID",
     label_name_jp: "Name (Japanese)",
@@ -224,8 +218,6 @@ const I18N = {
     label_peak_age: "Peak Age",
     label_retire_age: "Retire Age",
     hint_age_decimal: "The decimal represents elapsed months within the year (e.g. 0.5 ≈ 6 months, around June; 0.92 ≈ 11 months, around year-end).",
-    label_gear_copy: "Copy gear from existing horse (by ID)",
-    btn_gear_copy: "Load Gear",
     howto_summary: "How to use",
     howto_1: "Paste the horse's ID into \"Load source horse data\" and press Load (unedited fields keep the original horse's values)",
     howto_2: "Edit the basic info and the 8 stat values as you like",
@@ -242,10 +234,6 @@ const I18N = {
     alert_required: "Name (Japanese) and Name (English) are required.",
     copy_success: "Copied",
     copy_failed: "Copy failed",
-    gear_copy_notfound: "No matching ID found in the sample data",
-    gear_copy_success: "Gear data loaded",
-    gear_copy_load_failed: "Failed to load sample data",
-    gear_copy_empty: "Please enter an ID",
     color_sample_note: "Tap to select (images © Blue Bullet Inc.)"
   }
 };
@@ -417,47 +405,6 @@ function setupLangToggle() {
   });
 
   updateLabel();
-}
-
-// ---- 馬具コピー機能 ----
-let gearSampleData = null;
-
-async function loadGearSampleData() {
-  if (gearSampleData) return gearSampleData;
-  const res = await fetch("data/horse_gear_sample.json");
-  gearSampleData = await res.json();
-  return gearSampleData;
-}
-
-function setupGearCopy() {
-  const btn = document.getElementById("gear-copy-btn");
-  const idInput = document.getElementById("gear-copy-id");
-  const status = document.getElementById("gear-copy-status");
-
-  btn.addEventListener("click", async () => {
-    const id = idInput.value.trim();
-    if (!id) {
-      status.textContent = t("gear_copy_empty");
-      return;
-    }
-    try {
-      const data = await loadGearSampleData();
-      const entry = data[id];
-      if (!entry) {
-        status.textContent = t("gear_copy_notfound");
-        return;
-      }
-      GEAR_COLUMNS.forEach(key => {
-        if (entry[key] !== undefined) {
-          const el = document.getElementById(key);
-          if (el) el.value = entry[key];
-        }
-      });
-      status.textContent = t("gear_copy_success");
-    } catch (e) {
-      status.textContent = t("gear_copy_load_failed");
-    }
-  });
 }
 
 // ---- 元馬データの読み込み（スキップ列を元馬の値で埋めるため） ----
@@ -685,7 +632,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupTabs();
   buildColorSampleStrip();
   setupLoadSource();
-  setupGearCopy();
   setupGenerate();
   setupCopy();
   setupShareCopy();
