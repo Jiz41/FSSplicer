@@ -89,6 +89,7 @@ const I18N = {
     x_share_step1: "①下のテンプレをコピーしてポスト",
     x_share_step2: "②投稿したツイートにリプライ（スレッドで繋げる）して、以下をコピペ",
     btn_x_template_copy: "Xテンプレをコピー",
+    x_template_fallback_name: "新しい馬",
     share_copy_success: "|区切りでコピーしました",
     share_copy_failed: "コピーに失敗しました",
     share_copy_empty: "先にCSVを生成してください",
@@ -171,6 +172,7 @@ const I18N = {
     x_share_step1: "① Copy the template below and post it",
     x_share_step2: "② Reply to that post (as a thread) and paste the following",
     btn_x_template_copy: "Copy X Template",
+    x_template_fallback_name: "a new horse",
     share_copy_success: "Copied with | separators",
     share_copy_failed: "Copy failed",
     share_copy_empty: "Generate the CSV first",
@@ -522,9 +524,13 @@ function setupShareCopy() {
 
 // ---- Xテンプレプレビューの更新 ----
 function buildXTemplateText() {
-  const nameInput = document.getElementById("name_jp");
-  const horseName = nameInput.value.trim() || "新しい馬";
+  const lang = currentLang();
+  const nameEl = document.getElementById(lang === "en" ? "name_en" : "name_jp");
+  const horseName = (nameEl && nameEl.value.trim()) || t("x_template_fallback_name");
   const url = "https://fssplicer.pages.dev/";
+  if (lang === "en") {
+    return `I made ${horseName} on FSSplicer\nConvert it to CSV at ${url}\n#FSSplicer`;
+  }
   return `FSSplicerで${horseName}を作ってみました\n${url}でCSVに変換出来ます\n#FSSplicer`;
 }
 
