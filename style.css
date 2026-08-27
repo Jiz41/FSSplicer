@@ -434,3 +434,52 @@ footer .fnote.footer-credit {
   border-bottom: none;
 }
 
+.color-sample-strip {
+  margin-top: 6px;
+}
+.color-sample-note {
+  font-size: 11px;
+  color: var(--muted, #888);
+  margin: 0 0 6px;
+}
+.color-sample-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.color-sample-btn {
+  flex-shrink: 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+}
+.color-sample-btn.is-selected {
+  border-color: var(--accent, #1f7a52);
+}
+.color-sample-imgwrap {
+  position: relative;
+  display: block;
+  width: 72px;
+  height: 72px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.color-sample-imgwrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.color-sample-credit {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  font-size: 8px;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 0 2px rgba(0,0,0,0.9);
+  pointer-events: none;
+}
+

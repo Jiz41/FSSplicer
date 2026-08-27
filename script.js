@@ -161,7 +161,8 @@ const I18N = {
     gear_copy_notfound: "サンプルデータに該当IDが見つかりませんでした",
     gear_copy_success: "馬具データを読み込みました",
     gear_copy_load_failed: "サンプルデータの読み込みに失敗しました",
-    gear_copy_empty: "IDを入力してください"
+    gear_copy_empty: "IDを入力してください",
+    color_sample_note: "タップで選択できます（画像の著作権はBlue Bullet社に帰属します）"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -244,9 +245,64 @@ const I18N = {
     gear_copy_notfound: "No matching ID found in the sample data",
     gear_copy_success: "Gear data loaded",
     gear_copy_load_failed: "Failed to load sample data",
-    gear_copy_empty: "Please enter an ID"
+    gear_copy_empty: "Please enter an ID",
+    color_sample_note: "Tap to select (images © Blue Bullet Inc.)"
   }
 };
+
+const HORSE_COLOR_SAMPLES = [
+  { value: "0", file: "kage" },
+  { value: "1", file: "kurokage" },
+  { value: "2", file: "aokage" },
+  { value: "3", file: "aoge" },
+  { value: "4", file: "kurige" },
+  { value: "5", file: "tochikurige" },
+  { value: "6", file: "obanakurige" },
+  { value: "7", file: "ashige" },
+  { value: "8", file: "shiroge" }
+];
+
+function buildColorSampleStrip() {
+  const row = document.getElementById("color-sample-row");
+  const select = document.getElementById("horse_color");
+  if (!row || !select) return;
+
+  HORSE_COLOR_SAMPLES.forEach((sample) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "color-sample-btn";
+    btn.dataset.value = sample.value;
+
+    const img = document.createElement("img");
+    img.src = "assets/reference/horse_color/" + sample.file + ".webp";
+    img.alt = "";
+    img.loading = "lazy";
+
+    const credit = document.createElement("span");
+    credit.className = "color-sample-credit";
+    credit.textContent = "©BLUE BULLET";
+
+    const wrap = document.createElement("span");
+    wrap.className = "color-sample-imgwrap";
+    wrap.appendChild(img);
+    wrap.appendChild(credit);
+
+    btn.appendChild(wrap);
+    btn.addEventListener("click", () => {
+      select.value = sample.value;
+      row.querySelectorAll(".color-sample-btn").forEach((b) => b.classList.remove("is-selected"));
+      btn.classList.add("is-selected");
+    });
+
+    row.appendChild(btn);
+  });
+
+  select.addEventListener("change", () => {
+    row.querySelectorAll(".color-sample-btn").forEach((b) => {
+      b.classList.toggle("is-selected", b.dataset.value === select.value);
+    });
+  });
+}
 
 function currentLang() {
   return document.documentElement.getAttribute("data-lang") || "ja";
@@ -627,6 +683,7 @@ document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
   setupLangToggle();
   setupTabs();
+  buildColorSampleStrip();
   setupLoadSource();
   setupGearCopy();
   setupGenerate();
