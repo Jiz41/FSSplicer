@@ -518,11 +518,18 @@ function setupShareCopy() {
 function setupXPost() {
   const btn = document.getElementById("x-post-btn");
   const nameInput = document.getElementById("name_jp");
+  const output = document.getElementById("csv-output");
+  const status = document.getElementById("copy-status");
 
   btn.addEventListener("click", () => {
+    if (!output.value) {
+      status.textContent = t("share_copy_empty");
+      return;
+    }
     const horseName = nameInput.value.trim() || "新しい馬";
     const url = "https://fssplicer.pages.dev/";
-    const text = `FSSplicerで${horseName}を作ってみました\n${url}でCSVに変換出来ます\n#FSSplicer`;
+    const csv = output.value.split("\t").join("|");
+    const text = `FSSplicerで${horseName}を作ってみました\n${url}でCSVに変換出来ます\n#FSSplicer\n\n${csv}`;
     const intentUrl = "https://x.com/intent/post?text=" + encodeURIComponent(text);
     window.open(intentUrl, "_blank", "noopener,noreferrer");
   });
