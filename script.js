@@ -250,6 +250,17 @@ const HORSE_COLOR_SAMPLES = [
   { value: "8", file: "shiroge" }
 ];
 
+const LEG_MARK_SAMPLES = [
+  { value: "0", file: "leg0" },
+  { value: "1", file: "leg1" },
+  { value: "2", file: "leg2" },
+  { value: "3", file: "leg3" },
+  { value: "4", file: "leg4" },
+  { value: "5", file: "leg5" }
+];
+
+const LEG_MARK_KEYS = ["right_front_leg_mark", "left_front_leg_mark", "right_hind_leg_mark", "left_hind_leg_mark"];
+
 function buildColorSampleStrip() {
   const row = document.getElementById("color-sample-row");
   const select = document.getElementById("horse_color");
@@ -373,8 +384,60 @@ function buildGearGrid() {
 
     field.appendChild(label);
     field.appendChild(input);
+
+    if (LEG_MARK_KEYS.includes(key)) {
+      field.appendChild(buildMarkSampleStrip(input, LEG_MARK_SAMPLES, "assets/reference/leg_mark/"));
+    }
+
     grid.appendChild(field);
   });
+}
+
+function buildMarkSampleStrip(targetInput, samples, basePath) {
+  const strip = document.createElement("div");
+  strip.className = "color-sample-strip";
+
+  const note = document.createElement("p");
+  note.className = "color-sample-note";
+  note.setAttribute("data-i18n", "color_sample_note");
+  note.textContent = t("color_sample_note");
+
+  const row = document.createElement("div");
+  row.className = "color-sample-row";
+
+  samples.forEach((sample) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "color-sample-btn";
+    btn.dataset.value = sample.value;
+
+    const img = document.createElement("img");
+    img.src = basePath + sample.file + ".webp";
+    img.alt = "";
+    img.loading = "lazy";
+
+    const credit = document.createElement("span");
+    credit.className = "color-sample-credit";
+    credit.textContent = "©BLUE BULLET";
+
+    const wrap = document.createElement("span");
+    wrap.className = "color-sample-imgwrap";
+    wrap.appendChild(img);
+    wrap.appendChild(credit);
+
+    btn.appendChild(wrap);
+    btn.addEventListener("click", () => {
+      targetInput.value = sample.value;
+      row.querySelectorAll(".color-sample-btn").forEach((b) => b.classList.remove("is-selected"));
+      btn.classList.add("is-selected");
+    });
+
+    row.appendChild(btn);
+  });
+
+  strip.appendChild(note);
+  strip.appendChild(row);
+  return strip;
 }
 
 // ---- 言語切り替え ----
