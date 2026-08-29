@@ -101,7 +101,7 @@ header::after {
 
 .header-sub-row .subtitle {
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.62em;
   margin: 0;
 }
 
