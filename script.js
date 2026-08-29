@@ -81,7 +81,7 @@ const GEAR_LABELS_EN = {
 // ---- i18n辞書（基本ラベル） ----
 const I18N = {
   ja: {
-    subtitle: "Full Stride 馬データ改変ツール（非公式ファンツール）",
+    subtitle: "Full Stride 馬データ改変ツール",
     tab_input: "馬データ入力",
     tab_parse: "解析",
     btn_share_copy: "Xシェア用にコピー",
