@@ -65,7 +65,7 @@ header::after {
   gap: 0.15em;
   font-family: "IBM Plex Mono", monospace;
   font-weight: 700;
-  font-size: clamp(1.2em, 4vw, 1.9em);
+  font-size: clamp(1.6em, 8vw, 2.6em);
   letter-spacing: 0.02em;
   color: var(--ink);
   min-width: 0;
