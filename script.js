@@ -160,7 +160,7 @@ const I18N = {
     leg_sample_note: "番号は各脚マークの値に対応します（4本まとめて変更した際の見た目です。画像の著作権はBlue Bullet社に帰属します）",
     head_mark_legend_summary: "頭絡マーク見本を表示",
     head_sample_note: "番号は頭絡マークの値に対応します（画像の著作権はBlue Bullet社に帰属します）",
-    head_source_link: "情報元はコチラ"
+    head_source_link: "本表はBlue Bullet株式会社が公開する資料「Full Stride Horse Edit Reference」を参照しています"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -242,7 +242,7 @@ const I18N = {
     leg_sample_note: "Numbers correspond to each leg mark's value (shown as all four legs changed together. Images © Blue Bullet Inc.)",
     head_mark_legend_summary: "Show Head Mark Samples",
     head_sample_note: "Numbers correspond to each head mark's value (Images © Blue Bullet Inc.)",
-    head_source_link: "Source"
+    head_source_link: "This table references material \"Full Stride Horse Edit Reference\" published by Blue Bullet Inc."
   }
 };
 
