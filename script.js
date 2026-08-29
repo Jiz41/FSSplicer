@@ -664,6 +664,8 @@ function setupGenerate() {
     }
 
     output.value = generateCsvRow();
+    btn.classList.add("fss-pulse");
+    setTimeout(() => btn.classList.remove("fss-pulse"), 600);
   });
 }
 
@@ -677,6 +679,8 @@ function setupCopy() {
     try {
       await navigator.clipboard.writeText(output.value);
       status.textContent = t("copy_success");
+      status.classList.add("fss-copy-flash");
+      setTimeout(() => status.classList.remove("fss-copy-flash"), 600);
     } catch (e) {
       status.textContent = t("copy_failed");
     }

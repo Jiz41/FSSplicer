@@ -1,10 +1,15 @@
 :root {
   --ink: #e8ffe8;
   --bg: #0a0e0a;
-  --muted: #6fa66f;
+  --surface: #10160f;
+  --surface-2: #161d14;
+  --muted: #8fc48f;
   --accent: #33ff66;
   --accent2: #e8d84a;
-  --scanline: repeating-linear-gradient(to bottom, rgba(51, 255, 102, 0.05) 0px, rgba(51, 255, 102, 0.05) 1px, transparent 1px, transparent 3px);
+  --accent-cyan: #4ad8e8;
+  --glow-green: rgba(51, 255, 102, 0.4);
+  --scanline: repeating-linear-gradient(to bottom, rgba(51, 255, 102, 0.03) 0px, rgba(51, 255, 102, 0.03) 2px, transparent 2px, transparent 8px);
+  --scanline-strong: repeating-linear-gradient(to bottom, rgba(51, 255, 102, 0.05) 0px, rgba(51, 255, 102, 0.05) 1px, transparent 1px, transparent 3px);
 }
 
 * {
@@ -34,6 +39,16 @@ header {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  position: relative;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: var(--scanline-strong);
 }
 
 .header-top {
@@ -47,7 +62,8 @@ header {
   margin: 0;
   font-family: "IBM Plex Mono", monospace;
   font-weight: 700;
-  font-size: 1.6em;
+  font-size: clamp(1.2em, 4vw, 1.9em);
+  letter-spacing: 0.02em;
   color: var(--ink);
   min-width: 0;
 }
@@ -111,14 +127,62 @@ header {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--bg);
+  box-shadow: 0 0 8px var(--glow-green), 0 0 2px var(--glow-green);
 }
 
 section {
   margin-bottom: 1.5rem;
 }
 
+#section-basic,
+#section-stats,
+#section-gear,
+#section-output {
+  position: relative;
+  padding: 0.6rem 0.7rem;
+}
+
+#section-basic::before,
+#section-basic::after,
+#section-stats::before,
+#section-stats::after,
+#section-gear::before,
+#section-gear::after,
+#section-output::before,
+#section-output::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  border-color: var(--accent);
+  opacity: 0.6;
+}
+
+#section-basic::before,
+#section-stats::before,
+#section-gear::before,
+#section-output::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+}
+
+#section-basic::after,
+#section-stats::after,
+#section-gear::after,
+#section-output::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+}
+
 section h2 {
   font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(1em, 2.6vw, 1.25em);
+  letter-spacing: 0.03em;
   border-bottom: 1px solid var(--accent);
   padding-bottom: 0.3rem;
 }
@@ -127,6 +191,7 @@ summary {
   cursor: pointer;
   border-bottom: 1px solid var(--accent);
   padding-bottom: 0.3rem;
+  letter-spacing: 0.02em;
 }
 
 summary h2 {
@@ -150,7 +215,7 @@ summary h2 {
 
 .form-row input,
 .form-row select {
-  background: var(--bg);
+  background: var(--surface);
   color: var(--ink);
   border: 1px solid var(--muted);
   border-radius: 4px;
@@ -231,11 +296,17 @@ summary h2 {
 
 .stat-row-controls input[type="number"] {
   width: 5rem;
-  background: var(--bg);
+  background: var(--surface);
   color: var(--ink);
   border: 1px solid var(--muted);
   border-radius: 4px;
   padding: 0.3rem;
+}
+
+.stat-row {
+  background: var(--surface);
+  border-radius: 4px;
+  padding: 0.4rem 0.5rem;
 }
 
 .gear-copy-box {
@@ -243,6 +314,8 @@ summary h2 {
   border-radius: 6px;
   padding: 0.6rem;
   margin-bottom: 1rem;
+  background: color-mix(in srgb, var(--surface) 70%, transparent 30%);
+  backdrop-filter: blur(3px);
 }
 
 .gear-copy-box label {
@@ -259,7 +332,7 @@ summary h2 {
 
 .gear-copy-row input {
   flex: 1;
-  background: var(--bg);
+  background: var(--surface-2);
   color: var(--ink);
   border: 1px solid var(--muted);
   border-radius: 4px;
@@ -301,7 +374,7 @@ summary h2 {
 
 .gear-field input {
   width: 100%;
-  background: var(--bg);
+  background: var(--surface);
   color: var(--ink);
   border: 1px solid var(--muted);
   border-radius: 4px;
@@ -320,6 +393,7 @@ summary h2 {
   font-family: "IBM Plex Mono", monospace;
   font-weight: 700;
   margin-bottom: 0.6rem;
+  box-shadow: 0 0 10px var(--glow-green), 0 0 3px var(--glow-green);
 }
 
 #copy-btn {
@@ -329,6 +403,7 @@ summary h2 {
   border-radius: 4px;
   padding: 0.5rem 0.9rem;
   margin-top: 0.5rem;
+  box-shadow: 0 0 6px var(--glow-green);
 }
 
 .copy-status {
@@ -367,7 +442,7 @@ footer .fnote,
 
 footer a,
 .related-tools a {
-  color: var(--muted);
+  color: var(--accent-cyan);
 }
 
 footer .fnote.footer-credit {
@@ -391,6 +466,7 @@ footer .fnote.footer-credit {
   margin: 0 16px 18px;
   border: 1px solid var(--muted);
   background: color-mix(in srgb, var(--muted) 10%, var(--bg) 90%);
+  backdrop-filter: blur(3px);
 }
 
 .usage-details summary {
@@ -462,6 +538,7 @@ footer .fnote.footer-credit {
 }
 .color-sample-btn.is-selected {
   border-color: var(--accent, #1f7a52);
+  box-shadow: 0 0 8px var(--glow-green);
 }
 .color-sample-imgwrap {
   position: relative;
@@ -517,6 +594,36 @@ footer .fnote.footer-credit {
   display: block;
   margin-top: 10px;
   font-size: 12px;
-  color: var(--muted);
+  color: var(--accent-cyan);
+}
+
+/* ---- micro-interaction: 生成/コピー成功時の一瞬のグロー演出 ---- */
+@keyframes fss-pulse-glow {
+  0% {
+    box-shadow: 0 0 10px var(--glow-green), 0 0 3px var(--glow-green);
+  }
+  40% {
+    box-shadow: 0 0 22px var(--glow-green), 0 0 8px var(--accent);
+  }
+  100% {
+    box-shadow: 0 0 10px var(--glow-green), 0 0 3px var(--glow-green);
+  }
+}
+
+.fss-pulse {
+  animation: fss-pulse-glow 0.6s ease-out;
+}
+
+@keyframes fss-copy-flash {
+  0% {
+    color: var(--accent);
+  }
+  100% {
+    color: var(--muted);
+  }
+}
+
+.fss-copy-flash {
+  animation: fss-copy-flash 0.6s ease-out;
 }
 
