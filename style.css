@@ -206,6 +206,14 @@ section h2 {
   padding-bottom: 0.3rem;
 }
 
+#section-source h2::before,
+#section-basic h2::before,
+#section-stats h2::before,
+#section-output h2::before {
+  content: "■ ";
+  color: var(--accent);
+}
+
 summary {
   cursor: pointer;
   border-bottom: 1px solid var(--accent);
