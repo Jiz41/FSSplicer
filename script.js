@@ -160,7 +160,9 @@ const I18N = {
     leg_sample_note: "番号は各脚マークの値に対応します（4本まとめて変更した際の見た目です。画像の著作権はBlue Bullet社に帰属します）",
     head_mark_legend_summary: "頭絡マーク見本を表示",
     head_sample_note: "番号は頭絡マークの値に対応します（画像の著作権はBlue Bullet社に帰属します）",
-    head_source_link: "本表はBlue Bullet株式会社が公開する資料「Full Stride Horse Edit Reference」を参照しています"
+    head_source_link: "本表はBlue Bullet株式会社が公開する資料「Full Stride Horse Edit Reference」を参照しています",
+    install_guide_title: "ホーム画面に追加",
+    install_guide_ios: "共有ボタン（□に↑のアイコン）をタップ→「ホーム画面に追加」を選ぶと、アプリのように使えます"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -242,7 +244,9 @@ const I18N = {
     leg_sample_note: "Numbers correspond to each leg mark's value (shown as all four legs changed together. Images © Blue Bullet Inc.)",
     head_mark_legend_summary: "Show Head Mark Samples",
     head_sample_note: "Numbers correspond to each head mark's value (Images © Blue Bullet Inc.)",
-    head_source_link: "This table references material \"Full Stride Horse Edit Reference\" published by Blue Bullet Inc."
+    head_source_link: "This table references material \"Full Stride Horse Edit Reference\" published by Blue Bullet Inc.",
+    install_guide_title: "Add to Home Screen",
+    install_guide_ios: "Tap the Share button (square with an up arrow), then choose \"Add to Home Screen\" to use this like an app."
   }
 };
 
@@ -807,6 +811,71 @@ function setupTabs() {
   });
 }
 
+// ---- PWAインストール ----
+let deferredPrompt = null;
+
+function isIOSDevice() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+}
+
+function isStandalone() {
+  return window.navigator.standalone === true;
+}
+
+function showInstallButton() {
+  const btn = document.getElementById("install-btn");
+  if (btn) btn.style.display = "";
+}
+
+function hideInstallButton() {
+  const btn = document.getElementById("install-btn");
+  if (btn) btn.style.display = "none";
+}
+
+function showInstallModal() {
+  const modal = document.getElementById("install-modal");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function hideInstallModal() {
+  const modal = document.getElementById("install-modal");
+  if (modal) modal.classList.add("hidden");
+}
+
+function setupInstallButton() {
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallButton();
+  });
+
+  window.addEventListener("appinstalled", () => {
+    hideInstallButton();
+    deferredPrompt = null;
+  });
+
+  if (isIOSDevice() && !isStandalone()) {
+    showInstallButton();
+  }
+
+  const btn = document.getElementById("install-btn");
+  btn.addEventListener("click", async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      hideInstallButton();
+    } else if (isIOSDevice() && !isStandalone()) {
+      showInstallModal();
+    }
+  });
+
+  document.getElementById("install-modal-close").addEventListener("click", hideInstallModal);
+  document.getElementById("install-modal").addEventListener("click", (e) => {
+    if (e.target.id === "install-modal") hideInstallModal();
+  });
+}
+
 // ---- 初期化 ----
 document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
@@ -820,4 +889,5 @@ document.addEventListener("DOMContentLoaded", () => {
   setupXTemplateCopy();
   setupXShareCopyInner();
   setupParsePanel();
+  setupInstallButton();
 });
