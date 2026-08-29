@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-version" content="1.4.10">
+<meta name="app-version" content="1.4.11">
 <title>FSSplicer</title>
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
@@ -14,12 +14,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=1.4.10">
+<link rel="stylesheet" href="style.css?v=1.4.11">
 </head>
 <body>
 <header>
   <div class="header-top">
-    <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v1.4.10</span></h1>
+    <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v1.4.11</span></h1>
     <div class="header-buttons">
       <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
       <button class="install-toggle" id="install-btn" aria-label="インストール" style="display:none;">📲</button>
@@ -31,7 +31,7 @@
 </header>
 
 <details class="usage-details">
-  <summary data-i18n="howto_summary">使い方</summary>
+  <summary><span data-i18n="howto_summary">使い方</span><span class="accordion-hint" data-i18n="accordion_hint">（タップで開閉）</span></summary>
   <ol>
     <li data-i18n="howto_1">改変したい馬のID列の値を「元の馬データを読み込む」に貼り付け、読み込むボタンを押します（未編集の項目は元の馬の値のまま出力されます）</li>
     <li data-i18n="howto_2">基本情報・能力値（8軸）を好きな値に変更します</li>
@@ -183,7 +183,7 @@
 
   <section id="section-gear">
     <details>
-      <summary><h2 data-i18n="section_gear">顔・脚マーク</h2></summary>
+      <summary><h2 data-i18n="section_gear">顔・脚マーク</h2><span class="accordion-hint" data-i18n="accordion_hint">（タップで開閉）</span></summary>
 
       <p class="gear-copy-status" data-i18n="hint_gear_tack_ingame">馬具（頭絡・ハミ・マスク等）とたてがみは、CSV貼り付け後にゲーム内で直接編集してください</p>
 
@@ -199,7 +199,7 @@
     <button id="share-copy-btn" data-i18n="btn_share_copy" style="display:none;">Xシェア用にコピー</button>
     <p class="copy-status" id="copy-status"></p>
     <details id="x-share-guide">
-      <summary data-i18n="x_share_summary">Xで共有する</summary>
+      <summary><span data-i18n="x_share_summary">Xで共有する</span><span class="accordion-hint" data-i18n="accordion_hint">（タップで開閉）</span></summary>
       <p data-i18n="x_share_step1">①下のテンプレをコピーしてポスト</p>
       <textarea id="x-template-preview" readonly rows="3"></textarea>
       <button id="x-template-copy-btn" data-i18n="btn_x_template_copy">Xテンプレをコピー</button>
@@ -233,7 +233,7 @@
 </div>
 
 <details class="usage-details">
-  <summary data-i18n="changelog_summary">更新履歴</summary>
+  <summary><span data-i18n="changelog_summary">更新履歴</span><span class="accordion-hint" data-i18n="accordion_hint">（タップで開閉）</span></summary>
   <ol id="changelog-list"></ol>
 </details>
 
@@ -248,6 +248,6 @@
   <div class="visit-counter"><img src="https://visitor-badge.laobi.icu/badge?page_id=jiz41.FSSplicer" alt="visit counter"></div>
 </footer>
 
-<script src="script.js?v=1.4.10"></script>
+<script src="script.js?v=1.4.11"></script>
 </body>
 </html>

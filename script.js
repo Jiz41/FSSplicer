@@ -163,7 +163,8 @@ const I18N = {
     head_source_link: "本表はBlue Bullet株式会社が公開する資料「Full Stride Horse Edit Reference」を参照しています",
     install_guide_title: "ホーム画面に追加",
     install_guide_ios: "共有ボタン（□に↑のアイコン）をタップ→「ホーム画面に追加」を選ぶと、アプリのように使えます",
-    changelog_summary: "更新履歴"
+    changelog_summary: "更新履歴",
+    accordion_hint: "（タップで開閉）"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -248,7 +249,8 @@ const I18N = {
     head_source_link: "This table references material \"Full Stride Horse Edit Reference\" published by Blue Bullet Inc.",
     install_guide_title: "Add to Home Screen",
     install_guide_ios: "Tap the Share button (square with an up arrow), then choose \"Add to Home Screen\" to use this like an app.",
-    changelog_summary: "Update Log"
+    changelog_summary: "Update Log",
+    accordion_hint: "(Tap to expand)"
   }
 };
 
