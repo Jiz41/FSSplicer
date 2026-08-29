@@ -376,7 +376,6 @@ function buildStatGrid() {
 function buildGearGrid() {
   const grid = document.getElementById("gear-grid");
   grid.innerHTML = "";
-  grid.appendChild(buildLegMarkLegend());
   GEAR_COLUMNS.forEach(key => {
     const field = document.createElement("div");
     field.className = "gear-field";
@@ -397,6 +396,7 @@ function buildGearGrid() {
 
     if (key === "head_mark") {
       grid.appendChild(buildHeadMarkLegend());
+      grid.appendChild(buildLegMarkLegend());
     }
   });
 
