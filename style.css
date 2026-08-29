@@ -60,12 +60,22 @@ header::after {
 
 .wordmark {
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.15em;
   font-family: "IBM Plex Mono", monospace;
   font-weight: 700;
   font-size: clamp(1.2em, 4vw, 1.9em);
   letter-spacing: 0.02em;
   color: var(--ink);
   min-width: 0;
+}
+
+.wordmark .logo-icon {
+  height: 1.3em;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .wordmark span {
