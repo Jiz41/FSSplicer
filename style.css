@@ -40,6 +40,10 @@ header {
   flex-direction: column;
   gap: 0.3rem;
   position: relative;
+  border-top: 5px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  padding-top: 0.7rem;
+  padding-bottom: 0.6rem;
 }
 
 header::after {
