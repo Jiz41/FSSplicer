@@ -499,4 +499,18 @@ footer .fnote.footer-credit {
   font-weight: bold;
   color: var(--ink, #333);
 }
+.color-sample-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+.head-mark-legend-details {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.head-mark-legend-details .color-sample-strip {
+  padding: 10px 14px 14px;
+}
 

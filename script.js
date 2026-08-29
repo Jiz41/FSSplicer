@@ -157,7 +157,9 @@ const I18N = {
     copy_success: "コピーしました",
     copy_failed: "コピーに失敗しました",
     color_sample_note: "タップで選択できます（画像の著作権はBlue Bullet社に帰属します）",
-    leg_sample_note: "番号は各脚マークの値に対応します（4本まとめて変更した際の見た目です。画像の著作権はBlue Bullet社に帰属します）"
+    leg_sample_note: "番号は各脚マークの値に対応します（4本まとめて変更した際の見た目です。画像の著作権はBlue Bullet社に帰属します）",
+    head_mark_legend_summary: "頭絡マーク見本を表示",
+    head_sample_note: "番号は頭絡マークの値に対応します（画像の著作権はBlue Bullet社に帰属します）"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -236,7 +238,9 @@ const I18N = {
     copy_success: "Copied",
     copy_failed: "Copy failed",
     color_sample_note: "Tap to select (images © Blue Bullet Inc.)",
-    leg_sample_note: "Numbers correspond to each leg mark's value (shown as all four legs changed together. Images © Blue Bullet Inc.)"
+    leg_sample_note: "Numbers correspond to each leg mark's value (shown as all four legs changed together. Images © Blue Bullet Inc.)",
+    head_mark_legend_summary: "Show Head Mark Samples",
+    head_sample_note: "Numbers correspond to each head mark's value (Images © Blue Bullet Inc.)"
   }
 };
 
@@ -262,6 +266,8 @@ const LEG_MARK_SAMPLES = [
 ];
 
 const LEG_MARK_KEYS = ["right_front_leg_mark", "left_front_leg_mark", "right_hind_leg_mark", "left_hind_leg_mark"];
+
+const HEAD_MARK_SAMPLES = Array.from({ length: 50 }, (_, i) => ({ value: String(i), file: "head" + i }));
 
 function buildColorSampleStrip() {
   const row = document.getElementById("color-sample-row");
@@ -388,6 +394,10 @@ function buildGearGrid() {
     field.appendChild(label);
     field.appendChild(input);
     grid.appendChild(field);
+
+    if (key === "head_mark") {
+      grid.appendChild(buildHeadMarkLegend());
+    }
   });
 
 }
@@ -435,6 +445,63 @@ function buildLegMarkLegend() {
   wrap.appendChild(note);
   wrap.appendChild(row);
   return wrap;
+}
+
+function buildHeadMarkLegend() {
+  const details = document.createElement("details");
+  details.className = "usage-details head-mark-legend-details";
+
+  const summary = document.createElement("summary");
+  summary.setAttribute("data-i18n", "head_mark_legend_summary");
+  summary.textContent = t("head_mark_legend_summary");
+  details.appendChild(summary);
+
+  const wrap = document.createElement("div");
+  wrap.className = "color-sample-strip";
+
+  const note = document.createElement("p");
+  note.className = "color-sample-note";
+  note.setAttribute("data-i18n", "head_sample_note");
+  note.textContent = t("head_sample_note");
+
+  const row = document.createElement("div");
+  row.className = "color-sample-grid";
+
+  HEAD_MARK_SAMPLES.forEach((sample) => {
+    const item = document.createElement("div");
+    item.className = "color-sample-legend-item";
+
+    const imgWrap = document.createElement("span");
+    imgWrap.className = "color-sample-imgwrap";
+
+    const img = document.createElement("img");
+    img.src = "assets/reference/head_mark/" + sample.file + ".webp";
+    img.alt = "";
+    img.loading = "lazy";
+
+    const credit = document.createElement("span");
+    credit.className = "color-sample-credit";
+    credit.textContent = "©BLUE BULLET";
+
+    imgWrap.appendChild(img);
+    imgWrap.appendChild(credit);
+
+    item.appendChild(imgWrap);
+
+    if (Number(sample.value) >= 34) {
+      const num = document.createElement("span");
+      num.className = "color-sample-legend-num";
+      num.textContent = sample.value;
+      item.appendChild(num);
+    }
+
+    row.appendChild(item);
+  });
+
+  wrap.appendChild(note);
+  wrap.appendChild(row);
+  details.appendChild(wrap);
+  return details;
 }
 
 function buildMarkSampleStrip(targetInputs, samples, basePath, noteKey) {
