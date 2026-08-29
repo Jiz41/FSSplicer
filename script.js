@@ -162,7 +162,8 @@ const I18N = {
     head_sample_note: "番号は頭絡マークの値に対応します（画像の著作権はBlue Bullet社に帰属します）",
     head_source_link: "本表はBlue Bullet株式会社が公開する資料「Full Stride Horse Edit Reference」を参照しています",
     install_guide_title: "ホーム画面に追加",
-    install_guide_ios: "共有ボタン（□に↑のアイコン）をタップ→「ホーム画面に追加」を選ぶと、アプリのように使えます"
+    install_guide_ios: "共有ボタン（□に↑のアイコン）をタップ→「ホーム画面に追加」を選ぶと、アプリのように使えます",
+    changelog_summary: "更新履歴"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -246,7 +247,8 @@ const I18N = {
     head_sample_note: "Numbers correspond to each head mark's value (Images © Blue Bullet Inc.)",
     head_source_link: "This table references material \"Full Stride Horse Edit Reference\" published by Blue Bullet Inc.",
     install_guide_title: "Add to Home Screen",
-    install_guide_ios: "Tap the Share button (square with an up arrow), then choose \"Add to Home Screen\" to use this like an app."
+    install_guide_ios: "Tap the Share button (square with an up arrow), then choose \"Add to Home Screen\" to use this like an app.",
+    changelog_summary: "Update Log"
   }
 };
 
@@ -568,6 +570,7 @@ function applyLanguage(lang) {
   });
   buildStatGrid();
   buildGearGrid();
+  renderChangelog();
 }
 
 function setupLangToggle() {
@@ -890,4 +893,33 @@ document.addEventListener("DOMContentLoaded", () => {
   setupXShareCopyInner();
   setupParsePanel();
   setupInstallButton();
+  loadChangelog();
 });
+
+// ---- 更新履歴 ----
+let changelogEntries = [];
+
+async function loadChangelog() {
+  try {
+    const versionMeta = document.querySelector('meta[name="app-version"]');
+    const v = versionMeta ? versionMeta.content : "";
+    const res = await fetch(`data/changelog.json?v=${v}`);
+    if (!res.ok) return;
+    changelogEntries = await res.json();
+    renderChangelog();
+  } catch (e) {
+    // 更新履歴が読めなくても致命的ではないため無視
+  }
+}
+
+function renderChangelog() {
+  const list = document.getElementById("changelog-list");
+  if (!list) return;
+  const lang = currentLang();
+  list.innerHTML = changelogEntries
+    .map(e => {
+      const text = lang === "en" ? (e.text_en || e.text) : e.text;
+      return `<li><span style="color:var(--muted); font-family:'IBM Plex Mono', monospace;">${e.date}</span> ${text}</li>`;
+    })
+    .join("");
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "date": "2026-08-29",
+    "text": "全体デザインをサイバー端末風にリニューアルしました（グロー演出・HUD風装飾・可変フォントサイズ等）",
+    "text_en": "Renewed the overall design with a cyber-terminal look (glow effects, HUD-style accents, fluid typography)"
+  },
+  {
+    "date": "2026-08-29",
+    "text": "ヘッダーにロゴを追加し、ホーム画面にアプリとして追加できるようになりました（インストールボタンを追加）",
+    "text_en": "Added a logo to the header and an install button to add this app to your home screen"
+  },
+  {
+    "date": "2026-08-29",
+    "text": "頭絡マークの見本一覧（全50種）を追加しました",
+    "text_en": "Added a sample gallery for all 50 head mark options"
+  },
+  {
+    "date": "2026-08-27",
+    "text": "毛色・脚マークの見本表示を追加し、馬具設定フォームを顔・脚マークのみに整理しました（その他の馬具はゲーム内で直接編集する方式に変更）",
+    "text_en": "Added sample images for horse colors and leg marks, and simplified the tack form to only cover face/leg marks (other tack items are now edited directly in-game)"
+  },
+  {
+    "date": "2026-08-27",
+    "text": "X（旧Twitter）での共有機能を改善しました（テンプレート投稿＋リプライ方式の案内を追加）",
+    "text_en": "Improved sharing on X (added guided template post + reply flow)"
+  },
+  {
+    "date": "2026-08-06",
+    "text": "招待制に移行し、使い方ガイドを追加しました",
+    "text_en": "Switched to invite-only access and added a usage guide"
+  },
+  {
+    "date": "2026-07-31",
+    "text": "姉妹ツールへのリンクをまとめたハブページを追加しました",
+    "text_en": "Added a hub page linking to sister tools"
+  },
+  {
+    "date": "2026-07-26",
+    "text": "タブUI（馬データ入力／解析）、元データ読み込み機能を追加し、ラボ風デザインに刷新しました",
+    "text_en": "Added a tabbed UI (data input / parse) and a load-existing-data feature, and refreshed the design with a lab-style look"
+  },
+  {
+    "date": "2026-07-23",
+    "text": "初版公開（全75列フォーム対応）",
+    "text_en": "Initial release (supports the full 75-column form)"
+  }
+]
