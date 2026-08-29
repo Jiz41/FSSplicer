@@ -160,7 +160,8 @@ const I18N = {
     leg_sample_note: "番号は各脚マークの値に対応します（4本まとめて変更した際の見た目です。画像の著作権はBlue Bullet社に帰属します）",
     head_mark_legend_summary: "頭絡マーク見本を表示",
     head_sample_note: "番号は頭絡マークの値に対応します（画像の著作権はBlue Bullet社に帰属します）",
-    head_source_link: "本表はBlue Bullet株式会社が公開する資料「Full Stride Horse Edit Reference」を参照しています",
+    head_source_prefix: "引用元：Blue Bullet株式会社が公開する資料「",
+    head_source_suffix: "」",
     install_guide_title: "ホーム画面に追加",
     install_guide_ios: "共有ボタン（□に↑のアイコン）をタップ→「ホーム画面に追加」を選ぶと、アプリのように使えます",
     changelog_summary: "更新履歴",
@@ -246,7 +247,8 @@ const I18N = {
     leg_sample_note: "Numbers correspond to each leg mark's value (shown as all four legs changed together. Images © Blue Bullet Inc.)",
     head_mark_legend_summary: "Show Head Mark Samples",
     head_sample_note: "Numbers correspond to each head mark's value (Images © Blue Bullet Inc.)",
-    head_source_link: "This table references material \"Full Stride Horse Edit Reference\" published by Blue Bullet Inc.",
+    head_source_prefix: "Source: \"",
+    head_source_suffix: "\" published by Blue Bullet Inc.",
     install_guide_title: "Add to Home Screen",
     install_guide_ios: "Tap the Share button (square with an up arrow), then choose \"Add to Home Screen\" to use this like an app.",
     changelog_summary: "Update Log",
@@ -500,17 +502,30 @@ function buildHeadMarkLegend() {
     row.appendChild(item);
   });
 
+  const sourceP = document.createElement("p");
+  sourceP.className = "color-sample-source-link";
+
+  const prefixSpan = document.createElement("span");
+  prefixSpan.setAttribute("data-i18n", "head_source_prefix");
+  prefixSpan.textContent = t("head_source_prefix");
+
   const sourceLink = document.createElement("a");
   sourceLink.href = "https://docs.google.com/presentation/d/1nASJ09HOYHABJ_1u1Tx5P3WaJmeGLipmWdi4t_2AjFg/edit?usp=sharing";
   sourceLink.target = "_blank";
   sourceLink.rel = "noopener noreferrer";
-  sourceLink.className = "color-sample-source-link";
-  sourceLink.setAttribute("data-i18n", "head_source_link");
-  sourceLink.textContent = t("head_source_link");
+  sourceLink.textContent = "Full Stride Horse Edit Reference";
+
+  const suffixSpan = document.createElement("span");
+  suffixSpan.setAttribute("data-i18n", "head_source_suffix");
+  suffixSpan.textContent = t("head_source_suffix");
+
+  sourceP.appendChild(prefixSpan);
+  sourceP.appendChild(sourceLink);
+  sourceP.appendChild(suffixSpan);
 
   wrap.appendChild(note);
   wrap.appendChild(row);
-  wrap.appendChild(sourceLink);
+  wrap.appendChild(sourceP);
   details.appendChild(wrap);
   return details;
 }
