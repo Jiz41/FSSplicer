@@ -513,4 +513,10 @@ footer .fnote.footer-credit {
 .head-mark-legend-details .color-sample-strip {
   padding: 10px 14px 14px;
 }
+.color-sample-source-link {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
 

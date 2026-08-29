@@ -159,7 +159,8 @@ const I18N = {
     color_sample_note: "タップで選択できます（画像の著作権はBlue Bullet社に帰属します）",
     leg_sample_note: "番号は各脚マークの値に対応します（4本まとめて変更した際の見た目です。画像の著作権はBlue Bullet社に帰属します）",
     head_mark_legend_summary: "頭絡マーク見本を表示",
-    head_sample_note: "番号は頭絡マークの値に対応します（画像の著作権はBlue Bullet社に帰属します）"
+    head_sample_note: "番号は頭絡マークの値に対応します（画像の著作権はBlue Bullet社に帰属します）",
+    head_source_link: "情報元はコチラ"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -240,7 +241,8 @@ const I18N = {
     color_sample_note: "Tap to select (images © Blue Bullet Inc.)",
     leg_sample_note: "Numbers correspond to each leg mark's value (shown as all four legs changed together. Images © Blue Bullet Inc.)",
     head_mark_legend_summary: "Show Head Mark Samples",
-    head_sample_note: "Numbers correspond to each head mark's value (Images © Blue Bullet Inc.)"
+    head_sample_note: "Numbers correspond to each head mark's value (Images © Blue Bullet Inc.)",
+    head_source_link: "Source"
   }
 };
 
@@ -490,8 +492,17 @@ function buildHeadMarkLegend() {
     row.appendChild(item);
   });
 
+  const sourceLink = document.createElement("a");
+  sourceLink.href = "https://docs.google.com/presentation/d/1nASJ09HOYHABJ_1u1Tx5P3WaJmeGLipmWdi4t_2AjFg/edit?usp=sharing";
+  sourceLink.target = "_blank";
+  sourceLink.rel = "noopener noreferrer";
+  sourceLink.className = "color-sample-source-link";
+  sourceLink.setAttribute("data-i18n", "head_source_link");
+  sourceLink.textContent = t("head_source_link");
+
   wrap.appendChild(note);
   wrap.appendChild(row);
+  wrap.appendChild(sourceLink);
   details.appendChild(wrap);
   return details;
 }
