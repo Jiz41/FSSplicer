@@ -487,14 +487,6 @@ function buildHeadMarkLegend() {
     imgWrap.appendChild(credit);
 
     item.appendChild(imgWrap);
-
-    if (Number(sample.value) >= 34) {
-      const num = document.createElement("span");
-      num.className = "color-sample-legend-num";
-      num.textContent = sample.value;
-      item.appendChild(num);
-    }
-
     row.appendChild(item);
   });
 
