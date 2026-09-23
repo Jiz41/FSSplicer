@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-23",
+    "text": "使い方ガイドに「スプレッドシートから行をコピーする」手順を追加しました",
+    "text_en": "Added a step to the usage guide for copying a row from the spreadsheet"
+  },
+  {
+    "date": "2026-09-23",
     "text": "招待制を廃止し、どなたでもご利用いただけるようになりました",
     "text_en": "Removed the invite-only restriction — the tool is now open to everyone"
   },
