@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-23",
+    "text": "X等でリンクをシェアした際にカード表示されるOGP画像・タグを追加しました",
+    "text_en": "Added OGP tags and a card image for link previews on X and other platforms"
+  },
+  {
+    "date": "2026-09-23",
     "text": "解説用ページ（intro.html）の英語版を追加し、言語切替ボタンを設置しました",
     "text_en": "Added an English version of the intro page with a language switch button"
   },
