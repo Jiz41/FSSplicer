@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FSSplicer とは — スプレッドシートと睨めっこ、もう卒業</title>
-<meta name="description" content="Full Strideの馬データ改変は、外部スプレッドシートを直接触るしかない。その痛みを体感して、FSSplicerが何を解決するのか見てほしい。">
+<title>What is FSSplicer? — No More Squinting at Spreadsheets</title>
+<meta name="description" content="Editing horse data in Full Stride means touching a raw external spreadsheet directly. Feel that pain firsthand, and see what FSSplicer solves.">
 <style>
   :root{
     --bg:#0f1115;
@@ -299,21 +299,21 @@
 </head>
 <body>
 
-<a class="lang-toggle" href="intro_en.html">ENG</a>
+<a class="lang-toggle" href="intro.html">日本語</a>
 
 <section id="hero">
   <h1>FSSplicer</h1>
-  <p class="catch">スプレッドシートの生の数値と睨めっこ、もう卒業。</p>
+  <p class="catch">No more squinting at raw spreadsheet numbers.</p>
 </section>
 
 <section id="before">
   <div class="inner">
-    <h2>これが「馬データ改変」の入口です</h2>
-    <p class="fg-dim">本来、Full Strideの馬データ編集は、ゲーム内に能力エディット画面がありません。競走馬の名前・能力はすべて外部のスプレッドシートで管理し、ゲームに取り込む方式です。馬具や毛色など見た目だけでも50種類を超えるパラメータが並び、目当ての1頭を探し、正しい列を見つけ、意味を推測しながら数値を手打ちする——1頭仕上げるだけでも不慣れな方は相応の集中力を要します。列を1つ取り違えれば、それに気づく手段もありません。横にスクロールしてみてください。</p>
-    <p class="fg-dim">試しに、馬ID <strong id="target-id-inline">H1024</strong> の <code>mane_color_2</code>（たてがみ色2）だけを直したいとします。見つけられますか？</p>
+    <h2>This is the entry point to "horse data editing"</h2>
+    <p class="fg-dim">Full Stride has no in-game screen for editing horse stats. Every horse's name and abilities are managed in an external spreadsheet and imported into the game. Even just the visual parameters — tack and coat color — span over 50 columns. Finding the one horse you want, locating the right column, guessing what a value means, and typing it in by hand: even finishing a single horse takes real concentration if you're not used to it. If you mistake one column for another, you have no way of noticing. Try scrolling sideways below.</p>
+    <p class="fg-dim">Let's say you just want to fix <code>mane_color_2</code> (mane color 2) for horse ID <strong id="target-id-inline">H1024</strong>. Can you find it?</p>
   </div>
   <div class="sheet-wrap">
-    <div class="sheet-status">現在地：列 <strong id="col-current">1</strong> ／ 全 <strong id="col-total">30</strong> 列</div>
+    <div class="sheet-status">Current position: column <strong id="col-current">1</strong> of <strong id="col-total">30</strong></div>
     <div class="sheet-scroll" id="sheet-scroll">
       <table class="sheet" id="sheet-table">
         <thead>
@@ -324,19 +324,19 @@
     </div>
   </div>
   <div class="inner">
-    <p class="note">※列構成は実際のHorseMasterData形式に準拠しています。表示される数値・馬名はサンプルです。</p>
+    <p class="note">*Column layout follows the actual HorseMasterData format. The displayed values and horse names are samples.</p>
   </div>
 </section>
 
 <section id="turn">
-  <p class="fg-dim">直したいのはたった1項目。なのに、そこへ辿り着くまでに列を数え、行を数える。</p>
+  <p class="fg-dim">You just want to fix one field. Yet before you get there, you're counting columns, counting rows.</p>
   <div class="arrow" aria-hidden="true">↓</div>
-  <p>項目名を見て、値を変えるだけにしたら。</p>
+  <p>What if you could just look at the field name and change the value?</p>
 </section>
 
 <section id="after">
-  <h2>FSSplicerならこう変わります</h2>
-  <p class="fg-dim">FSSplicerを使えば、ブラウザ上で、項目名と現在値を見ながら値を調整するだけ。確定すると、その馬1頭分の行だけを差し替えたCSVが出力されます。列位置を意識する必要はなく、他の馬のデータに触れる心配もありません。出力されたCSVを該当行にピッとペーストするだけ。</p>
+  <h2>Here's how FSSplicer changes that</h2>
+  <p class="fg-dim">With FSSplicer, you just adjust values in your browser while looking at field names and current values. Once you confirm, a CSV is generated with only that one horse's row replaced. You never need to worry about column position, and there's no risk of touching another horse's data. Just paste the generated CSV into the matching row.</p>
   <div class="fssp-card">
     <div class="fssp-row">
       <label for="slider-speed">acceleration</label>
@@ -353,25 +353,25 @@
       <input type="range" id="slider-cornering" min="0" max="100" value="55">
       <output id="out-cornering">55</output>
     </div>
-    <button type="button" id="csv-btn">CSVを出力</button>
+    <button type="button" id="csv-btn">Generate CSV</button>
     <div id="csv-output" aria-live="polite"></div>
   </div>
 </section>
 
 <section id="summary">
   <div class="inner">
-    <h2>変わること</h2>
-    <p>「この馬はもう少しスタミナがあったはずだ」「この馬はもっと全体的につよいはず、スタートは最悪だが」——など、人それぞれある競走馬の解釈をそのまま楽に数値に落とし込める。それがFSSplicerです。</p>
+    <h2>What changes</h2>
+    <p>"This horse should have had a bit more stamina," "this horse should be stronger overall, even if the start is terrible" — everyone has their own read on a racehorse. FSSplicer lets you turn that read into numbers, easily. That's FSSplicer.</p>
   </div>
 </section>
 
 <section id="cta">
-  <a class="btn" href="index.html">FSSplicerを使ってみる</a>
+  <a class="btn" href="index.html">Try FSSplicer</a>
 </section>
 
 <footer>
-  <p class="fnote">本ツールはファンによる非公式データ改変ツールです。</p>
-  <p class="fnote">『FULL STRIDE』の名称は、<a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a>の商標または登録商標です。</p>
+  <p class="fnote">This is an unofficial fan-made data editing tool.</p>
+  <p class="fnote">"FULL STRIDE" is a trademark or registered trademark of <a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a>.</p>
   <p class="fnote footer-credit">Created by ©<a href="https://x.com/Mushyn_Reagan" target="_blank" rel="noopener">Musyn Reagan</a></p>
 </footer>
 
@@ -409,10 +409,10 @@
 
   // 一目でテストデータとわかる、実在馬名パロディの馬名リスト
   var TEST_NAMES = [
-    "テストマックイーン","テストブライアン","テストブルボン","テストシンボリ",
-    "テストサイレンス","テストシャトル","テストグルーヴ","テストディープ",
-    "テストーブル","テースントアイ","テスントレイル","テストンブラック",
-    "テーストシップ","テストハヤヒデ"
+    "TestMcQueen","TestBrian","TestBourbon","TestSymboli",
+    "TestSilence","TestShuttle","TestGroove","TestDeep",
+    "Testable","TestSaintEye","TestTrail","TestBlack",
+    "TestShip","TestHayahide"
   ];
   var DAYS_IN_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31];
   var TARGET_ID = 'H' + (1000 + TARGET_ROW);

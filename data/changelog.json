@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-23",
+    "text": "解説用ページ（intro.html）の英語版を追加し、言語切替ボタンを設置しました",
+    "text_en": "Added an English version of the intro page with a language switch button"
+  },
+  {
+    "date": "2026-09-23",
     "text": "日本語表記を「Sheets」から「スプレッドシート」に統一しました",
     "text_en": "Unified the Japanese wording (no change for English users)"
   },
