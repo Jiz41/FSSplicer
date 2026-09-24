@@ -728,6 +728,7 @@ footer .fnote.footer-credit {
 .footer-disclaimer {
   margin: 10px auto 12px;
   max-width: 40em;
+  text-align: center;
 }
 
 .footer-disclaimer summary {
