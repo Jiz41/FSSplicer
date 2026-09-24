@@ -166,7 +166,19 @@ const I18N = {
     install_guide_title: "ホーム画面に追加",
     install_guide_ios: "共有ボタン（□に↑のアイコン）をタップ→「ホーム画面に追加」を選ぶと、アプリのように使えます",
     changelog_summary: "更新履歴",
-    accordion_hint: "（タップで開閉）"
+    accordion_hint: "（タップで開閉）",
+    footer_disclaimer_summary: "利用規約・免責事項",
+    disclaimer_site_title: "サイトの性質について",
+    disclaimer_site_body: "本サイトは、個人が制作する『FULL STRIDE』の非公式ファンツールであり、株式会社Blue Bullet（以下「開発元」）とは一切関係のない、非営利の個人運営サイトです。開発元、JRA（日本中央競馬会）、地方競馬関連団体、その他本サイトに登場する競走馬・関係者の所属団体・企業とも、提携・後援・監修等の関係は一切ありません。",
+    disclaimer_ip_title: "知的財産権について",
+    disclaimer_ip_body: "『FULL STRIDE』の名称は、開発元に帰属する商標です。本ツールは、開発元がGoogleスプレッドシートを通じて公式に提供している馬データ編集機能を、より簡単に操作できるようフォーム化したものです。本ツール内で参照している馬具・毛色・頭絡マーク等の見本画像は、開発元公式の配信・投稿ガイドラインおよび公式資料に基づき掲載しており、著作権は開発元に帰属します。",
+    disclaimer_data_title: "データの取り扱いについて",
+    disclaimer_data_body: "本ツールはすべての処理をお使いの端末内（ブラウザ）で完結しており、入力いただいた馬データが外部のサーバーに送信されることは一切ありません。生成されたCSVはご自身でスプレッドシートに貼り付けていただく仕組みです。なお、アクセス状況の把握のため外部のアクセスカウンターサービスを利用しており、その際にアクセス元の情報が当該サービスに送信されます。",
+    disclaimer_liability_title: "免責事項",
+    disclaimer_liability_body: "本サイトのご利用、または本サイトに掲載された情報の利用によって生じたいかなる損害についても、運営者は責任を負いかねます。また、本サイトはメンテナンス・技術的な事情等により、予告なく内容の変更、機能の停止、サービスの終了を行う場合があります。本免責事項の内容は、必要に応じて予告なく変更されることがあります。",
+    disclaimer_contact_title: "お問い合わせ",
+    disclaimer_contact_body: "掲載内容についてのご指摘、誤りのご報告、修正・削除のご依頼等は、フッター記載のXアカウントまでご連絡ください。",
+    disclaimer_dates: "制定日：2026年9月24日"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -254,7 +266,19 @@ const I18N = {
     install_guide_title: "Add to Home Screen",
     install_guide_ios: "Tap the Share button (square with an up arrow), then choose \"Add to Home Screen\" to use this like an app.",
     changelog_summary: "Update Log",
-    accordion_hint: "(Tap to expand)"
+    accordion_hint: "(Tap to expand)",
+    footer_disclaimer_summary: "Terms & Disclaimer",
+    disclaimer_site_title: "About This Site",
+    disclaimer_site_body: "This site is an unofficial fan tool for FULL STRIDE, created by an individual and operated on a non-commercial basis. It has no affiliation whatsoever with Blue Bullet Inc. (hereafter \"the developer\"). Neither the developer, the Japan Racing Association (JRA), any local racing associations, nor any organizations or companies associated with the racehorses or individuals featured on this site have any partnership, endorsement, or supervisory relationship with this site.",
+    disclaimer_ip_title: "Intellectual Property",
+    disclaimer_ip_body: "The name \"FULL STRIDE\" is a trademark of the developer. This tool is a form-based interface for the horse data editing feature the developer officially provides via Google Sheets, designed to make it easier to use. The sample images of tack, coat colors, and head marks referenced in this tool are used based on the developer's official streaming/posting guidelines and official reference materials, and their copyright belongs to the developer.",
+    disclaimer_data_title: "Data Handling",
+    disclaimer_data_body: "All processing in this tool takes place entirely within your own device (browser); none of the horse data you enter is ever sent to an external server. The generated CSV is meant to be pasted into your spreadsheet by you. Separately, this site uses a third-party visitor counter service to track site traffic, and information about the visitor's origin is sent to that service in the process.",
+    disclaimer_liability_title: "Limitation of Liability",
+    disclaimer_liability_body: "The operator is not liable for any damages arising from your use of this site or the information presented on it. This site may be modified, have features suspended, or be discontinued without notice due to maintenance or other circumstances. The contents of this disclaimer may also be changed without notice as needed.",
+    disclaimer_contact_title: "Contact",
+    disclaimer_contact_body: "For corrections, error reports, or requests to remove content, please contact us via the X account listed in the footer.",
+    disclaimer_dates: "Established: September 24, 2026"
   }
 };
 

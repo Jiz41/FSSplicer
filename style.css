@@ -725,3 +725,59 @@ footer .fnote.footer-credit {
   margin-left: 0.4em;
 }
 
+.footer-disclaimer {
+  margin: 10px auto 12px;
+  max-width: 40em;
+}
+
+.footer-disclaimer summary {
+  cursor: pointer;
+  display: inline-block;
+  padding: 2px 10px;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.footer-disclaimer[open] summary {
+  margin-bottom: 6px;
+}
+
+.disclaimer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  counter-reset: disclaimer-count;
+}
+
+.disclaimer-section {
+  background: var(--surface-2);
+  border: 1px solid var(--muted);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.disclaimer-section h4 {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  border-left: 3px solid var(--accent);
+  padding-left: 8px;
+  counter-increment: disclaimer-count;
+}
+
+.disclaimer-section h4::before {
+  content: counter(disclaimer-count, decimal-leading-zero) " ";
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--accent);
+}
+
+.disclaimer-section p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+

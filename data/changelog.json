@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-09-24",
+    "text": "フッターに「利用規約・免責事項」を追加しました",
+    "text_en": "Added a Terms & Disclaimer section to the footer"
+  },
+  {
     "date": "2026-09-23",
     "text": "X等でリンクをシェアした際にカード表示されるOGP画像・タグを追加しました",
     "text_en": "Added OGP tags and a card image for link previews on X and other platforms"
