@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-26",
+    "text": "サイトデザインを見直し、文字の読みやすさやレイアウトの統一感を高めました",
+    "text_en": "Revised the site design to improve readability and layout consistency"
+  },
+  {
+    "date": "2026-09-26",
     "text": "基本情報に「得意ペース」「回り適性」のスライダーを追加し、「体格」もスライダー形式に変更しました",
     "text_en": "Added sliders for Preferred Pace and Direction Aptitude, and changed Physical to a slider as well"
   },
