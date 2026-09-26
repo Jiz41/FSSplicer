@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-09-26",
+    "text": "基本情報に「得意ペース」「回り適性」のスライダーを追加し、「体格」もスライダー形式に変更しました",
+    "text_en": "Added sliders for Preferred Pace and Direction Aptitude, and changed Physical to a slider as well"
+  },
+  {
     "date": "2026-09-24",
     "text": "利用規約・免責事項ボタンの表示位置がずれていた不具合を修正しました",
     "text_en": "Fixed a display issue where the Terms & Disclaimer button was misaligned"

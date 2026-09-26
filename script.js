@@ -140,6 +140,7 @@ const I18N = {
     label_peak_age: "ピーク年齢",
     label_retire_age: "引退年齢",
     hint_age_decimal: "小数点は年内の経過月数を表します（例：0.5＝約6ヶ月＝6月ごろ、0.92＝約11ヶ月＝年末ごろ）",
+    hint_physical_weight: "0.5前後が馬体重460〜470kg程度の目安です。マイナス方向で小さく、プラス方向で大きくなります。",
     howto_summary: "使い方",
     howto_1: "改変したい馬を、配布されているスプレッドシートで探し、その行をコピーします（行全体を選択してコピー）",
     howto_2: "コピーした行を「元の馬データを読み込む」に貼り付け、読み込むボタンを押します（未編集の項目は元の馬の値のまま出力されます）",
@@ -240,6 +241,7 @@ const I18N = {
     label_peak_age: "Peak Age",
     label_retire_age: "Retire Age",
     hint_age_decimal: "The decimal represents elapsed months within the year (e.g. 0.5 ≈ 6 months, around June; 0.92 ≈ 11 months, around year-end).",
+    hint_physical_weight: "Around 0.5 corresponds to roughly 460-470kg of body weight. Lower values are smaller, higher values are larger.",
     howto_summary: "How to use",
     howto_1: "Find the horse you want to modify in the distributed spreadsheet and copy its whole row",
     howto_2: "Paste the copied row into \"Load source horse data\" and press Load (unedited fields keep the original horse's values)",
@@ -616,6 +618,17 @@ function applyLanguage(lang) {
   renderChangelog();
 }
 
+// ---- 基本情報の単体スライダー（得意ペース・回り適性・体格）の現在値表示 ----
+function setupBasicSliders() {
+  ["preferred_pace", "direction_aptitude", "physical"].forEach(key => {
+    const range = document.getElementById(key);
+    const display = document.getElementById(key + "_display");
+    if (!range || !display) return;
+    display.textContent = range.value;
+    range.addEventListener("input", () => { display.textContent = range.value; });
+  });
+}
+
 function setupLangToggle() {
   const root = document.documentElement;
   const btn = document.getElementById("lang-toggle");
@@ -926,6 +939,7 @@ function setupInstallButton() {
 document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
   setupLangToggle();
+  setupBasicSliders();
   setupTabs();
   buildColorSampleStrip();
   setupLoadSource();
