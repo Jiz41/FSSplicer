@@ -334,6 +334,13 @@ summary h2 {
   padding: 0.3rem;
 }
 
+.stat-row-controls .stat-edge-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .stat-row-controls .stat-value-display {
   width: 5rem;
   text-align: center;
