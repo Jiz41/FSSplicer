@@ -682,6 +682,8 @@ function setupLoadSource() {
       if (el) el.value = sourceRowValues[col];
       const rangeEl = document.getElementById(col + "_range");
       if (rangeEl) rangeEl.value = sourceRowValues[col];
+      const displayEl = document.getElementById(col + "_display");
+      if (displayEl) displayEl.textContent = sourceRowValues[col];
     });
     if (sourceRowValues.running_style !== undefined) {
       const parts = sourceRowValues.running_style.split("/");
