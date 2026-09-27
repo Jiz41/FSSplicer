@@ -762,9 +762,9 @@ function buildXTemplateText() {
   const horseName = (nameEl && nameEl.value.trim()) || t("x_template_fallback_name");
   const url = buildShareUrl();
   if (lang === "en") {
-    return `I made ${horseName} on FSSplicer\nOpen this link to see it pre-filled in the form: ${url}\n#FSSplicer`;
+    return `I made ${horseName} on FSSplicer\nOpen this link to see it pre-filled in the form\n#FSSplicer\n${url}`;
   }
-  return `FSSplicerで${horseName}を作ってみました\nこのリンクを開くと、この馬のデータがそのまま入力済みの状態で見られます\n${url}\n#FSSplicer`;
+  return `FSSplicerで${horseName}を作ってみました\nこのリンクを開くと、この馬のデータがそのまま入力済みの状態で見られます\n#FSSplicer\n${url}`;
 }
 
 // ---- Xテンプレコピー ----
