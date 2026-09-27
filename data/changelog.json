@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-27",
+    "text": "ヘッダー右端のボタン・左端のサブタイトルが枠にギリギリ寄りすぎていた表示を調整しました",
+    "text_en": "Adjusted header spacing so buttons and subtitle no longer sit flush against the edges"
+  },
+  {
+    "date": "2026-09-27",
     "text": "古いブラウン管モニターのような、ごく軽いヴィネット・チラつき演出を追加しました",
     "text_en": "Added a subtle CRT-style vignette and flicker effect"
   },

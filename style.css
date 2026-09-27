@@ -135,13 +135,14 @@ header::after {
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+  margin-right: 0.4rem;
 }
 
 .header-sub-row .subtitle {
   color: var(--muted);
   font-size: 0.62em;
   letter-spacing: 0.06em;
-  margin: 0;
+  margin: 0 0 0 0.3rem;
 }
 
 .lang-toggle {
