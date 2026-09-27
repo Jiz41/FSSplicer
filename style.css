@@ -51,15 +51,25 @@ body::before {
   pointer-events: none;
   z-index: 9999;
   background-image: var(--scanline), var(--crt-vignette);
-  animation: crt-flicker 7s infinite;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  animation: crt-flicker 4s infinite;
 }
 
 @keyframes crt-flicker {
-  0%, 92%, 100% { opacity: 1; }
-  93% { opacity: 0.93; }
-  94% { opacity: 1; }
-  96% { opacity: 0.96; }
-  97% { opacity: 1; }
+  0%, 89%, 100% { opacity: 0; }
+  90% { opacity: 1; }
+  91% { opacity: 0; }
+  93% { opacity: 0.7; }
+  94% { opacity: 0; }
 }
 
 header {

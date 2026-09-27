@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-27",
+    "text": "チラつき演出を、画面全体が一瞬暗転するフラッシュ方式に変更しました",
+    "text_en": "Changed the flicker effect to a brief full-screen dimming flash"
+  },
+  {
+    "date": "2026-09-27",
     "text": "ヘッダー右端のボタン・左端のサブタイトルが枠にギリギリ寄りすぎていた表示を調整しました",
     "text_en": "Adjusted header spacing so buttons and subtitle no longer sit flush against the edges"
   },
