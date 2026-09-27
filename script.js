@@ -613,11 +613,11 @@ function applyLanguage(lang) {
 // ---- 基本情報の単体スライダー（得意ペース・回り適性・体格）の現在値表示 ----
 function setupBasicSliders() {
   ["preferred_pace", "direction_aptitude", "physical"].forEach(key => {
-    const range = document.getElementById(key);
-    const display = document.getElementById(key + "_display");
-    if (!range || !display) return;
-    display.textContent = range.value;
-    range.addEventListener("input", () => { display.textContent = range.value; });
+    const range = document.getElementById(key + "_range");
+    const num = document.getElementById(key);
+    if (!range || !num) return;
+    range.addEventListener("input", () => { num.value = range.value; });
+    num.addEventListener("input", () => { range.value = num.value; });
   });
 }
 

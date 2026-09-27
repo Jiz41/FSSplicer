@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-27",
+    "text": "得意ペース・回り適性・体格の数値表示を手入力できるようにし、能力値（8軸）と同じ見た目に統一しました",
+    "text_en": "Made the preferred pace, direction aptitude, and physical values directly editable, matching the look of the 8-axis stats"
+  },
+  {
+    "date": "2026-09-27",
     "text": "X共有テンプレの文言順を調整し、共有URLが末尾に来るようにしました",
     "text_en": "Reordered the X share template so the shared link now comes last"
   },
