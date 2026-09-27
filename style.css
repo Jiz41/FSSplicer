@@ -532,6 +532,20 @@ footer .fnote,
   margin: 0 auto 2px;
 }
 
+.ameri-link {
+  margin: 12px 16px 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--muted);
+  background: color-mix(in srgb, var(--muted) 10%, var(--bg) 90%);
+  backdrop-filter: blur(3px);
+  text-align: center;
+  font-size: 0.85em;
+}
+
+.ameri-link a {
+  color: var(--accent-cyan);
+}
+
 .related-tools {
   text-align: center;
   padding-top: 1rem;

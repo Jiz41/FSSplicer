@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-27",
+    "text": "谷上アメリへの案内リンクの見た目を、サイトのデザインに合わせて調整しました",
+    "text_en": "Adjusted the styling of the Ameri Tanigami link to match the site's design"
+  },
+  {
+    "date": "2026-09-27",
     "text": "FSSp専属秘書「谷上アメリ」（実在馬のステータス算出を手伝うAIアシスタント）への案内リンクを追加しました",
     "text_en": "Added a link to \"Ameri Tanigami\", FSSp's dedicated secretary AI assistant who helps calculate stats for real-world horses"
   },
