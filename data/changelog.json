@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-27",
+    "text": "古いブラウン管モニターのような、ごく軽いヴィネット・チラつき演出を追加しました",
+    "text_en": "Added a subtle CRT-style vignette and flicker effect"
+  },
+  {
+    "date": "2026-09-27",
     "text": "サイト全体のビジュアルを見直し、メリハリのある配色・階調に刷新しました",
     "text_en": "Revised the overall visual design with a more distinct, layered color scheme"
   },

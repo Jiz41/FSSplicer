@@ -24,6 +24,7 @@
   --glow-cyan: rgba(74, 216, 232, 0.3);
   --scanline: repeating-linear-gradient(to bottom, rgba(51, 255, 102, 0.022) 0px, rgba(51, 255, 102, 0.022) 2px, transparent 2px, transparent 8px);
   --scanline-strong: repeating-linear-gradient(to bottom, rgba(51, 255, 102, 0.045) 0px, rgba(51, 255, 102, 0.045) 1px, transparent 1px, transparent 3px);
+  --crt-vignette: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.32) 100%);
 }
 
 * {
@@ -49,7 +50,16 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  background-image: var(--scanline);
+  background-image: var(--scanline), var(--crt-vignette);
+  animation: crt-flicker 7s infinite;
+}
+
+@keyframes crt-flicker {
+  0%, 92%, 100% { opacity: 1; }
+  93% { opacity: 0.93; }
+  94% { opacity: 1; }
+  96% { opacity: 0.96; }
+  97% { opacity: 1; }
 }
 
 header {
