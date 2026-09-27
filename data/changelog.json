@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-27",
+    "text": "X共有機能を刷新。共有リンクを開くだけで馬データが入力済みの状態になる仕組みを追加し、1回の投稿で共有できるようになりました（解析タブは役目を終えたため廃止）",
+    "text_en": "Overhauled X sharing: opening a shared link now pre-fills the form automatically, so sharing works with a single post (the Parse tab has been retired)"
+  },
+  {
+    "date": "2026-09-27",
     "text": "チラつき演出を、画面全体が一瞬暗転するフラッシュ方式に変更しました",
     "text_en": "Changed the flicker effect to a brief full-screen dimming flash"
   },

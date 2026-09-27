@@ -82,22 +82,12 @@ const GEAR_LABELS_EN = {
 const I18N = {
   ja: {
     subtitle: "Full Stride 馬データ改変ツール",
-    tab_input: "馬データ入力",
-    tab_parse: "解析",
-    btn_share_copy: "Xシェア用にコピー",
     x_share_summary: "Xで共有する",
-    x_share_step1: "①下のテンプレをコピーしてポスト",
-    x_share_step2: "②投稿したツイートにリプライ（スレッドで繋げる）して、以下をコピペ",
+    x_share_step1: "下のテンプレをコピーしてポスト",
     btn_x_template_copy: "Xテンプレをコピー",
     x_template_fallback_name: "新しい馬",
-    share_copy_success: "|区切りでコピーしました",
-    share_copy_failed: "コピーに失敗しました",
-    share_copy_empty: "先にCSVを生成してください",
-    section_parse: "|区切りをタブ区切りに変換",
-    hint_parse: "Xで共有された|区切りの文字列を貼り付けて「解析」を押すと、スプレッドシートにそのまま貼り付けられるタブ区切りに変換します",
-    btn_parse_run: "解析",
-    parse_empty: "貼り付け内容が空です",
-    parse_success: "変換しました",
+    x_template_copy_success: "コピーしました",
+    x_template_copy_failed: "コピーに失敗しました",
     section_source: "元の馬データを読み込む",
     hint_source: "シートの行をID列から丸ごとコピーして貼り付け、読み込むボタンを押すと未編集の項目は元の馬の値のまま出力されます",
     hint_gear_tack_ingame: "馬具（頭絡・ハミ・マスク等）とたてがみは、CSV貼り付け後にゲーム内で直接編集してください",
@@ -105,6 +95,7 @@ const I18N = {
     load_source_empty: "貼り付け内容が空です",
     load_source_mismatch: "列数が一致しません（{n}列検出、75列または74列が必要）",
     load_source_success: "元データを読み込みました。編集したい項目だけ変更してください",
+    load_source_from_url_success: "共有されたデータを読み込みました",
     section_basic: "基本情報",
     section_stats: "能力値",
     section_gear: "顔・脚マーク",
@@ -152,8 +143,8 @@ const I18N = {
     howto_3: "基本情報・能力値（8軸）を好きな値に変更します。毛色は下のサンプル画像をタップしても選べます",
     howto_4: "馬具（頭絡・ハミ・マスク等）とたてがみは、ゲーム内で見ながら直接編集してください。このツールでは顔・脚マークのみ数値で指定できます（脚マークは見本画像の番号が目安です）",
     howto_5: "「CSVを生成」を押すとタブ区切りのCSVができ、スプレッドシートにそのまま貼り付けられます",
-    howto_6: "Xで共有したい場合は「Xで共有する」を開き、①テンプレをコピーして投稿→②その投稿にリプライ（スレッド）して、以下でコピーした｜区切りのCSVを貼り付けてください",
-    howto_7: "Xで共有された｜区切りの文字列を受け取ったら、「解析」タブに貼り付けて「解析」を押すとタブ区切りに戻り、そのままスプレッドシートに貼り付けられます",
+    howto_6: "Xで共有したい場合は「Xで共有する」を開き、テンプレをコピーして投稿するだけで共有できます。このリンクを開いた人は、この馬のデータがそのまま入力済みの状態でツールを開けます",
+    howto_7: "共有リンクを開くと、フォームに自動でデータが入力されます。「元の馬データを読み込む」欄は、スプレッドシートの行を貼り付けたい場合にそのまま使えます",
     btn_generate: "CSVを生成",
     btn_copy: "クリップボードにコピー",
     related_hub: "FULL STRIDE 非公式ツール集はこちら",
@@ -188,22 +179,12 @@ const I18N = {
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
-    tab_input: "Horse Data Input",
-    tab_parse: "Parse",
-    btn_share_copy: "Copy for X Sharing",
     x_share_summary: "Share on X",
-    x_share_step1: "① Copy the template below and post it",
-    x_share_step2: "② Reply to that post (as a thread) and paste the following",
+    x_share_step1: "Copy the template below and post it",
     btn_x_template_copy: "Copy X Template",
     x_template_fallback_name: "a new horse",
-    share_copy_success: "Copied with | separators",
-    share_copy_failed: "Copy failed",
-    share_copy_empty: "Generate the CSV first",
-    section_parse: "Convert | separators to tabs",
-    hint_parse: "Paste a |-separated string shared on X and press Parse to convert it into tab-separated text ready to paste into Sheets",
-    btn_parse_run: "Parse",
-    parse_empty: "Pasted content is empty",
-    parse_success: "Converted",
+    x_template_copy_success: "Copied",
+    x_template_copy_failed: "Copy failed",
     section_source: "Load Source Horse Data",
     hint_source: "Copy an entire row from the sheet (including the ID column) and paste it, then press Load. Unedited fields will be output using the original horse's values.",
     hint_gear_tack_ingame: "Please edit tack (bridle, bit, mask, etc.) and mane directly in-game after pasting the CSV.",
@@ -211,6 +192,7 @@ const I18N = {
     load_source_empty: "Pasted content is empty",
     load_source_mismatch: "Column count mismatch ({n} columns detected, expected 75 or 74)",
     load_source_success: "Source data loaded. Only change the fields you want to edit",
+    load_source_from_url_success: "Loaded the shared horse data",
     section_basic: "Basic Info",
     section_stats: "Stats",
     section_gear: "Face & Leg Marks",
@@ -258,8 +240,8 @@ const I18N = {
     howto_3: "Edit the basic info and the 8 stat values as you like. You can also tap a sample image below to pick a coat color",
     howto_4: "Please edit tack (bridle, bit, mask, etc.) and mane directly in-game while looking at them. This tool only lets you set numeric values for face/leg marks (use the leg mark sample numbers as a guide)",
     howto_5: "Press \"Generate CSV\" to get a tab-separated CSV ready to paste into Sheets",
-    howto_6: "To share on X, open \"Share on X\": ① copy the template and post it, then ② reply to that post (as a thread) and paste the |-separated CSV you copied below",
-    howto_7: "Got a |-separated string shared on X? Paste it in the \"Parse\" tab and press Parse to convert it back to tab-separated text for Sheets",
+    howto_6: "To share on X, open \"Share on X\" and just copy the template and post it. Anyone who opens the link will get the tool pre-filled with this horse's data",
+    howto_7: "Opening a shared link automatically loads the data into the form. The \"Load Source Horse Data\" section can still be used to paste a row copied from the spreadsheet",
     btn_generate: "Generate CSV",
     btn_copy: "Copy to Clipboard",
     related_hub: "See all FULL STRIDE fan tools",
@@ -661,49 +643,54 @@ function setupLangToggle() {
 // ---- 元馬データの読み込み（スキップ列を元馬の値で埋めるため） ----
 let sourceRowValues = {};
 
+function loadSourceFromText(raw, status) {
+  raw = (raw || "").trim();
+  if (!raw) {
+    if (status) status.textContent = t("load_source_empty");
+    return false;
+  }
+  const fields = raw.split("\t");
+  let cols;
+  if (fields.length === COLUMN_ORDER.length) {
+    cols = COLUMN_ORDER;
+  } else if (fields.length === COLUMN_ORDER.length - 1) {
+    cols = COLUMN_ORDER.filter(c => c !== "id");
+  } else {
+    if (status) status.textContent = t("load_source_mismatch").replace("{n}", fields.length);
+    return false;
+  }
+
+  sourceRowValues = {};
+  cols.forEach((col, i) => { sourceRowValues[col] = fields[i]; });
+
+  COLUMN_ORDER.forEach(col => {
+    if (col === "id" || col === "running_style" || sourceRowValues[col] === undefined) return;
+    const el = document.getElementById(col);
+    if (el) el.value = sourceRowValues[col];
+    const rangeEl = document.getElementById(col + "_range");
+    if (rangeEl) rangeEl.value = sourceRowValues[col];
+    const displayEl = document.getElementById(col + "_display");
+    if (displayEl) displayEl.textContent = sourceRowValues[col];
+  });
+  if (sourceRowValues.running_style !== undefined) {
+    const parts = sourceRowValues.running_style.split("/");
+    [0, 1, 2, 3].forEach(i => {
+      const el = document.getElementById("running_style_" + i);
+      if (el && parts[i] !== undefined) el.value = parts[i];
+    });
+  }
+
+  if (status) status.textContent = t("load_source_success");
+  return true;
+}
+
 function setupLoadSource() {
   const btn = document.getElementById("load-source-btn");
   const input = document.getElementById("source-input");
   const status = document.getElementById("load-source-status");
 
   btn.addEventListener("click", () => {
-    const raw = input.value.trim();
-    if (!raw) {
-      status.textContent = t("load_source_empty");
-      return;
-    }
-    const fields = raw.split("\t");
-    let cols;
-    if (fields.length === COLUMN_ORDER.length) {
-      cols = COLUMN_ORDER;
-    } else if (fields.length === COLUMN_ORDER.length - 1) {
-      cols = COLUMN_ORDER.filter(c => c !== "id");
-    } else {
-      status.textContent = t("load_source_mismatch").replace("{n}", fields.length);
-      return;
-    }
-
-    sourceRowValues = {};
-    cols.forEach((col, i) => { sourceRowValues[col] = fields[i]; });
-
-    COLUMN_ORDER.forEach(col => {
-      if (col === "id" || col === "running_style" || sourceRowValues[col] === undefined) return;
-      const el = document.getElementById(col);
-      if (el) el.value = sourceRowValues[col];
-      const rangeEl = document.getElementById(col + "_range");
-      if (rangeEl) rangeEl.value = sourceRowValues[col];
-      const displayEl = document.getElementById(col + "_display");
-      if (displayEl) displayEl.textContent = sourceRowValues[col];
-    });
-    if (sourceRowValues.running_style !== undefined) {
-      const parts = sourceRowValues.running_style.split("/");
-      [0, 1, 2, 3].forEach(i => {
-        const el = document.getElementById("running_style_" + i);
-        if (el && parts[i] !== undefined) el.value = parts[i];
-      });
-    }
-
-    status.textContent = t("load_source_success");
+    loadSourceFromText(input.value, status);
   });
 }
 
@@ -762,24 +749,10 @@ function setupCopy() {
   });
 }
 
-// ---- Xシェア用コピー(タブを|に置換) ----
-function setupShareCopy() {
-  const btn = document.getElementById("share-copy-btn");
-  const output = document.getElementById("csv-output");
-  const status = document.getElementById("copy-status");
-
-  btn.addEventListener("click", async () => {
-    if (!output.value) {
-      status.textContent = t("share_copy_empty");
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(output.value.split("\t").join("|"));
-      status.textContent = t("share_copy_success");
-    } catch (e) {
-      status.textContent = t("share_copy_failed");
-    }
-  });
+// ---- 共有URLの生成（現在のフォーム内容を|区切りCSVにしてクエリパラメータへ埋め込む） ----
+function buildShareUrl() {
+  const encoded = encodeURIComponent(generateCsvRow().split("\t").join("|"));
+  return "https://fssplicer.pages.dev/?data=" + encoded;
 }
 
 // ---- Xテンプレプレビューの更新 ----
@@ -787,11 +760,11 @@ function buildXTemplateText() {
   const lang = currentLang();
   const nameEl = document.getElementById(lang === "en" ? "name_en" : "name_jp");
   const horseName = (nameEl && nameEl.value.trim()) || t("x_template_fallback_name");
-  const url = "https://fssplicer.pages.dev/";
+  const url = buildShareUrl();
   if (lang === "en") {
-    return `I made ${horseName} on FSSplicer\nConvert it to CSV at ${url}\n#FSSplicer`;
+    return `I made ${horseName} on FSSplicer\nOpen this link to see it pre-filled in the form: ${url}\n#FSSplicer`;
   }
-  return `FSSplicerで${horseName}を作ってみました\n${url}でCSVに変換出来ます\n#FSSplicer`;
+  return `FSSplicerで${horseName}を作ってみました\nこのリンクを開くと、この馬のデータがそのまま入力済みの状態で見られます\n${url}\n#FSSplicer`;
 }
 
 // ---- Xテンプレコピー ----
@@ -811,74 +784,10 @@ function setupXTemplateCopy() {
     preview.value = buildXTemplateText();
     try {
       await navigator.clipboard.writeText(preview.value);
-      status.textContent = t("share_copy_success");
+      status.textContent = t("x_template_copy_success");
     } catch (e) {
-      status.textContent = t("share_copy_failed");
+      status.textContent = t("x_template_copy_failed");
     }
-  });
-}
-
-// ---- アコーディオン内のXシェア用コピー(既存ロジックを新ボタンに再配線) ----
-function setupXShareCopyInner() {
-  const btn = document.getElementById("x-share-copy-btn-inner");
-  const output = document.getElementById("csv-output");
-  const status = document.getElementById("x-share-copy-status");
-
-  btn.addEventListener("click", async () => {
-    if (!output.value) {
-      status.textContent = t("share_copy_empty");
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(output.value.split("\t").join("|"));
-      status.textContent = t("share_copy_success");
-    } catch (e) {
-      status.textContent = t("share_copy_failed");
-    }
-  });
-}
-
-// ---- 解析パネル(|区切り→タブ区切り変換) ----
-function setupParsePanel() {
-  const input = document.getElementById("parse-input");
-  const btn = document.getElementById("parse-btn");
-  const output = document.getElementById("parse-output");
-  const status = document.getElementById("parse-status");
-  const copyBtn = document.getElementById("parse-copy-btn");
-
-  btn.addEventListener("click", () => {
-    const raw = input.value.trim();
-    if (!raw) {
-      status.textContent = t("parse_empty");
-      return;
-    }
-    output.value = raw.split("|").join("\t");
-    status.textContent = t("parse_success");
-  });
-
-  copyBtn.addEventListener("click", async () => {
-    if (!output.value) return;
-    try {
-      await navigator.clipboard.writeText(output.value);
-      status.textContent = t("copy_success");
-    } catch (e) {
-      status.textContent = t("copy_failed");
-    }
-  });
-}
-
-// ---- タブ切り替え ----
-function switchTab(tab) {
-  const isParse = tab === "parse";
-  document.getElementById("input-panel").style.display = isParse ? "none" : "";
-  document.getElementById("parse-panel").style.display = isParse ? "" : "none";
-  document.getElementById("tab-btn-input").classList.toggle("active", !isParse);
-  document.getElementById("tab-btn-parse").classList.toggle("active", isParse);
-}
-
-function setupTabs() {
-  document.querySelectorAll("#tab-bar .tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
   });
 }
 
@@ -952,17 +861,22 @@ document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
   setupLangToggle();
   setupBasicSliders();
-  setupTabs();
   buildColorSampleStrip();
   setupLoadSource();
   setupGenerate();
   setupCopy();
-  setupShareCopy();
   setupXTemplateCopy();
-  setupXShareCopyInner();
-  setupParsePanel();
   setupInstallButton();
   loadChangelog();
+
+  const params = new URLSearchParams(location.search);
+  const sharedData = params.get("data");
+  if (sharedData) {
+    const status = document.getElementById("load-source-status");
+    const raw = sharedData.split("|").join("\t");
+    const loaded = loadSourceFromText(raw, status);
+    if (loaded && status) status.textContent = t("load_source_from_url_success");
+  }
 });
 
 // ---- 更新履歴 ----
