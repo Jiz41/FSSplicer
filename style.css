@@ -1423,11 +1423,18 @@ footer .fnote.footer-credit {
 
 .gallery-detail-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: space-between;
+  gap: 0.75rem;
   margin-bottom: 1rem;
-  text-align: center;
+}
+
+.gallery-detail-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
 }
 
 .gallery-detail-name {
@@ -1662,22 +1669,18 @@ footer .fnote.footer-credit {
   color: var(--ink);
 }
 
-.gallery-detail-like-section {
-  display: flex;
-  justify-content: center;
-}
-
 .gallery-like-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.4rem;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  padding: 0.4rem 0.9rem;
   border-radius: 999px;
   border: 1px solid var(--accent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   color: var(--ink);
   font-family: "IBM Plex Mono", monospace;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 
@@ -1695,6 +1698,19 @@ footer .fnote.footer-credit {
 
 .gallery-like-icon {
   font-size: 1.2rem;
+}
+
+.gallery-like-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+.gallery-like-caption {
+  font-size: 0.65rem;
+  color: var(--muted);
 }
 
 .gallery-detail-delete {
