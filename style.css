@@ -256,7 +256,7 @@ header::after {
   color: var(--muted);
   font-size: 0.62em;
   letter-spacing: 0.06em;
-  margin: 0 0 0 0.3rem;
+  margin: 0 0 0 10.6rem;
 }
 
 .lang-toggle {
