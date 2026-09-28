@@ -78,6 +78,11 @@ header {
   gap: 0.3rem;
   position: relative;
   z-index: 1000;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: calc((100vw - min(100vw, 760px)) / 2 + 1.1rem);
+  padding-right: calc((100vw - min(100vw, 760px)) / 2 + 1.1rem);
   border-top: 3px solid var(--accent);
   border-bottom: 1px solid var(--line-strong);
   padding-top: 0.9rem;
