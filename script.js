@@ -175,7 +175,11 @@ const I18N = {
     disclaimer_liability_body: "本サイトのご利用、または本サイトに掲載された情報の利用によって生じたいかなる損害についても、運営者は責任を負いかねます。また、本サイトはメンテナンス・技術的な事情等により、予告なく内容の変更、機能の停止、サービスの終了を行う場合があります。本免責事項の内容は、必要に応じて予告なく変更されることがあります。",
     disclaimer_contact_title: "お問い合わせ",
     disclaimer_contact_body: "掲載内容についてのご指摘、誤りのご報告、修正・削除のご依頼等は、フッター記載のXアカウントまでご連絡ください。",
-    disclaimer_dates: "制定日：2026年9月24日"
+    disclaimer_dates: "制定日：2026年9月24日",
+    menu_header: "MENU",
+    menu_home: "馬データ入力（ホーム）",
+    menu_gallery: "名馬ギャラリー",
+    menu_aria: "メニュー"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -272,7 +276,11 @@ const I18N = {
     disclaimer_liability_body: "The operator is not liable for any damages arising from your use of this site or the information presented on it. This site may be modified, have features suspended, or be discontinued without notice due to maintenance or other circumstances. The contents of this disclaimer may also be changed without notice as needed.",
     disclaimer_contact_title: "Contact",
     disclaimer_contact_body: "For corrections, error reports, or requests to remove content, please contact us via the X account listed in the footer.",
-    disclaimer_dates: "Established: September 24, 2026"
+    disclaimer_dates: "Established: September 24, 2026",
+    menu_header: "MENU",
+    menu_home: "Horse Data Entry (Home)",
+    menu_gallery: "Legendary Horse Gallery",
+    menu_aria: "Menu"
   }
 };
 
@@ -608,6 +616,8 @@ function applyLanguage(lang) {
   buildStatGrid();
   buildGearGrid();
   renderChangelog();
+  const menuToggle = document.getElementById("menu-toggle");
+  if (menuToggle) menuToggle.setAttribute("aria-label", t("menu_aria"));
 }
 
 // ---- 基本情報の単体スライダー（得意ペース・回り適性・体格）の現在値表示 ----
@@ -619,6 +629,33 @@ function setupBasicSliders() {
     range.addEventListener("input", () => { num.value = range.value; });
     num.addEventListener("input", () => { range.value = num.value; });
   });
+}
+
+function setupHamburgerMenu() {
+  const toggle = document.getElementById("menu-toggle");
+  const overlay = document.getElementById("menu-overlay");
+  const drawer = document.getElementById("menu-drawer");
+  if (!toggle || !overlay || !drawer) return;
+
+  function openMenu() {
+    overlay.classList.add("open");
+    drawer.classList.add("open");
+    toggle.classList.add("open");
+  }
+  function closeMenu() {
+    overlay.classList.remove("open");
+    drawer.classList.remove("open");
+    toggle.classList.remove("open");
+  }
+
+  toggle.addEventListener("click", () => {
+    if (drawer.classList.contains("open")) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+  overlay.addEventListener("click", closeMenu);
 }
 
 function setupLangToggle() {
@@ -859,6 +896,7 @@ function setupInstallButton() {
 // ---- 初期化 ----
 document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
+  setupHamburgerMenu();
   setupLangToggle();
   setupBasicSliders();
   buildColorSampleStrip();

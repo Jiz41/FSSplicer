@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-09-28",
+    "text": "ハンバーガーメニューを新設しました。今後追加予定の「名馬ギャラリー」への入口になります",
+    "text_en": "Added a hamburger menu, which will serve as the entry point for the upcoming \"Legendary Horse Gallery\" feature"
+  },
+  {
     "date": "2026-09-27",
     "text": "得意ペース・回り適性・体格の数値表示を手入力できるようにし、能力値（8軸）と同じ見た目に統一しました",
     "text_en": "Made the preferred pace, direction aptitude, and physical values directly editable, matching the look of the 8-axis stats"
