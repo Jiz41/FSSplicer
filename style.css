@@ -252,6 +252,15 @@ header::after {
   color: var(--accent);
 }
 
+.menu-drawer nav .menu-disabled {
+  display: block;
+  padding: 16px 24px;
+  color: var(--line-strong);
+  font-size: 1rem;
+  cursor: default;
+  pointer-events: none;
+}
+
 .header-sub-row .subtitle {
   color: var(--muted);
   font-size: 0.62em;
