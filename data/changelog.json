@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-28",
+    "text": "「名馬ギャラリー」を「アーカイヴ」に改名しました",
+    "text_en": "Renamed \"Legendary Horse Gallery\" to \"Archive\""
+  },
+  {
+    "date": "2026-09-28",
     "text": "「名馬ギャラリー」を新設しました（試験公開）。メニューから飛べます",
     "text_en": "Added the \"Legendary Horse Gallery\" (beta). Accessible from the menu"
   },

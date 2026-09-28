@@ -1,4 +1,4 @@
-// FSSplicer: 名馬ギャラリー一覧描画
+// FSSplicer: アーカイヴ一覧描画
 "use strict";
 
 const HORSE_COLOR_HEX = {
