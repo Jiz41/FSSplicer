@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-28",
+    "text": "Xなどでシェアした際のタイトル・説明文が馬名に対応するようにしました。台座の見た目も本来の丸いデザインに修正しました",
+    "text_en": "The title and description shown when sharing on X etc. now reflect the horse's name. Also restored the intended round pedestal look"
+  },
+  {
+    "date": "2026-09-28",
     "text": "アーカイヴの一覧に何も表示されない不具合を修正し、「新着」「Goodランキング TOP10」の2段構成にしました",
     "text_en": "Fixed the Archive listing showing nothing, and split it into \"New\" and \"Good Ranking TOP10\" sections"
   },

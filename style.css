@@ -1337,13 +1337,22 @@ footer .fnote.footer-credit {
 
 .gallery-silhouette-backdrop {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, rgba(51, 255, 102, 0.1), transparent 70%);
+  top: 50%;
+  left: 50%;
+  width: 82%;
+  height: 82%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #3d4d40;
 }
 
 .gallery-silhouette-layer {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 70%;
+  transform: translate(-50%, -50%);
   -webkit-mask-image: var(--silhouette-img);
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
