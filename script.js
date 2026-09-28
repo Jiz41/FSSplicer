@@ -910,6 +910,7 @@ function setupInstallButton() {
   }
 
   const btn = document.getElementById("install-btn");
+  if (!btn) return;
   btn.addEventListener("click", async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -921,10 +922,14 @@ function setupInstallButton() {
     }
   });
 
-  document.getElementById("install-modal-close").addEventListener("click", hideInstallModal);
-  document.getElementById("install-modal").addEventListener("click", (e) => {
-    if (e.target.id === "install-modal") hideInstallModal();
-  });
+  const modalClose = document.getElementById("install-modal-close");
+  const modal = document.getElementById("install-modal");
+  if (modalClose) modalClose.addEventListener("click", hideInstallModal);
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target.id === "install-modal") hideInstallModal();
+    });
+  }
 }
 
 // ---- 初期化 ----
@@ -948,6 +953,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const raw = sharedData.split("|").join("\t");
     const loaded = loadSourceFromText(raw, status);
     if (loaded && status) status.textContent = t("load_source_from_url_success");
+  }
+
+  const hashTarget = document.getElementById(location.hash.slice(1));
+  if (hashTarget && hashTarget.tagName === "DETAILS") {
+    hashTarget.open = true;
+    setTimeout(() => hashTarget.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
   }
 });
 
