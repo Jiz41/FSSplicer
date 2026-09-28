@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-28",
+    "text": "「名馬ギャラリー」を新設しました（試験公開）。メニューから飛べます",
+    "text_en": "Added the \"Legendary Horse Gallery\" (beta). Accessible from the menu"
+  },
+  {
+    "date": "2026-09-28",
     "text": "メニューに「使い方」「利用規約」「更新履歴」「リンク」を追加し、タップで該当箇所にジャンプできるようにしました",
     "text_en": "Added \"How to Use\", \"Terms\", \"Changelog\", and \"Links\" to the menu, which jump straight to each section"
   },

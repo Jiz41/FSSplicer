@@ -181,6 +181,8 @@ const I18N = {
     menu_home: "馬データ入力（ホーム）",
     menu_howto: "使い方",
     menu_gallery: "名馬ギャラリー",
+    gallery_title: "名馬ギャラリー",
+    gallery_empty: "まだ登録された馬がいません",
     menu_disclaimer: "利用規約",
     menu_changelog: "更新履歴",
     menu_links: "リンク",
@@ -287,6 +289,8 @@ const I18N = {
     menu_home: "Horse Data Entry (Home)",
     menu_howto: "How to Use",
     menu_gallery: "Legendary Horse Gallery",
+    gallery_title: "Legendary Horse Gallery",
+    gallery_empty: "No horses have been registered yet",
     menu_disclaimer: "Terms & Disclaimer",
     menu_changelog: "Changelog",
     menu_links: "Links",
@@ -383,6 +387,7 @@ function statAxisLabel(axis) {
 // ---- 能力値スライダーの構築 ----
 function buildStatGrid() {
   const grid = document.getElementById("stat-grid");
+  if (!grid) return;
   grid.innerHTML = "";
   STAT_AXES.forEach(axis => {
     const row = document.createElement("div");
@@ -425,6 +430,7 @@ function buildStatGrid() {
 // ---- 馬具グリッドの構築 ----
 function buildGearGrid() {
   const grid = document.getElementById("gear-grid");
+  if (!grid) return;
   grid.innerHTML = "";
   GEAR_COLUMNS.forEach(key => {
     const field = document.createElement("div");
@@ -749,6 +755,7 @@ function setupLoadSource() {
   const btn = document.getElementById("load-source-btn");
   const input = document.getElementById("source-input");
   const status = document.getElementById("load-source-status");
+  if (!btn || !input) return;
 
   btn.addEventListener("click", () => {
     loadSourceFromText(input.value, status);
@@ -776,6 +783,7 @@ function generateCsvRow() {
 function setupGenerate() {
   const btn = document.getElementById("generate-btn");
   const output = document.getElementById("csv-output");
+  if (!btn || !output) return;
 
   btn.addEventListener("click", () => {
     const nameJp = document.getElementById("name_jp").value.trim();
@@ -796,6 +804,7 @@ function setupCopy() {
   const btn = document.getElementById("copy-btn");
   const output = document.getElementById("csv-output");
   const status = document.getElementById("copy-status");
+  if (!btn || !output) return;
 
   btn.addEventListener("click", async () => {
     if (!output.value) return;
@@ -834,6 +843,7 @@ function setupXTemplateCopy() {
   const preview = document.getElementById("x-template-preview");
   const status = document.getElementById("x-template-copy-status");
   const details = document.getElementById("x-share-guide");
+  if (!btn || !details) return;
 
   details.addEventListener("toggle", () => {
     if (details.open) {
