@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-version" content="2.6.0">
+<meta name="app-version" content="2.7.0">
 <title>FSSplicer</title>
 <meta property="og:title" content="FSSplicer｜Full Stride馬データ改変ツール">
 <meta property="og:description" content="スプレッドシートと睨めっこせず、自分好みの馬データを作れるツールです">
@@ -23,14 +23,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2.6.0">
+<link rel="stylesheet" href="style.css?v=2.7.0">
 </head>
 <body>
 <header>
   <div class="header-top">
     <div class="header-left">
       <button class="menu-btn" id="menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
-      <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v2.6.0</span></h1>
+      <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v2.7.0</span></h1>
     </div>
     <div class="header-buttons">
       <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
@@ -45,11 +45,15 @@
   <div class="menu-drawer-header" data-i18n="menu_header">MENU</div>
   <nav>
     <a href="index.html" data-i18n="menu_home">馬データ入力（ホーム）</a>
+    <a href="#howto-details" data-target="howto-details" data-i18n="menu_howto">使い方</a>
     <a href="gallery.html" data-i18n="menu_gallery">名馬ギャラリー</a>
+    <a href="#disclaimer-details" data-target="disclaimer-details" data-i18n="menu_disclaimer">利用規約</a>
+    <a href="#changelog-details" data-target="changelog-details" data-i18n="menu_changelog">更新履歴</a>
+    <a href="https://jiz41.github.io/FSSuite/" target="_blank" rel="noopener" data-i18n="menu_links">リンク</a>
   </nav>
 </div>
 
-<details class="usage-details">
+<details class="usage-details" id="howto-details">
   <summary><span data-i18n="howto_summary">使い方</span><span class="accordion-hint" data-i18n="accordion_hint">（タップで開閉）</span></summary>
   <ol>
     <li data-i18n="howto_1">改変したい馬を、配布されているスプレッドシートで探し、その行をコピーします（行全体を選択してコピー）</li>
@@ -258,19 +262,15 @@
   </div>
 </div>
 
-<details class="usage-details">
+<details class="usage-details" id="changelog-details">
   <summary><span data-i18n="changelog_summary">更新履歴</span><span class="accordion-hint" data-i18n="accordion_hint">（タップで開閉）</span></summary>
   <ol id="changelog-list"></ol>
 </details>
 
-<div class="related-tools">
-  <p class="fnote"><a href="https://jiz41.github.io/FSSuite/" target="_blank" rel="noopener" data-i18n="related_hub">FULL STRIDE 非公式ツール集はこちら</a></p>
-</div>
-
 <footer>
   <p class="fnote" data-i18n="footer_unofficial">本ツールはファンによる非公式データ改変ツールです。</p>
   <p class="fnote"><span data-i18n="footer_trademark_pre">『FULL STRIDE』の名称は、</span><a href="https://x.com/BlueBullet_Inc" target="_blank" rel="noopener">BLUE BULLET</a><span data-i18n="footer_trademark_post">の商標または登録商標です。</span></p>
-  <details class="footer-disclaimer">
+  <details class="footer-disclaimer" id="disclaimer-details">
     <summary data-i18n="footer_disclaimer_summary">利用規約・免責事項</summary>
     <div class="disclaimer-body">
       <section class="disclaimer-section">
@@ -300,6 +300,6 @@
   <div class="visit-counter"><img src="https://visitor-badge.laobi.icu/badge?page_id=jiz41.FSSplicer" alt="visit counter"></div>
 </footer>
 
-<script src="script.js?v=2.6.0"></script>
+<script src="script.js?v=2.7.0"></script>
 </body>
 </html>

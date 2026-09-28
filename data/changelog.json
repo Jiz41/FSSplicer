@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-28",
+    "text": "メニューに「使い方」「利用規約」「更新履歴」「リンク」を追加し、タップで該当箇所にジャンプできるようにしました",
+    "text_en": "Added \"How to Use\", \"Terms\", \"Changelog\", and \"Links\" to the menu, which jump straight to each section"
+  },
+  {
+    "date": "2026-09-28",
     "text": "メニューの開き方を、画面全体を覆うガラス質のフルスクリーン表示に変更しました",
     "text_en": "Changed how the menu opens to a full-screen glass-like overlay"
   },

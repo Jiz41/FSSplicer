@@ -179,7 +179,11 @@ const I18N = {
     disclaimer_dates: "制定日：2026年9月24日",
     menu_header: "MENU",
     menu_home: "馬データ入力（ホーム）",
+    menu_howto: "使い方",
     menu_gallery: "名馬ギャラリー",
+    menu_disclaimer: "利用規約",
+    menu_changelog: "更新履歴",
+    menu_links: "リンク",
     menu_aria: "メニュー"
   },
   en: {
@@ -281,7 +285,11 @@ const I18N = {
     disclaimer_dates: "Established: September 24, 2026",
     menu_header: "MENU",
     menu_home: "Horse Data Entry (Home)",
+    menu_howto: "How to Use",
     menu_gallery: "Legendary Horse Gallery",
+    menu_disclaimer: "Terms & Disclaimer",
+    menu_changelog: "Changelog",
+    menu_links: "Links",
     menu_aria: "Menu"
   }
 };
@@ -656,6 +664,21 @@ function setupHamburgerMenu() {
   });
   drawer.addEventListener("click", (e) => {
     if (e.target === drawer) closeMenu();
+  });
+
+  drawer.querySelectorAll("nav a[data-target]").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute("data-target");
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) targetEl.open = true;
+      closeMenu();
+      setTimeout(() => {
+        if (targetEl && typeof targetEl.scrollIntoView === "function") {
+          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 400);
+    });
   });
 }
 
