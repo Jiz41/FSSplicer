@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-28",
+    "text": "アーカイヴの一覧に何も表示されない不具合を修正し、「新着」「Goodランキング TOP10」の2段構成にしました",
+    "text_en": "Fixed the Archive listing showing nothing, and split it into \"New\" and \"Good Ranking TOP10\" sections"
+  },
+  {
+    "date": "2026-09-28",
     "text": "アーカイヴに詳細ページを追加しました。能力レーダーチャート・いいね機能・削除機能が使えます",
     "text_en": "Added a detail page to the Archive, with an ability radar chart, likes, and a delete option"
   },

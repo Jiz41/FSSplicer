@@ -1727,3 +1727,18 @@ footer .fnote.footer-credit {
   font-size: 0.82rem;
   margin: 0;
 }
+
+.gallery-section-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(1.05em, 3vw, 1.3em);
+  font-weight: 700;
+  color: var(--ink);
+  text-shadow: 0 0 12px rgba(51, 255, 102, 0.2);
+  margin: 1.6rem 0 1rem;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 0.5rem;
+}
+
+.gallery-section-title:first-of-type {
+  margin-top: 0;
+}

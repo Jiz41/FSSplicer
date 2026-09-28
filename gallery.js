@@ -69,31 +69,40 @@ function buildGalleryCard(horse) {
   return card;
 }
 
-function renderGallery(horses) {
-  const grid = document.getElementById("gallery-grid");
-  const empty = document.getElementById("gallery-empty");
+function fillGrid(gridId, horses) {
+  const grid = document.getElementById(gridId);
   if (!grid) return;
-
   grid.innerHTML = "";
+  (horses || []).forEach((horse) => {
+    grid.appendChild(buildGalleryCard(horse));
+  });
+}
 
-  if (!horses || horses.length === 0) {
+function renderGallery(data) {
+  const empty = document.getElementById("gallery-empty");
+  const sections = document.getElementById("gallery-sections");
+  const newHorses = (data && data.new) || [];
+  const rankingHorses = (data && data.ranking) || [];
+
+  if (newHorses.length === 0 && rankingHorses.length === 0) {
     if (empty) empty.hidden = false;
+    if (sections) sections.hidden = true;
     return;
   }
 
   if (empty) empty.hidden = true;
-  horses.forEach((horse) => {
-    grid.appendChild(buildGalleryCard(horse));
-  });
+  if (sections) sections.hidden = false;
+  fillGrid("gallery-grid-new", newHorses);
+  fillGrid("gallery-grid-ranking", rankingHorses);
 }
 
 async function loadGallery() {
   try {
     const res = await fetch("/api/horses");
     const data = await res.json();
-    renderGallery(data.horses || []);
+    renderGallery(data);
   } catch (err) {
-    renderGallery([]);
+    renderGallery(null);
   }
 }
 
