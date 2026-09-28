@@ -1,3 +1,8 @@
 name = "fssplicer"
 compatibility_date = "2026-08-06"
 pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "fssplicer"
+database_id = "b99eeaac-5673-4893-b514-4fe7acff4091"
