@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-28",
+    "text": "詳細ページに系譜コーナーを追加しました。改変元・改変された馬を辿れます",
+    "text_en": "Added a lineage section to the detail page, so you can trace the original and derived horses"
+  },
+  {
+    "date": "2026-09-28",
     "text": "詳細ページのいいねボタンを馬名の横に移動し、「評価する」の説明を添えました",
     "text_en": "Moved the like button next to the horse's name on the detail page, with an \"Evaluate\" caption"
   },

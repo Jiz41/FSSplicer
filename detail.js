@@ -140,6 +140,50 @@ function markHorseLiked(horseId) {
 }
 
 // ---- 描画 ----
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function lineageNodeHTML(entry, isSelf) {
+  const label = escapeHtml(entry.name_jp) + "（by " + escapeHtml(entry.creator_name) + "）";
+  if (isSelf) {
+    return '<div class="gallery-detail-lineage-node is-self">' + label + "</div>";
+  }
+  return '<a class="gallery-detail-lineage-node" href="detail.html?id=' +
+    encodeURIComponent(entry.id) + '">' + label + "</a>";
+}
+
+function renderLineage(horse) {
+  const container = document.getElementById("detail-lineage-body");
+  const parent = horse.parent || null;
+  const children = Array.isArray(horse.children) ? horse.children : [];
+
+  if (!parent && children.length === 0) {
+    container.innerHTML = '<div class="gallery-detail-lineage-empty">この馬を元にした改変はまだありません</div>';
+    return;
+  }
+
+  let html = '<div class="gallery-detail-lineage-tree">';
+  if (parent) {
+    html += lineageNodeHTML(parent, false);
+    html += '<div class="gallery-detail-lineage-arrow">&darr; 改変</div>';
+  }
+  html += lineageNodeHTML({ id: horse.id, name_jp: horse.name_jp, creator_name: horse.creator_name }, true);
+  if (children.length) {
+    html += '<div class="gallery-detail-lineage-arrow">&darr; 改変</div>';
+    children.forEach((c) => {
+      html += lineageNodeHTML(c, false);
+    });
+  }
+  html += "</div>";
+  container.innerHTML = html;
+}
+
 function renderRunningStyle(runningStyleRaw) {
   const container = document.getElementById("detail-running-style");
   container.innerHTML = "";
@@ -180,6 +224,8 @@ function renderHorse(horse) {
     (horse.optimal_distance !== null ? horse.optimal_distance : "-") + "m）";
 
   renderRunningStyle(horse.running_style);
+
+  renderLineage(horse);
 
   document.getElementById("detail-slider-physical").innerHTML =
     sliderRowHTML("フィジカル", horse.physical !== null ? horse.physical : 0, 0, 1, "小", "大");

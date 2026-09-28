@@ -1776,3 +1776,61 @@ footer .fnote.footer-credit {
 .gallery-section-title:first-of-type {
   margin-top: 0;
 }
+
+.gallery-detail-lineage {
+  margin-top: 1rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+}
+
+.gallery-detail-lineage summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.gallery-detail-lineage-body {
+  margin-top: 0.7rem;
+}
+
+.gallery-detail-lineage-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.gallery-detail-lineage-node {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  color: var(--ink-dim);
+  background: var(--surface-2);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.gallery-detail-lineage-node:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.gallery-detail-lineage-node.is-self {
+  color: var(--accent);
+  border-color: var(--accent);
+  cursor: default;
+}
+
+.gallery-detail-lineage-arrow {
+  color: var(--muted);
+  padding-left: 14px;
+  font-size: 0.82rem;
+}
+
+.gallery-detail-lineage-empty {
+  color: var(--muted);
+  font-size: 0.85rem;
+}

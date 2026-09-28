@@ -69,6 +69,16 @@ export async function onRequestGet(context) {
       }
     });
 
+    const [parentRow, childrenResult] = await Promise.all([
+      row.parent_id
+        ? env.DB.prepare("SELECT id, name_jp, creator_name FROM horses WHERE id = ?").bind(row.parent_id).first()
+        : Promise.resolve(null),
+      env.DB.prepare("SELECT id, name_jp, creator_name FROM horses WHERE parent_id = ? ORDER BY created_at ASC").bind(params.id).all(),
+    ]);
+
+    horse.parent = parentRow || null;
+    horse.children = (childrenResult && childrenResult.results) || [];
+
     return new Response(JSON.stringify(horse), {
       headers: { "content-type": "application/json; charset=utf-8" },
     });
