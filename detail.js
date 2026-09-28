@@ -162,6 +162,7 @@ function renderRunningStyle(runningStyleRaw) {
 }
 
 function renderHorse(horse) {
+  document.title = horse.name_jp + " | FSSplicer";
   document.getElementById("detail-name").textContent = horse.name_jp;
   document.getElementById("detail-creator").textContent = "by " + horse.creator_name;
 
