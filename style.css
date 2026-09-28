@@ -1382,3 +1382,348 @@ footer .fnote.footer-credit {
   border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
   color: var(--accent-soft);
 }
+
+/* ---- 馬詳細ページ (detail.html) ---- */
+
+.gallery-detail-back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--accent-soft);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.gallery-detail-back:hover {
+  color: var(--accent);
+}
+
+.gallery-detail-message {
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem 0;
+}
+
+.gallery-detail-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.gallery-detail-name {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-shadow: 0 0 10px rgba(51, 255, 102, 0.18);
+}
+
+.gallery-detail-creator {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.gallery-detail-section {
+  position: relative;
+  margin-bottom: 1.2rem;
+  padding: 0.9rem 0.9rem 1rem;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--panel) 100%);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.gallery-detail-section::before,
+.gallery-detail-section::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  border-color: var(--accent);
+  opacity: 0.75;
+}
+
+.gallery-detail-section::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+}
+
+.gallery-detail-section::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+}
+
+.gallery-detail-section h2 {
+  margin: 0 0 0.7rem;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.gallery-detail-silhouette-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.gallery-detail-silhouette-wrap {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.gallery-detail-rating-big {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.gallery-detail-rating-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.gallery-detail-rating-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.gallery-detail-rating-value {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent-soft);
+}
+
+.gallery-detail-radar-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.detail-radar {
+  width: 210px;
+  height: 210px;
+}
+
+.detail-radar .radar-label {
+  font-size: 9px;
+}
+
+.radar-base {
+  fill: var(--surface-2);
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+
+.radar-ring {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 0.8;
+  opacity: 0.55;
+}
+
+.radar-spoke {
+  stroke: var(--muted);
+  stroke-width: 0.8;
+  opacity: 0.4;
+}
+
+.radar-value {
+  fill: var(--accent);
+  fill-opacity: 0.35;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.radar-label {
+  fill: var(--ink-dim);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.gallery-detail-stat-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.gallery-detail-stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.gallery-detail-stat-label {
+  font-size: 0.8rem;
+  color: var(--ink-dim);
+  font-weight: 700;
+}
+
+.gallery-detail-stat-sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.gallery-detail-running-style-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.gallery-detail-rs-chip {
+  font-size: 0.78rem;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+}
+
+.gallery-detail-rs-chip.is-main {
+  border-color: var(--accent);
+  color: var(--accent-soft);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.gallery-detail-slider-track {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+
+.gallery-detail-slider-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--accent-soft);
+  opacity: 0.5;
+  border-radius: 999px;
+}
+
+.gallery-detail-slider-dot {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 6px var(--glow-green);
+}
+
+.gallery-detail-age-row {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.gallery-detail-age-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.gallery-detail-age-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.gallery-detail-age-value {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.gallery-detail-like-section {
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-like-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.gallery-like-btn:hover:not(:disabled) {
+  box-shadow: 0 0 16px -4px var(--glow-green);
+}
+
+.gallery-like-btn:disabled,
+.gallery-like-btn.is-liked {
+  opacity: 0.6;
+  cursor: default;
+  border-color: var(--line-strong);
+  background: transparent;
+}
+
+.gallery-like-icon {
+  font-size: 1.2rem;
+}
+
+.gallery-detail-delete {
+  margin-top: 1rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+}
+
+.gallery-detail-delete summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.gallery-detail-delete-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+
+.gallery-detail-delete-body input {
+  padding: 0.5rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+.gallery-delete-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid #e85a5a;
+  background: transparent;
+  color: #e85a5a;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.gallery-delete-btn:hover {
+  background: rgba(232, 90, 90, 0.1);
+}
+
+.gallery-detail-delete-error {
+  color: #e85a5a;
+  font-size: 0.82rem;
+  margin: 0;
+}

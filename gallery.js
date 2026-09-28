@@ -62,6 +62,10 @@ function buildGalleryCard(horse) {
   }
   card.appendChild(ratings);
 
+  card.addEventListener("click", () => {
+    location.href = "detail.html?id=" + encodeURIComponent(horse.id);
+  });
+
   return card;
 }
 

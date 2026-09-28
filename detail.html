@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="app-version" content="2.10.0">
+<title>馬詳細 | FSSplicer</title>
+<meta property="og:title" content="馬詳細 | FSSplicer">
+<meta property="og:description" content="みんなが作った馬データの詳細を見られます">
+<meta property="og:image" content="https://fssplicer.pages.dev/images/fssp_ogp.jpg">
+<meta property="og:url" content="https://fssplicer.pages.dev/detail.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="馬詳細 | FSSplicer">
+<meta name="twitter:description" content="みんなが作った馬データの詳細を見られます">
+<meta name="twitter:image" content="https://fssplicer.pages.dev/images/fssp_ogp.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=2.10.0">
+</head>
+<body>
+<header>
+  <div class="header-top">
+    <div class="header-left">
+      <button class="menu-btn" id="menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
+      <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v2.10.0</span></h1>
+    </div>
+    <div class="header-buttons">
+      <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
+      <button class="install-toggle" id="install-btn" aria-label="インストール" style="display:none;">📲</button>
+    </div>
+  </div>
+  <div class="header-sub-row">
+    <p class="subtitle" data-i18n="subtitle">Full Stride 馬データエディット補助ツール</p>
+  </div>
+</header>
+<div class="menu-drawer" id="menu-drawer">
+  <div class="menu-drawer-header" data-i18n="menu_header">MENU</div>
+  <nav>
+    <a href="index.html" data-i18n="menu_home">馬データ入力（ホーム）</a>
+    <a href="index.html#howto-details" data-i18n="menu_howto">使い方</a>
+    <a href="gallery.html" data-i18n="menu_gallery">アーカイヴ</a>
+    <a href="index.html#disclaimer-details" data-i18n="menu_disclaimer">利用規約</a>
+    <a href="index.html#changelog-details" data-i18n="menu_changelog">更新履歴</a>
+    <a href="https://jiz41.github.io/FSSuite/" target="_blank" rel="noopener" data-i18n="menu_links">リンク</a>
+  </nav>
+</div>
+
+<main>
+<a href="gallery.html" class="gallery-detail-back">&larr; アーカイヴへ戻る</a>
+
+<div id="gallery-detail-loading" class="gallery-detail-message">読み込み中...</div>
+<p id="gallery-detail-error" class="gallery-detail-message" hidden>馬が見つかりません</p>
+
+<div id="gallery-detail-content" hidden>
+  <div class="gallery-detail-header">
+    <span class="gallery-detail-name" id="detail-name"></span>
+    <span class="gallery-detail-creator" id="detail-creator"></span>
+  </div>
+
+  <div class="gallery-detail-section">
+    <div class="gallery-detail-silhouette-row">
+      <div class="gallery-silhouette-wrap gallery-detail-silhouette-wrap">
+        <div class="gallery-silhouette-backdrop"></div>
+        <div class="gallery-silhouette-layer" id="detail-silhouette"></div>
+      </div>
+      <div class="gallery-detail-rating-big">
+        <div class="gallery-detail-rating-row"><span class="gallery-detail-rating-label">芝</span><span class="gallery-detail-rating-value" id="detail-turf"></span></div>
+        <div class="gallery-detail-rating-row"><span class="gallery-detail-rating-label">ダ</span><span class="gallery-detail-rating-value" id="detail-dirt"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-detail-section">
+    <h2>能力</h2>
+    <div class="gallery-detail-radar-wrap" id="detail-radar-wrap"></div>
+  </div>
+
+  <div class="gallery-detail-section">
+    <h2>その他ステータス</h2>
+    <div class="gallery-detail-stat-rows">
+      <div class="gallery-detail-stat-row">
+        <div class="gallery-detail-stat-label">距離適性</div>
+        <div class="gallery-detail-stat-sub" id="detail-distance"></div>
+      </div>
+      <div class="gallery-detail-stat-row">
+        <div class="gallery-detail-stat-label">脚質</div>
+        <div class="gallery-detail-running-style-row" id="detail-running-style"></div>
+      </div>
+      <div id="detail-slider-physical"></div>
+      <div id="detail-slider-direction"></div>
+      <div id="detail-slider-pace"></div>
+    </div>
+  </div>
+
+  <div class="gallery-detail-section">
+    <h2>年齢</h2>
+    <div class="gallery-detail-age-row">
+      <div class="gallery-detail-age-item"><span class="gallery-detail-age-label">ピーク</span><span class="gallery-detail-age-value" id="detail-age-peak"></span></div>
+      <div class="gallery-detail-age-item"><span class="gallery-detail-age-label">引退</span><span class="gallery-detail-age-value" id="detail-age-retire"></span></div>
+    </div>
+  </div>
+
+  <div class="gallery-detail-section gallery-detail-like-section">
+    <button class="gallery-like-btn" id="detail-like-btn" type="button">
+      <span class="gallery-like-icon">🥕</span>
+      <span class="gallery-like-count" id="detail-like-count">0</span>
+    </button>
+  </div>
+
+  <details class="gallery-detail-delete">
+    <summary>この馬を削除する</summary>
+    <div class="gallery-detail-delete-body">
+      <input type="password" id="detail-delete-password" placeholder="削除用パスワード" autocomplete="off">
+      <button type="button" id="detail-delete-btn" class="gallery-delete-btn">削除する</button>
+      <p class="gallery-detail-delete-error" id="detail-delete-error" hidden></p>
+    </div>
+  </details>
+</div>
+</main>
+
+<script src="script.js?v=2.10.0"></script>
+<script src="detail.js?v=1.0.0"></script>
+</body>
+</html>

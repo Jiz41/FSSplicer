@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-28",
+    "text": "アーカイヴに詳細ページを追加しました。能力レーダーチャート・いいね機能・削除機能が使えます",
+    "text_en": "Added a detail page to the Archive, with an ability radar chart, likes, and a delete option"
+  },
+  {
+    "date": "2026-09-28",
     "text": "「名馬ギャラリー」を「アーカイヴ」に改名しました",
     "text_en": "Renamed \"Legendary Horse Gallery\" to \"Archive\""
   },
