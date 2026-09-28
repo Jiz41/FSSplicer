@@ -635,17 +635,14 @@ function setupBasicSliders() {
 
 function setupHamburgerMenu() {
   const toggle = document.getElementById("menu-toggle");
-  const overlay = document.getElementById("menu-overlay");
   const drawer = document.getElementById("menu-drawer");
-  if (!toggle || !overlay || !drawer) return;
+  if (!toggle || !drawer) return;
 
   function openMenu() {
-    overlay.classList.add("open");
     drawer.classList.add("open");
     toggle.classList.add("open");
   }
   function closeMenu() {
-    overlay.classList.remove("open");
     drawer.classList.remove("open");
     toggle.classList.remove("open");
   }
@@ -657,7 +654,9 @@ function setupHamburgerMenu() {
       openMenu();
     }
   });
-  overlay.addEventListener("click", closeMenu);
+  drawer.addEventListener("click", (e) => {
+    if (e.target === drawer) closeMenu();
+  });
 }
 
 function setupLangToggle() {

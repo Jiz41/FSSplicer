@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-28",
+    "text": "メニューの開き方を、画面全体を覆うガラス質のフルスクリーン表示に変更しました",
+    "text_en": "Changed how the menu opens to a full-screen glass-like overlay"
+  },
+  {
+    "date": "2026-09-28",
     "text": "ハンバーガーメニューを新設しました。今後追加予定の「名馬ギャラリー」への入口になります",
     "text_en": "Added a hamburger menu, which will serve as the entry point for the upcoming \"Legendary Horse Gallery\" feature"
   },
