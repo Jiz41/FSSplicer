@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-version" content="2.12.1">
+<meta name="app-version" content="2.13.0">
 <title>馬詳細 | FSSplicer</title>
 <meta property="og:title" content="馬詳細 | FSSplicer">
 <meta property="og:description" content="みんなが作った馬データの詳細を見られます">
@@ -23,14 +23,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2.12.1">
+<link rel="stylesheet" href="style.css?v=2.13.0">
 </head>
 <body>
 <header>
   <div class="header-top">
     <div class="header-left">
       <button class="menu-btn" id="menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
-      <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v2.12.1</span></h1>
+      <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v2.13.0</span></h1>
     </div>
     <div class="header-buttons">
       <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
@@ -54,10 +54,10 @@
 </div>
 
 <main>
-<a href="gallery.html" class="gallery-detail-back">&larr; アーカイヴへ戻る</a>
+<a href="gallery.html" class="gallery-detail-back">&larr; <span data-i18n="detail_back_link">アーカイヴへ戻る</span></a>
 
-<div id="gallery-detail-loading" class="gallery-detail-message">読み込み中...</div>
-<p id="gallery-detail-error" class="gallery-detail-message" hidden>馬が見つかりません</p>
+<div id="gallery-detail-loading" class="gallery-detail-message" data-i18n="detail_loading">読み込み中...</div>
+<p id="gallery-detail-error" class="gallery-detail-message" hidden data-i18n="detail_not_found">馬が見つかりません</p>
 
 <div id="gallery-detail-content" hidden>
   <div class="gallery-detail-header">
@@ -71,13 +71,13 @@
           <span class="gallery-like-icon">🥕</span>
           <span class="gallery-like-count" id="detail-like-count">0</span>
         </button>
-        <span class="gallery-like-caption">評価する</span>
+        <span class="gallery-like-caption" data-i18n="detail_like_caption">評価する</span>
       </div>
       <div class="gallery-share-wrap">
         <button class="gallery-share-btn" id="detail-share-btn" type="button" aria-label="Xで共有">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </button>
-        <span class="gallery-share-caption">共有する</span>
+        <span class="gallery-share-caption" data-i18n="detail_share_caption">共有する</span>
       </div>
     </div>
   </div>
@@ -96,19 +96,19 @@
   </div>
 
   <div class="gallery-detail-section">
-    <h2>能力</h2>
+    <h2 data-i18n="detail_section_stats">能力</h2>
     <div class="gallery-detail-radar-wrap" id="detail-radar-wrap"></div>
   </div>
 
   <div class="gallery-detail-section">
-    <h2>その他ステータス</h2>
+    <h2 data-i18n="detail_section_other">その他ステータス</h2>
     <div class="gallery-detail-stat-rows">
       <div class="gallery-detail-stat-row">
-        <div class="gallery-detail-stat-label">距離適性</div>
+        <div class="gallery-detail-stat-label" data-i18n="detail_distance_label">距離適性</div>
         <div class="gallery-detail-stat-sub" id="detail-distance"></div>
       </div>
       <div class="gallery-detail-stat-row">
-        <div class="gallery-detail-stat-label">脚質</div>
+        <div class="gallery-detail-stat-label" data-i18n="detail_running_style_label">脚質</div>
         <div class="gallery-detail-running-style-row" id="detail-running-style"></div>
       </div>
       <div id="detail-slider-physical"></div>
@@ -118,32 +118,32 @@
   </div>
 
   <div class="gallery-detail-section">
-    <h2>年齢</h2>
+    <h2 data-i18n="detail_section_age">年齢</h2>
     <div class="gallery-detail-age-row">
-      <div class="gallery-detail-age-item"><span class="gallery-detail-age-label">ピーク</span><span class="gallery-detail-age-value" id="detail-age-peak"></span></div>
-      <div class="gallery-detail-age-item"><span class="gallery-detail-age-label">引退</span><span class="gallery-detail-age-value" id="detail-age-retire"></span></div>
+      <div class="gallery-detail-age-item"><span class="gallery-detail-age-label" data-i18n="detail_age_peak_label">ピーク</span><span class="gallery-detail-age-value" id="detail-age-peak"></span></div>
+      <div class="gallery-detail-age-item"><span class="gallery-detail-age-label" data-i18n="detail_age_retire_label">引退</span><span class="gallery-detail-age-value" id="detail-age-retire"></span></div>
     </div>
   </div>
 
   <details class="gallery-detail-lineage">
-    <summary>系譜（タップで開閉）</summary>
+    <summary><span data-i18n="detail_lineage_summary">系譜</span><span class="accordion-hint" data-i18n="accordion_hint">（タップで開閉）</span></summary>
     <div class="gallery-detail-lineage-body" id="detail-lineage-body"></div>
   </details>
 
-  <button type="button" class="gallery-remix-btn" id="remix-btn">この馬を元に作る &rarr;</button>
+  <button type="button" class="gallery-remix-btn" id="remix-btn"><span data-i18n="detail_remix_btn">この馬を元に作る</span> &rarr;</button>
 
   <details class="gallery-detail-delete">
-    <summary>この馬を削除する</summary>
+    <summary data-i18n="detail_delete_summary">この馬を削除する</summary>
     <div class="gallery-detail-delete-body">
-      <input type="password" id="detail-delete-password" placeholder="削除用パスワード" autocomplete="off">
-      <button type="button" id="detail-delete-btn" class="gallery-delete-btn">削除する</button>
+      <input type="password" id="detail-delete-password" placeholder="削除用パスワード" data-i18n-placeholder="detail_delete_password_placeholder" autocomplete="off">
+      <button type="button" id="detail-delete-btn" class="gallery-delete-btn" data-i18n="detail_delete_btn">削除する</button>
       <p class="gallery-detail-delete-error" id="detail-delete-error" hidden></p>
     </div>
   </details>
 </div>
 </main>
 
-<script src="script.js?v=2.12.1"></script>
-<script src="detail.js?v=1.5.0"></script>
+<script src="script.js?v=2.13.0"></script>
+<script src="detail.js?v=1.6.0"></script>
 </body>
 </html>

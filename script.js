@@ -143,8 +143,8 @@ const I18N = {
     howto_3: "基本情報・能力値（8軸）を好きな値に変更します。毛色は下のサンプル画像をタップしても選べます",
     howto_4: "馬具（頭絡・ハミ・マスク等）とたてがみは、ゲーム内で見ながら直接編集してください。このツールでは顔・脚マークのみ数値で指定できます（脚マークは見本画像の番号が目安です）",
     howto_5: "「CSVを生成」を押すとタブ区切りのCSVができ、スプレッドシートにそのまま貼り付けられます",
-    howto_6: "Xで共有したい場合は「Xで共有する」を開き、テンプレをコピーして投稿するだけで共有できます。このリンクを開いた人は、この馬のデータがそのまま入力済みの状態でツールを開けます",
-    howto_7: "共有リンクを開くと、フォームに自動でデータが入力されます。「元の馬データを読み込む」欄は、スプレッドシートの行を貼り付けたい場合にそのまま使えます",
+    howto_6: "作った馬をみんなに見てもらいたい場合は「アーカイヴに登録する」を開き、製作者名と削除用パスワードを入力すると登録できます",
+    howto_7: "アーカイヴの詳細ページで「この馬を元に作る」を選ぶと、このページにその馬のデータが入力済みの状態で開けます",
     howto_8: "ヘッダーの📲ボタンを押すと、アプリのようにホーム画面から起動できるようになります。iOSの場合は共有ボタン（□に↑のアイコン）から「ホーム画面に追加」を選んでください",
     btn_generate: "CSVを生成",
     btn_copy: "クリップボードにコピー",
@@ -193,12 +193,51 @@ const I18N = {
     menu_gallery: "アーカイヴ",
     gallery_title: "アーカイヴ",
     gallery_new_title: "新着",
-    gallery_ranking_title: "Goodランキング TOP10",
+    gallery_ranking_title: "注目馬ランキング TOP10",
     gallery_empty: "まだ登録された馬がいません",
+    archive_howto_summary: "使い方",
+    archive_howto_1: "「新着」には最近登録された4頭、「注目馬ランキング」には評価（いいね）の多い順で10頭が表示されます",
+    archive_howto_2: "カードをタップすると、その馬の詳細ページが開きます",
+    archive_howto_3: "詳細ページでは、能力レーダーチャートや距離適性などの詳しいステータスが見られます",
+    archive_howto_4: "人参アイコンをタップすると、その馬を評価（いいね）できます",
+    archive_howto_5: "Xのアイコンをタップすると、その馬をXで共有できます",
+    archive_howto_6: "「この馬を元に作る」を選ぶと、この馬のデータを元にしたホーム（エディター）が開けます。改変してアーカイヴに再登録すると、系譜として辿れるようになります",
+    archive_howto_7: "自分が登録した馬は、削除用パスワードで詳細ページから削除できます",
     menu_disclaimer: "利用規約",
     menu_changelog: "更新履歴",
     menu_links: "リンク",
-    menu_aria: "メニュー"
+    menu_aria: "メニュー",
+    detail_back_link: "アーカイヴへ戻る",
+    detail_loading: "読み込み中...",
+    detail_not_found: "馬が見つかりません",
+    detail_like_caption: "評価する",
+    detail_share_caption: "共有する",
+    detail_section_stats: "能力",
+    detail_section_other: "その他ステータス",
+    detail_distance_label: "距離適性",
+    detail_running_style_label: "脚質",
+    detail_section_age: "年齢",
+    detail_age_peak_label: "ピーク",
+    detail_age_retire_label: "引退",
+    detail_lineage_summary: "系譜",
+    detail_remix_btn: "この馬を元に作る",
+    detail_delete_summary: "この馬を削除する",
+    detail_delete_password_placeholder: "削除用パスワード",
+    detail_delete_btn: "削除する",
+    rs_label_0: "逃げ",
+    rs_label_1: "先行",
+    rs_label_2: "差し",
+    rs_label_3: "追込",
+    detail_slider_physical_label: "フィジカル",
+    detail_slider_direction_label: "回り適性",
+    detail_slider_pace_label: "得意ペース",
+    physical_low_label: "小",
+    physical_high_label: "大",
+    detail_lineage_arrow: "改変",
+    detail_lineage_empty: "この馬を元にした改変はまだありません",
+    detail_delete_error_empty_password: "パスワードを入力してください",
+    detail_delete_confirm: "{name} を削除します。よろしいですか？",
+    detail_delete_error_generic: "削除に失敗しました"
   },
   en: {
     subtitle: "Full Stride horse data editing tool (unofficial fan tool)",
@@ -263,8 +302,8 @@ const I18N = {
     howto_3: "Edit the basic info and the 8 stat values as you like. You can also tap a sample image below to pick a coat color",
     howto_4: "Please edit tack (bridle, bit, mask, etc.) and mane directly in-game while looking at them. This tool only lets you set numeric values for face/leg marks (use the leg mark sample numbers as a guide)",
     howto_5: "Press \"Generate CSV\" to get a tab-separated CSV ready to paste into Sheets",
-    howto_6: "To share on X, open \"Share on X\" and just copy the template and post it. Anyone who opens the link will get the tool pre-filled with this horse's data",
-    howto_7: "Opening a shared link automatically loads the data into the form. The \"Load Source Horse Data\" section can still be used to paste a row copied from the spreadsheet",
+    howto_6: "If you want everyone to see the horse you made, open \"Register to the Archive\" and enter your creator name and a delete password to register it",
+    howto_7: "On the archive's detail page, choose \"Remix This Horse\" to open this page pre-filled with that horse's data",
     howto_8: "Tap the 📲 button in the header to launch this tool from your home screen like an app. On iOS, use the Share button (the square with an up arrow) and select \"Add to Home Screen\"",
     btn_generate: "Generate CSV",
     btn_copy: "Copy to Clipboard",
@@ -313,12 +352,51 @@ const I18N = {
     menu_gallery: "Archive",
     gallery_title: "Archive",
     gallery_new_title: "New",
-    gallery_ranking_title: "Good Ranking TOP10",
+    gallery_ranking_title: "Featured Horses Ranking TOP10",
     gallery_empty: "No horses have been registered yet",
+    archive_howto_summary: "How to Use",
+    archive_howto_1: "\"New\" shows the 4 most recently registered horses, and \"Good Ranking\" shows the top 10 by evaluation (likes)",
+    archive_howto_2: "Tap a card to open that horse's detail page",
+    archive_howto_3: "The detail page shows detailed stats such as the ability radar chart and distance aptitude",
+    archive_howto_4: "Tap the carrot icon to evaluate (like) the horse",
+    archive_howto_5: "Tap the X icon to share the horse on X",
+    archive_howto_6: "Choose \"Remix This Horse\" to open the home editor pre-filled with this horse's data. If you modify it and register it again, it becomes traceable as a lineage",
+    archive_howto_7: "You can delete a horse you registered from its detail page using the delete password",
     menu_disclaimer: "Terms & Disclaimer",
     menu_changelog: "Changelog",
     menu_links: "Links",
-    menu_aria: "Menu"
+    menu_aria: "Menu",
+    detail_back_link: "Back to Archive",
+    detail_loading: "Loading...",
+    detail_not_found: "Horse not found",
+    detail_like_caption: "Evaluate",
+    detail_share_caption: "Share",
+    detail_section_stats: "Stats",
+    detail_section_other: "Other Stats",
+    detail_distance_label: "Distance Aptitude",
+    detail_running_style_label: "Running Style",
+    detail_section_age: "Age",
+    detail_age_peak_label: "Peak",
+    detail_age_retire_label: "Retire",
+    detail_lineage_summary: "Lineage",
+    detail_remix_btn: "Remix This Horse",
+    detail_delete_summary: "Delete This Horse",
+    detail_delete_password_placeholder: "Delete Password",
+    detail_delete_btn: "Delete",
+    rs_label_0: "Front Runner",
+    rs_label_1: "Stalker",
+    rs_label_2: "Chaser",
+    rs_label_3: "Closer",
+    detail_slider_physical_label: "Physical",
+    detail_slider_direction_label: "Direction Aptitude",
+    detail_slider_pace_label: "Preferred Pace",
+    physical_low_label: "Small",
+    physical_high_label: "Large",
+    detail_lineage_arrow: "Remix",
+    detail_lineage_empty: "No remixes of this horse yet",
+    detail_delete_error_empty_password: "Please enter the password",
+    detail_delete_confirm: "Delete {name}? This cannot be undone.",
+    detail_delete_error_generic: "Failed to delete"
   }
 };
 
@@ -390,6 +468,8 @@ function buildColorSampleStrip() {
 }
 
 function currentLang() {
+  const saved = localStorage.getItem("fssp_lang");
+  if (saved === "ja" || saved === "en") return saved;
   return document.documentElement.getAttribute("data-lang") || "ja";
 }
 
@@ -724,6 +804,7 @@ function setupLangToggle() {
   btn.addEventListener("click", () => {
     const current = root.getAttribute("data-lang") || "ja";
     const next = current === "ja" ? "en" : "ja";
+    localStorage.setItem("fssp_lang", next);
     applyLanguage(next);
     updateLabel();
   });

@@ -202,18 +202,18 @@ function renderLineage(horse) {
   const children = Array.isArray(horse.children) ? horse.children : [];
 
   if (!parent && children.length === 0) {
-    container.innerHTML = '<div class="gallery-detail-lineage-empty">この馬を元にした改変はまだありません</div>';
+    container.innerHTML = '<div class="gallery-detail-lineage-empty">' + escapeHtml(t("detail_lineage_empty")) + '</div>';
     return;
   }
 
   let html = '<div class="gallery-detail-lineage-tree">';
   if (parent) {
     html += lineageNodeHTML(parent, false);
-    html += '<div class="gallery-detail-lineage-arrow">&darr; 改変</div>';
+    html += '<div class="gallery-detail-lineage-arrow">&darr; ' + escapeHtml(t("detail_lineage_arrow")) + '</div>';
   }
   html += lineageNodeHTML({ id: horse.id, name_jp: horse.name_jp, creator_name: horse.creator_name }, true);
   if (children.length) {
-    html += '<div class="gallery-detail-lineage-arrow">&darr; 改変</div>';
+    html += '<div class="gallery-detail-lineage-arrow">&darr; ' + escapeHtml(t("detail_lineage_arrow")) + '</div>';
     children.forEach((c) => {
       html += lineageNodeHTML(c, false);
     });
@@ -225,7 +225,7 @@ function renderLineage(horse) {
 function renderRunningStyle(runningStyleRaw) {
   const container = document.getElementById("detail-running-style");
   container.innerHTML = "";
-  const labels = ["逃げ", "先行", "差し", "追込"];
+  const labels = [t("rs_label_0"), t("rs_label_1"), t("rs_label_2"), t("rs_label_3")];
   const values = String(runningStyleRaw || "").split("/").map(v => Number(v));
   let mainIndex = 0;
   let mainValue = -Infinity;
@@ -255,9 +255,13 @@ function buildXShareText(horse) {
 }
 
 function renderHorse(horse) {
-  document.title = horse.name_jp + " | FSSplicer";
-  document.getElementById("detail-name").textContent = horse.name_jp;
+  const displayName = (currentLang() === "en" && horse.name_en) ? horse.name_en : horse.name_jp;
+  document.title = displayName + " | FSSplicer";
+  document.getElementById("detail-name").textContent = displayName;
   document.getElementById("detail-creator").textContent = "by " + horse.creator_name;
+
+  const deletePasswordInput = document.getElementById("detail-delete-password");
+  if (deletePasswordInput) deletePasswordInput.placeholder = t("detail_delete_password_placeholder");
 
   const silhouette = document.getElementById("detail-silhouette");
   silhouette.style.backgroundColor = galleryColorHex(horse.horse_color);
@@ -267,21 +271,24 @@ function renderHorse(horse) {
 
   document.getElementById("detail-radar-wrap").innerHTML = buildDetailRadarSVG(horse);
 
+  const isEn = currentLang() === "en";
   document.getElementById("detail-distance").textContent =
     (horse.min_distance !== null ? horse.min_distance : "-") + "m - " +
-    (horse.max_distance !== null ? horse.max_distance : "-") + "m（得意: " +
-    (horse.optimal_distance !== null ? horse.optimal_distance : "-") + "m）";
+    (horse.max_distance !== null ? horse.max_distance : "-") + "m" +
+    (isEn ? " (optimal: " : "（得意: ") +
+    (horse.optimal_distance !== null ? horse.optimal_distance : "-") + "m" +
+    (isEn ? ")" : "）");
 
   renderRunningStyle(horse.running_style);
 
   renderLineage(horse);
 
   document.getElementById("detail-slider-physical").innerHTML =
-    sliderRowHTML("フィジカル", horse.physical !== null ? horse.physical : 0, 0, 1, "小", "大");
+    sliderRowHTML(t("detail_slider_physical_label"), horse.physical !== null ? horse.physical : 0, 0, 1, t("physical_low_label"), t("physical_high_label"));
   document.getElementById("detail-slider-direction").innerHTML =
-    sliderRowHTML("回り適性", horse.direction_aptitude !== null ? horse.direction_aptitude : 0, -1, 1, "左", "右");
+    sliderRowHTML(t("detail_slider_direction_label"), horse.direction_aptitude !== null ? horse.direction_aptitude : 0, -1, 1, t("direction_left_label"), t("direction_right_label"));
   document.getElementById("detail-slider-pace").innerHTML =
-    sliderRowHTML("得意ペース", horse.preferred_pace !== null ? horse.preferred_pace : 0, -1, 1, "遅", "早");
+    sliderRowHTML(t("detail_slider_pace_label"), horse.preferred_pace !== null ? horse.preferred_pace : 0, -1, 1, t("pace_low_label"), t("pace_high_label"));
 
   document.getElementById("detail-age-peak").textContent = horse.peak_age !== null ? ageText(horse.peak_age) : "-";
   document.getElementById("detail-age-retire").textContent = horse.retire_age !== null ? ageText(horse.retire_age) : "-";
@@ -334,11 +341,12 @@ function renderHorse(horse) {
   deleteBtn.addEventListener("click", async () => {
     const password = document.getElementById("detail-delete-password").value;
     if (!password) {
-      deleteError.textContent = "パスワードを入力してください";
+      deleteError.textContent = t("detail_delete_error_empty_password");
       deleteError.hidden = false;
       return;
     }
-    if (!confirm(horse.name_jp + " を削除します。よろしいですか？")) return;
+    const confirmName = (currentLang() === "en" && horse.name_en) ? horse.name_en : horse.name_jp;
+    if (!confirm(t("detail_delete_confirm").replace("{name}", confirmName))) return;
     deleteBtn.disabled = true;
     try {
       const res = await fetch(`/api/horses/${encodeURIComponent(horse.id)}`, {
@@ -350,12 +358,12 @@ function renderHorse(horse) {
       if (res.ok && data.success) {
         location.href = "gallery.html";
       } else {
-        deleteError.textContent = data.error || "削除に失敗しました";
+        deleteError.textContent = data.error || t("detail_delete_error_generic");
         deleteError.hidden = false;
         deleteBtn.disabled = false;
       }
     } catch (e) {
-      deleteError.textContent = "削除に失敗しました";
+      deleteError.textContent = t("detail_delete_error_generic");
       deleteError.hidden = false;
       deleteBtn.disabled = false;
     }

@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-09-29",
+    "text": "英語表示時、英名が設定されている馬は一覧・詳細ページで英名表示に切り替わるようにしました。言語設定はページを移動しても保持されます",
+    "text_en": "When viewing in English, horses with an English name now display that name on both the list and detail pages. The language setting now persists across pages"
+  },
+  {
+    "date": "2026-09-29",
+    "text": "「Goodランキング」を「注目馬ランキング」に改称し、一覧カードにいいね数（🥕）を表示するようにしました",
+    "text_en": "Renamed \"Good Ranking\" to \"Featured Horses Ranking\" and added like counts (🥕) to the listing cards"
+  },
+  {
+    "date": "2026-09-29",
     "text": "ホーム画面からアーカイヴへ馬を登録できるようになりました。X共有機能は詳細ページに移動しました",
     "text_en": "You can now register horses to the Archive from the home screen. The X sharing feature has moved to the detail page"
   },

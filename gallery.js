@@ -38,7 +38,7 @@ function buildGalleryCard(horse) {
 
   const name = document.createElement("div");
   name.className = "gallery-card-name";
-  name.textContent = horse.name_jp;
+  name.textContent = (currentLang() === "en" && horse.name_en) ? horse.name_en : horse.name_jp;
   card.appendChild(name);
 
   const creator = document.createElement("div");
@@ -58,6 +58,12 @@ function buildGalleryCard(horse) {
     const chip = document.createElement("span");
     chip.className = "gallery-rating-chip";
     chip.textContent = "ダ" + horse.dirt_rating;
+    ratings.appendChild(chip);
+  }
+  if (horse.like_count !== null && horse.like_count !== undefined) {
+    const chip = document.createElement("span");
+    chip.className = "gallery-rating-chip";
+    chip.textContent = "🥕" + horse.like_count;
     ratings.appendChild(chip);
   }
   card.appendChild(ratings);

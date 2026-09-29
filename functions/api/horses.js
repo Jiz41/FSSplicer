@@ -11,9 +11,11 @@ function rowToHorse(row) {
   const horseColor = Number(cols[6]);
   const turfRating = Number(cols[11]);
   const dirtRating = Number(cols[12]);
+  const nameEn = cols[1];
   return {
     id: row.id,
     name_jp: row.name_jp,
+    name_en: nameEn || null,
     creator_name: row.creator_name,
     horse_color: horseColor,
     turf_rating: Number.isFinite(turfRating) ? turfRating : null,
