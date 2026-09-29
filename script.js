@@ -816,6 +816,18 @@ function setupLangToggle() {
   updateLabel();
 }
 
+function setupWordmarkLink() {
+  const wordmark = document.querySelector(".wordmark");
+  if (!wordmark) return;
+  const path = location.pathname;
+  const isHome = path.endsWith("index.html") || path === "/" || path.endsWith("/");
+  if (isHome) return;
+  wordmark.classList.add("wordmark-link");
+  wordmark.addEventListener("click", () => {
+    location.href = "index.html";
+  });
+}
+
 // ---- 元馬データの読み込み（スキップ列を元馬の値で埋めるため） ----
 let sourceRowValues = {};
 
@@ -1075,6 +1087,7 @@ document.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang());
   setupHamburgerMenu();
   setupLangToggle();
+  setupWordmarkLink();
   setupBasicSliders();
   buildColorSampleStrip();
   setupLoadSource();

@@ -130,6 +130,10 @@ header::after {
   min-width: 0;
 }
 
+.wordmark-link {
+  cursor: pointer;
+}
+
 .wordmark .logo-icon {
   height: 1.3em;
   width: auto;
