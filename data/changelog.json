@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-29",
+    "text": "詳細ページの脚質チップの上に、実際の数値を小さく表示するようにしました",
+    "text_en": "Added small numeric values above each running style chip on the detail page"
+  },
+  {
+    "date": "2026-09-29",
     "text": "詳細ページの脚質表示を、値の大きさに応じて明度が変わる表現に変更しました。メイン脚質だけでなくサブ脚質の強さも見た目でわかるようになりました",
     "text_en": "Changed the running style display on the detail page to vary brightness by value, so sub-style strength is now visible at a glance too"
   },

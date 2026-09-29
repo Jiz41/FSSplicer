@@ -239,13 +239,24 @@ function renderRunningStyle(runningStyleRaw) {
     const v = Number.isFinite(raw) ? Math.max(0, Math.min(1, raw)) : 0;
     const pct = (v * 100).toFixed(0);
     const bgPct = (v * 12).toFixed(1);
+
+    const item = document.createElement("div");
+    item.className = "gallery-detail-rs-item";
+
+    const valueLabel = document.createElement("span");
+    valueLabel.className = "gallery-detail-rs-value";
+    valueLabel.textContent = Number.isFinite(raw) ? raw.toFixed(1) : "-";
+    item.appendChild(valueLabel);
+
     const chip = document.createElement("span");
     chip.className = "gallery-detail-rs-chip";
     chip.textContent = label;
     chip.style.borderColor = `color-mix(in srgb, var(--accent) ${pct}%, var(--line-strong))`;
     chip.style.color = `color-mix(in srgb, var(--accent-soft) ${pct}%, var(--muted))`;
     chip.style.background = `color-mix(in srgb, var(--accent) ${bgPct}%, transparent)`;
-    container.appendChild(chip);
+    item.appendChild(chip);
+
+    container.appendChild(item);
   });
 }
 
