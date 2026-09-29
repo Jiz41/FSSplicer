@@ -119,14 +119,125 @@ function updateGalleryTitle() {
   document.title = t("gallery_title") + " | FSSplicer";
 }
 
+const BROWSE_PAGE_SIZE = 10;
+let browseAllHorses = [];
+let browseFilteredHorses = [];
+let browseCurrentPage = 1;
+let browseLoaded = false;
+
+function browseMatches(horse, query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  const fields = [horse.name_jp, horse.name_en, horse.creator_name];
+  return fields.some((f) => f && String(f).toLowerCase().includes(q));
+}
+
+function renderBrowsePagination(totalPages) {
+  const pager = document.getElementById("gallery-pagination");
+  if (!pager) return;
+  if (totalPages <= 1) {
+    pager.style.display = "none";
+    pager.innerHTML = "";
+    return;
+  }
+  const label = t("gallery_page_indicator")
+    .replace("{current}", browseCurrentPage)
+    .replace("{total}", totalPages);
+  pager.style.display = "flex";
+  pager.innerHTML = `
+    <button type="button" class="page-btn" data-page="first" ${browseCurrentPage === 1 ? "disabled" : ""}>&laquo;</button>
+    <button type="button" class="page-btn" data-page="prev" ${browseCurrentPage === 1 ? "disabled" : ""}>&lsaquo;</button>
+    <span class="page-indicator">${label}</span>
+    <button type="button" class="page-btn" data-page="next" ${browseCurrentPage === totalPages ? "disabled" : ""}>&rsaquo;</button>
+    <button type="button" class="page-btn" data-page="last" ${browseCurrentPage === totalPages ? "disabled" : ""}>&raquo;</button>
+  `;
+  pager.querySelectorAll(".page-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.page === "first") browseCurrentPage = 1;
+      else if (btn.dataset.page === "prev") browseCurrentPage = Math.max(1, browseCurrentPage - 1);
+      else if (btn.dataset.page === "next") browseCurrentPage = Math.min(totalPages, browseCurrentPage + 1);
+      else if (btn.dataset.page === "last") browseCurrentPage = totalPages;
+      renderBrowseResults();
+    });
+  });
+}
+
+function renderBrowseResults() {
+  const grid = document.getElementById("gallery-grid-browse");
+  const emptyEl = document.getElementById("gallery-browse-empty");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  if (browseFilteredHorses.length === 0) {
+    if (emptyEl) emptyEl.hidden = false;
+    renderBrowsePagination(0);
+    return;
+  }
+  if (emptyEl) emptyEl.hidden = true;
+
+  const totalPages = Math.max(1, Math.ceil(browseFilteredHorses.length / BROWSE_PAGE_SIZE));
+  if (browseCurrentPage > totalPages) browseCurrentPage = totalPages;
+  if (browseCurrentPage < 1) browseCurrentPage = 1;
+  const startIdx = (browseCurrentPage - 1) * BROWSE_PAGE_SIZE;
+  const pageItems = browseFilteredHorses.slice(startIdx, startIdx + BROWSE_PAGE_SIZE);
+
+  pageItems.forEach((horse) => {
+    grid.appendChild(buildGalleryCard(horse));
+  });
+
+  renderBrowsePagination(totalPages);
+}
+
+function applyBrowseFilter() {
+  const input = document.getElementById("gallery-search-input");
+  const query = input ? input.value : "";
+  browseFilteredHorses = browseAllHorses.filter((h) => browseMatches(h, query));
+  browseCurrentPage = 1;
+  renderBrowseResults();
+}
+
+async function loadBrowseAll() {
+  if (browseLoaded) return;
+  try {
+    const res = await fetch("/api/horses?browse=1");
+    const data = await res.json();
+    browseAllHorses = (data && data.items) || [];
+    browseLoaded = true;
+  } catch (err) {
+    browseAllHorses = [];
+    browseLoaded = true;
+  }
+  applyBrowseFilter();
+}
+
+function setupBrowseAll() {
+  const btn = document.getElementById("gallery-browse-all-btn");
+  const section = document.getElementById("gallery-browse-section");
+  const searchInput = document.getElementById("gallery-search-input");
+  if (!btn || !section) return;
+
+  btn.addEventListener("click", () => {
+    section.hidden = false;
+    loadBrowseAll();
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      applyBrowseFilter();
+    });
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadGallery();
   updateGalleryTitle();
+  setupBrowseAll();
   const langBtn = document.getElementById("lang-toggle");
   if (langBtn) {
     langBtn.addEventListener("click", () => {
       updateGalleryTitle();
       if (cachedGalleryData) renderGallery(cachedGalleryData);
+      if (browseLoaded) renderBrowseResults();
     });
   }
 });

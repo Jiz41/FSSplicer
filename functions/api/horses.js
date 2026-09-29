@@ -29,6 +29,17 @@ export async function onRequestGet(context) {
   try {
     const url = new URL(request.url);
     const q = url.searchParams.get("q");
+    const browse = url.searchParams.get("browse");
+
+    if (browse) {
+      const { results } = await env.DB.prepare(
+        "SELECT id, name_jp, creator_name, csv_data, like_count, created_at FROM horses ORDER BY created_at DESC LIMIT 300"
+      ).all();
+
+      return new Response(JSON.stringify({ items: results.map(rowToHorse) }), {
+        headers: { "content-type": "application/json; charset=utf-8" },
+      });
+    }
 
     if (q) {
       const like = `%${q}%`;

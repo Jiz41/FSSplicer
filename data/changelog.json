@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-29",
+    "text": "アーカイヴに「全件表示」ボタンを追加しました。押すと登録済みの馬を新着順にページ送りで見られます。馬名・製作者名での検索にも対応しました",
+    "text_en": "Added a \"Show All\" button to the Archive. It lets you page through all registered horses in newest-first order, with search by horse or creator name"
+  },
+  {
+    "date": "2026-09-29",
     "text": "X共有の文面を、作者以外の人がシェアしても違和感のない紹介文に変更しました",
     "text_en": "Updated the X sharing text so it reads naturally whether shared by the creator or someone else"
   },
