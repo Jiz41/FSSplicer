@@ -18,6 +18,44 @@ function galleryColorHex(horseColor) {
   return DETAIL_HORSE_COLOR_HEX[horseColor] || DETAIL_HORSE_COLOR_HEX[0];
 }
 
+// ---- 「この馬を元に作る」機能: script.js の COLUMN_ORDER（idを除く74列）と完全一致させること ----
+const REMIX_COLUMN_ORDER = [
+  "name_jp", "name_en", "gender", "birth_year", "birth_month", "birth_day",
+  "horse_color", "physical", "owner", "main_jockey", "region",
+  "turf_rating", "dirt_rating", "min_distance", "max_distance", "optimal_distance",
+  "acceleration", "start_score", "cornering_score", "hill_score", "heavy_track_score",
+  "fighting_spirit", "consistency", "health",
+  "preferred_pace", "direction_aptitude", "running_style", "growth_curve",
+  "peak_age", "retire_age",
+  "head_mark", "right_front_leg_mark", "left_front_leg_mark", "right_hind_leg_mark", "left_hind_leg_mark",
+  "bridle_type", "bridle_color_1", "bridle_color_2", "bridle_design", "bridle_design_color_1", "bridle_design_color_2",
+  "bit_type", "bit_guard_type", "bit_guard_color",
+  "mask_type", "mask_pattern", "mask_color_1", "mask_color_2",
+  "ear_cover_type", "ear_cover_color_1", "ear_cover_color_2",
+  "blinker_pacifier_type", "blinker_pacifier_color",
+  "shadow_roll_type", "shadow_roll_color",
+  "cheek_pieces_type", "cheek_pieces_color",
+  "brow_band_type", "brow_band_color",
+  "breast_girth_type", "neck_strap_type", "chest_color_1", "chest_color_2", "breast_girth_fur_color",
+  "front_bandage_type", "front_bandage_color_1", "front_bandage_color_2",
+  "hind_bandage_type", "hind_bandage_color_1", "hind_bandage_color_2",
+  "front_mane_type", "back_mane_type", "mane_color_1", "mane_color_2"
+];
+
+function buildRemixCsvRow(horse) {
+  return REMIX_COLUMN_ORDER
+    .map(col => {
+      const value = horse[col];
+      return value === null || value === undefined ? "" : String(value);
+    })
+    .join("|");
+}
+
+function buildRemixUrl(horse) {
+  const encoded = encodeURIComponent(buildRemixCsvRow(horse));
+  return "index.html?data=" + encoded + "&parent=" + encodeURIComponent(horse.id);
+}
+
 // ---- レーダーチャート（FSScreener script.js より移植） ----
 const RADAR_AXIS_ORDER = [
   "acceleration", "start_score", "hill_score", "heavy_track_score",
@@ -264,6 +302,13 @@ function renderHorse(horse) {
       likeBtn.disabled = false;
     }
   });
+
+  const remixBtn = document.getElementById("remix-btn");
+  if (remixBtn) {
+    remixBtn.addEventListener("click", () => {
+      location.href = buildRemixUrl(horse);
+    });
+  }
 
   const deleteBtn = document.getElementById("detail-delete-btn");
   const deleteError = document.getElementById("detail-delete-error");

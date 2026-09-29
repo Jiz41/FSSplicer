@@ -959,6 +959,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loaded && status) status.textContent = t("load_source_from_url_success");
   }
 
+  const parentId = params.get("parent");
+  if (parentId) {
+    sessionStorage.setItem("fssp_remix_parent_id", parentId);
+  }
+
   const hashTarget = document.getElementById(location.hash.slice(1));
   if (hashTarget && hashTarget.tagName === "DETAILS") {
     hashTarget.open = true;

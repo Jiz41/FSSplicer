@@ -1834,3 +1834,31 @@ footer .fnote.footer-credit {
   color: var(--muted);
   font-size: 0.85rem;
 }
+
+/* ---- 「この馬を元に作る」ボタン ---- */
+.gallery-remix-btn {
+  display: block;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(51, 255, 102, 0.22), rgba(51, 255, 102, 0.05) 65%, transparent);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 65%, transparent);
+  border-radius: 3px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  margin: 0.9rem 0;
+  text-shadow: 0 0 12px var(--glow-green);
+  box-shadow: 0 0 18px -4px var(--glow-green), inset 0 0 24px -14px var(--accent);
+  transition: background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.gallery-remix-btn:hover,
+.gallery-remix-btn:focus-visible {
+  outline: none;
+  color: #d6ffe4;
+  background: linear-gradient(180deg, rgba(51, 255, 102, 0.34), rgba(51, 255, 102, 0.1) 65%, transparent);
+  box-shadow: 0 0 26px -4px var(--glow-green), inset 0 0 26px -10px var(--accent);
+}
