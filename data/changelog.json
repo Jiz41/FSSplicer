@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-29",
+    "text": "系譜コーナーの親馬・子馬の名前も、英語表示時に英名へ切り替わるようにしました",
+    "text_en": "Parent and offspring horse names in the lineage section now also switch to English names when viewing in English"
+  },
+  {
+    "date": "2026-09-29",
     "text": "詳細ページの「芝」「ダ」ラベルと年齢の単位表記が英語表示でも日本語のままだった不具合を修正しました",
     "text_en": "Fixed the \"Turf\"/\"Dirt\" labels and age unit text on the detail page not switching to English"
   },

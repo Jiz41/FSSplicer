@@ -191,7 +191,8 @@ function escapeHtml(str) {
 }
 
 function lineageNodeHTML(entry, isSelf) {
-  const label = escapeHtml(entry.name_jp) + "（by " + escapeHtml(entry.creator_name) + "）";
+  const displayName = (currentLang() === "en" && entry.name_en) ? entry.name_en : entry.name_jp;
+  const label = escapeHtml(displayName) + "（by " + escapeHtml(entry.creator_name) + "）";
   if (isSelf) {
     return '<div class="gallery-detail-lineage-node is-self">' + label + "</div>";
   }
@@ -214,7 +215,7 @@ function renderLineage(horse) {
     html += lineageNodeHTML(parent, false);
     html += '<div class="gallery-detail-lineage-arrow">&darr; ' + escapeHtml(t("detail_lineage_arrow")) + '</div>';
   }
-  html += lineageNodeHTML({ id: horse.id, name_jp: horse.name_jp, creator_name: horse.creator_name }, true);
+  html += lineageNodeHTML({ id: horse.id, name_jp: horse.name_jp, name_en: horse.name_en, creator_name: horse.creator_name }, true);
   if (children.length) {
     html += '<div class="gallery-detail-lineage-arrow">&darr; ' + escapeHtml(t("detail_lineage_arrow")) + '</div>';
     children.forEach((c) => {
