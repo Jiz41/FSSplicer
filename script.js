@@ -153,6 +153,16 @@ const I18N = {
     footer_trademark_pre: "『FULL STRIDE』の名称は、",
     footer_trademark_post: "の商標または登録商標です。",
     alert_required: "馬名（日本語）・馬名（英語）は必須です。",
+    archive_register_summary: "アーカイヴに登録する",
+    archive_register_hint: "製作者名と削除用パスワードを入力すると、みんなが見られるアーカイヴにこの馬を登録できます",
+    archive_creator_name_label: "製作者名",
+    archive_delete_password_label: "削除用パスワード（半角英数字6桁）",
+    archive_register_btn: "アーカイヴに登録",
+    archive_register_success: "登録しました。こちらから見られます →",
+    archive_register_error_name: "馬名を入力してください",
+    archive_register_error_creator: "製作者名を入力してください",
+    archive_register_error_password: "削除用パスワードは半角英数字6桁で入力してください",
+    archive_register_error_generic: "登録に失敗しました",
     copy_success: "コピーしました",
     copy_failed: "コピーに失敗しました",
     color_sample_note: "タップで選択できます（画像の著作権はBlue Bullet社に帰属します）",
@@ -263,6 +273,16 @@ const I18N = {
     footer_trademark_pre: "\"FULL STRIDE\" is a trademark or registered trademark of ",
     footer_trademark_post: ".",
     alert_required: "Name (Japanese) and Name (English) are required.",
+    archive_register_summary: "Register to the Archive",
+    archive_register_hint: "Enter your name and a delete password to register this horse to the public archive",
+    archive_creator_name_label: "Creator Name",
+    archive_delete_password_label: "Delete Password (6 alphanumeric characters)",
+    archive_register_btn: "Register",
+    archive_register_success: "Registered! View it here →",
+    archive_register_error_name: "Please enter a horse name",
+    archive_register_error_creator: "Please enter a creator name",
+    archive_register_error_password: "Delete password must be 6 alphanumeric characters",
+    archive_register_error_generic: "Registration failed",
     copy_success: "Copied",
     copy_failed: "Copy failed",
     color_sample_note: "Tap to select (images © Blue Bullet Inc.)",
@@ -829,39 +849,68 @@ function buildShareUrl() {
   return "https://fssplicer.pages.dev/?data=" + encoded;
 }
 
-// ---- Xテンプレプレビューの更新 ----
-function buildXTemplateText() {
-  const lang = currentLang();
-  const nameEl = document.getElementById(lang === "en" ? "name_en" : "name_jp");
-  const horseName = (nameEl && nameEl.value.trim()) || t("x_template_fallback_name");
-  const url = buildShareUrl();
-  if (lang === "en") {
-    return `I made ${horseName} on FSSplicer\nOpen this link to see it pre-filled in the form\n#FSSplicer\n${url}`;
-  }
-  return `FSSplicerで${horseName}を作ってみました\nこのリンクを開くと、この馬のデータがそのまま入力済みの状態で見られます\n#FSSplicer\n${url}`;
-}
+// ---- アーカイヴ登録 ----
+function setupArchiveRegister() {
+  const btn = document.getElementById("archive-register-btn");
+  const creatorInput = document.getElementById("archive-creator-name");
+  const passwordInput = document.getElementById("archive-delete-password");
+  const status = document.getElementById("archive-register-status");
+  if (!btn || !creatorInput || !passwordInput || !status) return;
 
-// ---- Xテンプレコピー ----
-function setupXTemplateCopy() {
-  const btn = document.getElementById("x-template-copy-btn");
-  const preview = document.getElementById("x-template-preview");
-  const status = document.getElementById("x-template-copy-status");
-  const details = document.getElementById("x-share-guide");
-  if (!btn || !details) return;
-
-  details.addEventListener("toggle", () => {
-    if (details.open) {
-      preview.value = buildXTemplateText();
-    }
-  });
+  const savedCreator = localStorage.getItem("fssp_creator_name");
+  if (savedCreator) creatorInput.value = savedCreator;
 
   btn.addEventListener("click", async () => {
-    preview.value = buildXTemplateText();
+    status.textContent = "";
+
+    const nameJp = document.getElementById("name_jp").value.trim();
+    if (!nameJp) {
+      status.textContent = t("archive_register_error_name");
+      return;
+    }
+
+    const creatorName = creatorInput.value.trim();
+    if (!creatorName) {
+      status.textContent = t("archive_register_error_creator");
+      return;
+    }
+
+    const deletePassword = passwordInput.value.trim();
+    if (!/^[A-Za-z0-9]{6}$/.test(deletePassword)) {
+      status.textContent = t("archive_register_error_password");
+      return;
+    }
+
+    localStorage.setItem("fssp_creator_name", creatorName);
+    const parentId = sessionStorage.getItem("fssp_remix_parent_id") || null;
+
     try {
-      await navigator.clipboard.writeText(preview.value);
-      status.textContent = t("x_template_copy_success");
+      const res = await fetch("/api/horses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name_jp: nameJp,
+          creator_name: creatorName,
+          csv_data: generateCsvRow(),
+          parent_id: parentId,
+          delete_password: deletePassword
+        })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.id) {
+        sessionStorage.removeItem("fssp_remix_parent_id");
+        status.textContent = "";
+        const link = document.createElement("a");
+        link.href = `detail.html?id=${encodeURIComponent(data.id)}`;
+        link.textContent = t("archive_register_success");
+        status.appendChild(link);
+      } else {
+        status.textContent = data.error || t("archive_register_error_generic");
+      }
     } catch (e) {
-      status.textContent = t("x_template_copy_failed");
+      status.textContent = t("archive_register_error_generic");
     }
   });
 }
@@ -946,7 +995,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLoadSource();
   setupGenerate();
   setupCopy();
-  setupXTemplateCopy();
+  setupArchiveRegister();
   setupInstallButton();
   loadChangelog();
 

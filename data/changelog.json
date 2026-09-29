@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-29",
+    "text": "ホーム画面からアーカイヴへ馬を登録できるようになりました。X共有機能は詳細ページに移動しました",
+    "text_en": "You can now register horses to the Archive from the home screen. The X sharing feature has moved to the detail page"
+  },
+  {
+    "date": "2026-09-29",
     "text": "詳細ページに「この馬を元に作る」ボタンを追加しました。押すと馬データが入力済みの状態でホームが開けます",
     "text_en": "Added a \"Remix This Horse\" button to the detail page. It opens the home page with the horse's data pre-filled"
   },

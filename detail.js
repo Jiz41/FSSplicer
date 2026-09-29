@@ -243,6 +243,17 @@ function renderRunningStyle(runningStyleRaw) {
   });
 }
 
+function buildXShareText(horse) {
+  const lang = currentLang();
+  const url = location.href;
+  if (lang === "en") {
+    const name = horse.name_en || horse.name_jp;
+    return `I created "${name}"!\nCheck out the full details at the link below.\nYou can build your own horse from this data too.\n${url}\n#FSSplicer`;
+  }
+  const name = horse.name_jp;
+  return `「${name}」を作りました\nリンクから詳細が見られます\nこのデータを元に、自分だけの1頭も作れます\n${url}\n#FSSplicer`;
+}
+
 function renderHorse(horse) {
   document.title = horse.name_jp + " | FSSplicer";
   document.getElementById("detail-name").textContent = horse.name_jp;
@@ -302,6 +313,14 @@ function renderHorse(horse) {
       likeBtn.disabled = false;
     }
   });
+
+  const shareBtn = document.getElementById("detail-share-btn");
+  if (shareBtn) {
+    shareBtn.addEventListener("click", () => {
+      const text = buildXShareText(horse);
+      window.open("https://x.com/intent/tweet?text=" + encodeURIComponent(text), "_blank");
+    });
+  }
 
   const remixBtn = document.getElementById("remix-btn");
   if (remixBtn) {
