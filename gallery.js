@@ -212,13 +212,30 @@ async function loadBrowseAll() {
 
 function setupBrowseAll() {
   const btn = document.getElementById("gallery-browse-all-btn");
+  const btnLabel = btn ? btn.querySelector("[data-i18n]") : null;
   const section = document.getElementById("gallery-browse-section");
+  const sections = document.getElementById("gallery-sections");
   const searchInput = document.getElementById("gallery-search-input");
   if (!btn || !section) return;
 
   btn.addEventListener("click", () => {
-    section.hidden = false;
-    loadBrowseAll();
+    const isOpen = !section.hidden;
+    if (isOpen) {
+      section.hidden = true;
+      if (sections) sections.hidden = false;
+      if (btnLabel) {
+        btnLabel.setAttribute("data-i18n", "gallery_browse_all");
+        btnLabel.textContent = t("gallery_browse_all");
+      }
+    } else {
+      if (sections) sections.hidden = true;
+      section.hidden = false;
+      loadBrowseAll();
+      if (btnLabel) {
+        btnLabel.setAttribute("data-i18n", "gallery_browse_close");
+        btnLabel.textContent = t("gallery_browse_close");
+      }
+    }
   });
 
   if (searchInput) {
