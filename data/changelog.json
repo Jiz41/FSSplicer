@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-29",
+    "text": "全件一覧の検索が、表示言語に関係なく英名にもヒットしていた挙動を修正しました。日本語表示中は和名、英語表示中は英名のみが検索対象になります",
+    "text_en": "Fixed the full list search matching English names regardless of display language. Japanese display now searches Japanese names only, English display searches English names only"
+  },
+  {
+    "date": "2026-09-29",
     "text": "全件一覧の下部に「新着・ランキングに戻る」ボタンを追加しました。使い方ガイドも全件表示・検索の説明を追記しました",
     "text_en": "Added a \"Back to New / Ranking\" button at the bottom of the full list view, and updated the how-to guide to explain the Show All and search features"
   },

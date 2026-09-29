@@ -128,7 +128,8 @@ let browseLoaded = false;
 function browseMatches(horse, query) {
   const q = query.trim().toLowerCase();
   if (!q) return true;
-  const fields = [horse.name_jp, horse.name_en, horse.creator_name];
+  const nameField = currentLang() === "en" ? horse.name_en : horse.name_jp;
+  const fields = [nameField, horse.creator_name];
   return fields.some((f) => f && String(f).toLowerCase().includes(q));
 }
 
@@ -274,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
     langBtn.addEventListener("click", () => {
       updateGalleryTitle();
       if (cachedGalleryData) renderGallery(cachedGalleryData);
-      if (browseLoaded) renderBrowseResults();
+      if (browseLoaded) applyBrowseFilter();
     });
   }
 });
