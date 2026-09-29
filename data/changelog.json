@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-29",
+    "text": "X共有の文面を、作者以外の人がシェアしても違和感のない紹介文に変更しました",
+    "text_en": "Updated the X sharing text so it reads naturally whether shared by the creator or someone else"
+  },
+  {
+    "date": "2026-09-29",
     "text": "アーカイヴ・詳細ページのタイトルロゴをタップすると、ホーム画面に戻れるようにしました",
     "text_en": "You can now tap the title logo on the Archive and detail pages to return to the home screen"
   },

@@ -253,12 +253,11 @@ function renderRunningStyle(runningStyleRaw) {
 function buildXShareText(horse) {
   const lang = currentLang();
   const url = location.href;
+  const name = (lang === "en" && horse.name_en) ? horse.name_en : horse.name_jp;
   if (lang === "en") {
-    const name = horse.name_en || horse.name_jp;
-    return `I created "${name}"!\nCheck out the full details at the link below.\nYou can build your own horse from this data too.\n${url}\n#FSSplicer`;
+    return `"${name}" (by ${horse.creator_name})\nYou can build your own horse from this data too\n${url}\n#FSSplicer`;
   }
-  const name = horse.name_jp;
-  return `「${name}」を作りました\nリンクから詳細が見られます\nこのデータを元に、自分だけの1頭も作れます\n${url}\n#FSSplicer`;
+  return `「${name}」（by ${horse.creator_name}）\nこのデータを元に、自分だけの1頭も作れます\n${url}\n#FSSplicer`;
 }
 
 function renderHorse(horse) {
