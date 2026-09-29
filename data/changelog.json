@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-29",
+    "text": "全件一覧の下部に「新着・ランキングに戻る」ボタンを追加しました。使い方ガイドも全件表示・検索の説明を追記しました",
+    "text_en": "Added a \"Back to New / Ranking\" button at the bottom of the full list view, and updated the how-to guide to explain the Show All and search features"
+  },
+  {
+    "date": "2026-09-29",
     "text": "「全件表示」を押しても一覧がどこに出たか分かりにくかった不具合を修正しました。押すと新着・ランキング表示を隠して全件一覧に切り替わり、もう一度押すと元に戻ります",
     "text_en": "Fixed the \"Show All\" view being hard to find after tapping it. Tapping now hides New/Ranking and switches to the full list, and tapping again switches back"
   },

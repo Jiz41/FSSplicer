@@ -210,33 +210,53 @@ async function loadBrowseAll() {
   applyBrowseFilter();
 }
 
-function setupBrowseAll() {
+function closeBrowseView() {
   const btn = document.getElementById("gallery-browse-all-btn");
   const btnLabel = btn ? btn.querySelector("[data-i18n]") : null;
   const section = document.getElementById("gallery-browse-section");
   const sections = document.getElementById("gallery-sections");
+  if (section) section.hidden = true;
+  if (sections) sections.hidden = false;
+  if (btnLabel) {
+    btnLabel.setAttribute("data-i18n", "gallery_browse_all");
+    btnLabel.textContent = t("gallery_browse_all");
+  }
+}
+
+function openBrowseView() {
+  const btn = document.getElementById("gallery-browse-all-btn");
+  const btnLabel = btn ? btn.querySelector("[data-i18n]") : null;
+  const section = document.getElementById("gallery-browse-section");
+  const sections = document.getElementById("gallery-sections");
+  if (sections) sections.hidden = true;
+  if (section) section.hidden = false;
+  loadBrowseAll();
+  if (btnLabel) {
+    btnLabel.setAttribute("data-i18n", "gallery_browse_close");
+    btnLabel.textContent = t("gallery_browse_close");
+  }
+}
+
+function setupBrowseAll() {
+  const btn = document.getElementById("gallery-browse-all-btn");
+  const section = document.getElementById("gallery-browse-section");
+  const backBtn = document.getElementById("gallery-browse-back-btn");
   const searchInput = document.getElementById("gallery-search-input");
   if (!btn || !section) return;
 
   btn.addEventListener("click", () => {
-    const isOpen = !section.hidden;
-    if (isOpen) {
-      section.hidden = true;
-      if (sections) sections.hidden = false;
-      if (btnLabel) {
-        btnLabel.setAttribute("data-i18n", "gallery_browse_all");
-        btnLabel.textContent = t("gallery_browse_all");
-      }
+    if (section.hidden) {
+      openBrowseView();
     } else {
-      if (sections) sections.hidden = true;
-      section.hidden = false;
-      loadBrowseAll();
-      if (btnLabel) {
-        btnLabel.setAttribute("data-i18n", "gallery_browse_close");
-        btnLabel.textContent = t("gallery_browse_close");
-      }
+      closeBrowseView();
     }
   });
+
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      closeBrowseView();
+    });
+  }
 
   if (searchInput) {
     searchInput.addEventListener("input", () => {

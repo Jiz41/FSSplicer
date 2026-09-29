@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-version" content="2.15.1">
+<meta name="app-version" content="2.15.2">
 <title>アーカイヴ | FSSplicer</title>
 <meta property="og:title" content="アーカイヴ | FSSplicer">
 <meta property="og:description" content="みんなが作った馬データを一覧できるアーカイヴです">
@@ -23,14 +23,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2.15.1">
+<link rel="stylesheet" href="style.css?v=2.15.2">
 </head>
 <body>
 <header>
   <div class="header-top">
     <div class="header-left">
       <button class="menu-btn" id="menu-toggle" aria-label="メニュー"><span></span><span></span><span></span></button>
-      <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v2.15.1</span></h1>
+      <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span><span id="app-version-badge" class="version-badge">v2.15.2</span></h1>
     </div>
     <div class="header-buttons">
       <button class="lang-toggle" id="lang-toggle" aria-label="言語切り替え">ENG</button>
@@ -65,6 +65,7 @@
     <li data-i18n="archive_howto_5">Xのアイコンをタップすると、その馬をXで共有できます</li>
     <li data-i18n="archive_howto_6">「この馬を元に作る」を選ぶと、この馬のデータを元にしたホーム（エディター）が開けます。改変してアーカイヴに再登録すると、系譜として辿れるようになります</li>
     <li data-i18n="archive_howto_7">自分が登録した馬は、削除用パスワードで詳細ページから削除できます</li>
+    <li data-i18n="archive_howto_8">「全件表示」を押すと、登録されているすべての馬を新着順に見られます。検索欄に馬名や製作者名を入力すると絞り込めます</li>
   </ol>
 </details>
 <p class="gallery-empty" id="gallery-empty" hidden data-i18n="gallery_empty">まだ登録された馬がいません</p>
@@ -82,10 +83,11 @@
   <div class="gallery-grid" id="gallery-grid-browse"></div>
   <p class="gallery-empty" id="gallery-browse-empty" hidden data-i18n="gallery_search_no_results">該当する馬が見つかりません</p>
   <div class="gallery-pagination" id="gallery-pagination"></div>
+  <button type="button" class="gallery-browse-back-btn" id="gallery-browse-back-btn">&laquo; <span data-i18n="gallery_browse_back">新着・ランキングに戻る</span></button>
 </div>
 </main>
 
-<script src="script.js?v=2.15.1"></script>
-<script src="gallery.js?v=1.5.0"></script>
+<script src="script.js?v=2.15.2"></script>
+<script src="gallery.js?v=1.6.0"></script>
 </body>
 </html>

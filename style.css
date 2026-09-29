@@ -1924,6 +1924,19 @@ footer .fnote.footer-credit {
   margin: 0 0 1rem;
 }
 
+.gallery-browse-back-btn {
+  display: block;
+  width: 100%;
+  margin: 0.4rem 0 0;
+  padding: 0.6em 1em;
+  background: transparent;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  border-radius: 8px;
+  font-family: "IBM Plex Mono", monospace;
+  cursor: pointer;
+}
+
 .gallery-search-input {
   width: 100%;
   box-sizing: border-box;
