@@ -134,6 +134,9 @@ function buildDetailRadarSVG(horse) {
 function ageText(ageFloat) {
   const years = Math.floor(ageFloat);
   const months = Math.round((ageFloat - years) * 12);
+  if (currentLang() === "en") {
+    return years + "y " + months + "m";
+  }
   return years + "歳" + months + "ヶ月";
 }
 
