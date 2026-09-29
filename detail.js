@@ -234,18 +234,17 @@ function renderRunningStyle(runningStyleRaw) {
   container.innerHTML = "";
   const labels = [t("rs_label_0"), t("rs_label_1"), t("rs_label_2"), t("rs_label_3")];
   const values = String(runningStyleRaw || "").split("/").map(v => Number(v));
-  let mainIndex = 0;
-  let mainValue = -Infinity;
-  values.forEach((v, i) => {
-    if (!Number.isNaN(v) && v > mainValue) {
-      mainValue = v;
-      mainIndex = i;
-    }
-  });
   labels.forEach((label, i) => {
+    const raw = values[i];
+    const v = Number.isFinite(raw) ? Math.max(0, Math.min(1, raw)) : 0;
+    const pct = (v * 100).toFixed(0);
+    const bgPct = (v * 12).toFixed(1);
     const chip = document.createElement("span");
-    chip.className = "gallery-detail-rs-chip" + (i === mainIndex ? " is-main" : "");
+    chip.className = "gallery-detail-rs-chip";
     chip.textContent = label;
+    chip.style.borderColor = `color-mix(in srgb, var(--accent) ${pct}%, var(--line-strong))`;
+    chip.style.color = `color-mix(in srgb, var(--accent-soft) ${pct}%, var(--muted))`;
+    chip.style.background = `color-mix(in srgb, var(--accent) ${bgPct}%, transparent)`;
     container.appendChild(chip);
   });
 }

@@ -34,6 +34,16 @@ function buildGalleryCard(horse) {
   layer.style.backgroundColor = galleryColorHex(horse.horse_color);
   wrap.appendChild(layer);
 
+  const isNew = horse.created_at && (Date.now() - horse.created_at < 6 * 60 * 60 * 1000);
+  if (isNew) {
+    const ribbon = document.createElement("div");
+    ribbon.className = "gallery-new-ribbon";
+    const ribbonText = document.createElement("span");
+    ribbonText.textContent = "NEW";
+    ribbon.appendChild(ribbonText);
+    wrap.appendChild(ribbon);
+  }
+
   card.appendChild(wrap);
 
   const name = document.createElement("div");

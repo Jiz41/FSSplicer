@@ -1,6 +1,16 @@
 [
   {
     "date": "2026-09-29",
+    "text": "詳細ページの脚質表示を、値の大きさに応じて明度が変わる表現に変更しました。メイン脚質だけでなくサブ脚質の強さも見た目でわかるようになりました",
+    "text_en": "Changed the running style display on the detail page to vary brightness by value, so sub-style strength is now visible at a glance too"
+  },
+  {
+    "date": "2026-09-29",
+    "text": "アーカイヴの一覧カードに、登録から6時間以内の馬を示す虹色の「NEW」リボンを追加しました",
+    "text_en": "Added a rainbow \"NEW\" ribbon to Archive listing cards for horses registered within the last 6 hours"
+  },
+  {
+    "date": "2026-09-29",
     "text": "全件一覧の検索が、表示言語に関係なく英名にもヒットしていた挙動を修正しました。日本語表示中は和名、英語表示中は英名のみが検索対象になります",
     "text_en": "Fixed the full list search matching English names regardless of display language. Japanese display now searches Japanese names only, English display searches English names only"
   },

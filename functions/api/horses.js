@@ -21,6 +21,7 @@ function rowToHorse(row) {
     turf_rating: Number.isFinite(turfRating) ? turfRating : null,
     dirt_rating: Number.isFinite(dirtRating) ? dirtRating : null,
     like_count: row.like_count,
+    created_at: row.created_at,
   };
 }
 

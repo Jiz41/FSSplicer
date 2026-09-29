@@ -1974,3 +1974,36 @@ footer .fnote.footer-credit {
   font-family: "IBM Plex Mono", monospace;
   color: var(--ink);
 }
+
+.gallery-new-ribbon {
+  position: absolute;
+  top: 14px;
+  left: -34px;
+  width: 120px;
+  padding: 3px 0;
+  text-align: center;
+  transform: rotate(-45deg);
+  background: rgba(10, 20, 15, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gallery-new-ribbon span {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 800;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  background: linear-gradient(90deg, #ff5f6d, #ffc371, #47cf73, #38b6ff, #a06bff, #ff5f6d);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gallery-new-ribbon-flow 3s linear infinite;
+}
+
+@keyframes gallery-new-ribbon-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
