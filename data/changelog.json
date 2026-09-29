@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-09-29",
+    "text": "ページを開いたまま言語ボタンを押しても、馬名・系譜・年齢・距離適性・一覧カードなどが英語に切り替わらなかった不具合を修正しました（これまでページの読み込み直後しか反映されていませんでした）",
+    "text_en": "Fixed an issue where clicking the language button without reloading the page did not update horse names, lineage, age, distance aptitude, and listing cards to English (previously only the initial page load reflected the language)"
+  },
+  {
+    "date": "2026-09-29",
     "text": "系譜コーナーの親馬・子馬の名前も、英語表示時に英名へ切り替わるようにしました",
     "text_en": "Parent and offspring horse names in the lineage section now also switch to English names when viewing in English"
   },

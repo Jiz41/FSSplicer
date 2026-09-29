@@ -51,13 +51,13 @@ function buildGalleryCard(horse) {
   if (horse.turf_rating !== null && horse.turf_rating !== undefined) {
     const chip = document.createElement("span");
     chip.className = "gallery-rating-chip";
-    chip.textContent = "芝" + horse.turf_rating;
+    chip.textContent = t("detail_turf_label") + horse.turf_rating;
     ratings.appendChild(chip);
   }
   if (horse.dirt_rating !== null && horse.dirt_rating !== undefined) {
     const chip = document.createElement("span");
     chip.className = "gallery-rating-chip";
-    chip.textContent = "ダ" + horse.dirt_rating;
+    chip.textContent = t("detail_dirt_label") + horse.dirt_rating;
     ratings.appendChild(chip);
   }
   if (horse.like_count !== null && horse.like_count !== undefined) {
@@ -102,16 +102,31 @@ function renderGallery(data) {
   fillGrid("gallery-grid-ranking", rankingHorses);
 }
 
+let cachedGalleryData = null;
+
 async function loadGallery() {
   try {
     const res = await fetch("/api/horses");
     const data = await res.json();
+    cachedGalleryData = data;
     renderGallery(data);
   } catch (err) {
     renderGallery(null);
   }
 }
 
+function updateGalleryTitle() {
+  document.title = t("gallery_title") + " | FSSplicer";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadGallery();
+  updateGalleryTitle();
+  const langBtn = document.getElementById("lang-toggle");
+  if (langBtn) {
+    langBtn.addEventListener("click", () => {
+      updateGalleryTitle();
+      if (cachedGalleryData) renderGallery(cachedGalleryData);
+    });
+  }
 });

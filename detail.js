@@ -1,6 +1,9 @@
 // FSSplicer: アーカイヴ詳細ページ
 "use strict";
 
+let currentHorseData = null;
+let detailListenersAttached = false;
+
 // ---- 毛色→色（gallery.js HORSE_COLOR_HEX/galleryColorHex と同一実装。詳細ページ単独で読めるようここにも定義） ----
 const DETAIL_HORSE_COLOR_HEX = {
   0: "#6b3f2a", // 鹿毛
@@ -259,6 +262,7 @@ function buildXShareText(horse) {
 }
 
 function renderHorse(horse) {
+  currentHorseData = horse;
   const displayName = (currentLang() === "en" && horse.name_en) ? horse.name_en : horse.name_jp;
   document.title = displayName + " | FSSplicer";
   document.getElementById("detail-name").textContent = displayName;
@@ -303,75 +307,80 @@ function renderHorse(horse) {
     likeBtn.disabled = true;
     likeBtn.classList.add("is-liked");
   }
-  likeBtn.addEventListener("click", async () => {
-    if (likeBtn.disabled) return;
-    likeBtn.disabled = true;
-    try {
-      const res = await fetch(`/api/horses/${encodeURIComponent(horse.id)}/like`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ liker_token: getLikerToken() }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        document.getElementById("detail-like-count").textContent = data.like_count;
-        markHorseLiked(horse.id);
-        likeBtn.classList.add("is-liked");
-      } else {
-        likeBtn.disabled = false;
-      }
-    } catch (e) {
-      likeBtn.disabled = false;
-    }
-  });
-
   const shareBtn = document.getElementById("detail-share-btn");
-  if (shareBtn) {
-    shareBtn.addEventListener("click", () => {
-      const text = buildXShareText(horse);
-      window.open("https://x.com/intent/tweet?text=" + encodeURIComponent(text), "_blank");
-    });
-  }
-
   const remixBtn = document.getElementById("remix-btn");
-  if (remixBtn) {
-    remixBtn.addEventListener("click", () => {
-      location.href = buildRemixUrl(horse);
-    });
-  }
-
   const deleteBtn = document.getElementById("detail-delete-btn");
   const deleteError = document.getElementById("detail-delete-error");
-  deleteBtn.addEventListener("click", async () => {
-    const password = document.getElementById("detail-delete-password").value;
-    if (!password) {
-      deleteError.textContent = t("detail_delete_error_empty_password");
-      deleteError.hidden = false;
-      return;
-    }
-    const confirmName = (currentLang() === "en" && horse.name_en) ? horse.name_en : horse.name_jp;
-    if (!confirm(t("detail_delete_confirm").replace("{name}", confirmName))) return;
-    deleteBtn.disabled = true;
-    try {
-      const res = await fetch(`/api/horses/${encodeURIComponent(horse.id)}`, {
-        method: "DELETE",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ delete_password: password }),
+
+  if (!detailListenersAttached) {
+    likeBtn.addEventListener("click", async () => {
+      if (likeBtn.disabled) return;
+      likeBtn.disabled = true;
+      try {
+        const res = await fetch(`/api/horses/${encodeURIComponent(currentHorseData.id)}/like`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ liker_token: getLikerToken() }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          document.getElementById("detail-like-count").textContent = data.like_count;
+          markHorseLiked(currentHorseData.id);
+          likeBtn.classList.add("is-liked");
+        } else {
+          likeBtn.disabled = false;
+        }
+      } catch (e) {
+        likeBtn.disabled = false;
+      }
+    });
+
+    if (shareBtn) {
+      shareBtn.addEventListener("click", () => {
+        const text = buildXShareText(currentHorseData);
+        window.open("https://x.com/intent/tweet?text=" + encodeURIComponent(text), "_blank");
       });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        location.href = "gallery.html";
-      } else {
-        deleteError.textContent = data.error || t("detail_delete_error_generic");
+    }
+
+    if (remixBtn) {
+      remixBtn.addEventListener("click", () => {
+        location.href = buildRemixUrl(currentHorseData);
+      });
+    }
+
+    deleteBtn.addEventListener("click", async () => {
+      const password = document.getElementById("detail-delete-password").value;
+      if (!password) {
+        deleteError.textContent = t("detail_delete_error_empty_password");
+        deleteError.hidden = false;
+        return;
+      }
+      const confirmName = (currentLang() === "en" && currentHorseData.name_en) ? currentHorseData.name_en : currentHorseData.name_jp;
+      if (!confirm(t("detail_delete_confirm").replace("{name}", confirmName))) return;
+      deleteBtn.disabled = true;
+      try {
+        const res = await fetch(`/api/horses/${encodeURIComponent(currentHorseData.id)}`, {
+          method: "DELETE",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ delete_password: password }),
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          location.href = "gallery.html";
+        } else {
+          deleteError.textContent = data.error || t("detail_delete_error_generic");
+          deleteError.hidden = false;
+          deleteBtn.disabled = false;
+        }
+      } catch (e) {
+        deleteError.textContent = t("detail_delete_error_generic");
         deleteError.hidden = false;
         deleteBtn.disabled = false;
       }
-    } catch (e) {
-      deleteError.textContent = t("detail_delete_error_generic");
-      deleteError.hidden = false;
-      deleteBtn.disabled = false;
-    }
-  });
+    });
+
+    detailListenersAttached = true;
+  }
 }
 
 async function loadDetail() {
@@ -406,4 +415,10 @@ async function loadDetail() {
 
 document.addEventListener("DOMContentLoaded", () => {
   loadDetail();
+  const langBtn = document.getElementById("lang-toggle");
+  if (langBtn) {
+    langBtn.addEventListener("click", () => {
+      if (currentHorseData) renderHorse(currentHorseData);
+    });
+  }
 });
