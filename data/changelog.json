@@ -1,5 +1,15 @@
 [
   {
+    "date": "2026-10-01",
+    "text": "アーカイヴ登録時のNGワードチェックに、英語の差別用語・侮辱語リストを追加しました。英語の馬名・製作者名も対象になります",
+    "text_en": "Added an English list of slurs and profanity to the archive registration's banned-word check, now covering English horse names and creator names too"
+  },
+  {
+    "date": "2026-09-30",
+    "text": "「この馬を元に作る」機能で、馬具欄が空の馬（ほぼ全頭）のデータが読み込めなくなっていた不具合を修正しました",
+    "text_en": "Fixed a bug where \"Remix this horse\" failed to load data for horses with empty gear fields (i.e. almost all horses)"
+  },
+  {
     "date": "2026-09-29",
     "text": "詳細ページの脚質チップの上に、実際の数値を小さく表示するようにしました",
     "text_en": "Added small numeric values above each running style chip on the detail page"

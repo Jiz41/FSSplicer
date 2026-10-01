@@ -3,6 +3,7 @@
 // POST /api/horses           -> { id: "<新規id>" }
 
 import ngWords from "../../data/ng_words.json";
+import ngWordsEn from "../../data/ng_words_en.json";
 
 function rowToHorse(row) {
   const cols = row.csv_data.split("\t");
@@ -90,6 +91,10 @@ function findNgWordMatch(name) {
   for (const word of ngWords) {
     if (name.includes(word)) return word;
   }
+  const lower = name.toLowerCase();
+  for (const word of ngWordsEn) {
+    if (lower.includes(word)) return word;
+  }
   return null;
 }
 
@@ -131,11 +136,12 @@ export async function onRequestPost(context) {
       });
     }
 
-    const matchedWord = findNgWordMatch(nameJp) || findNgWordMatch(creatorName);
+    const nameEn = csvData.split("\t")[1] || "";
+    const matchedWord = findNgWordMatch(nameJp) || findNgWordMatch(creatorName) || findNgWordMatch(nameEn);
     if (matchedWord) {
       await notifyDiscord(
         env,
-        `[FSSp通報] NGワード抵触の可能性があります\n馬名: ${nameJp}\n製作者名: ${creatorName}\n抵触ワード: ${matchedWord}`
+        `[FSSp通報] NGワード抵触の可能性があります\n馬名(JP): ${nameJp}\n馬名(EN): ${nameEn}\n製作者名: ${creatorName}\n抵触ワード: ${matchedWord}`
       );
     }
 
