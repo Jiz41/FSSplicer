@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS horses (
   delete_password_hash TEXT NOT NULL,
   like_count INTEGER NOT NULL DEFAULT 0,
   created_at INTEGER NOT NULL,
+  ng_flag TEXT,
   FOREIGN KEY (parent_id) REFERENCES horses(id)
 );
 

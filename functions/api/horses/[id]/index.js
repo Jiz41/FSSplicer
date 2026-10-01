@@ -39,7 +39,7 @@ export async function onRequestGet(context) {
   const { env, params } = context;
   try {
     const row = await env.DB.prepare(
-      "SELECT id, name_jp, creator_name, csv_data, parent_id, like_count, created_at FROM horses WHERE id = ?"
+      "SELECT id, name_jp, creator_name, csv_data, parent_id, like_count, created_at FROM horses WHERE id = ? AND ng_flag IS NULL"
     ).bind(params.id).first();
 
     if (!row) {
@@ -71,9 +71,9 @@ export async function onRequestGet(context) {
 
     const [parentRow, childrenResult] = await Promise.all([
       row.parent_id
-        ? env.DB.prepare("SELECT id, name_jp, creator_name, csv_data FROM horses WHERE id = ?").bind(row.parent_id).first()
+        ? env.DB.prepare("SELECT id, name_jp, creator_name, csv_data FROM horses WHERE id = ? AND ng_flag IS NULL").bind(row.parent_id).first()
         : Promise.resolve(null),
-      env.DB.prepare("SELECT id, name_jp, creator_name, csv_data FROM horses WHERE parent_id = ? ORDER BY created_at ASC").bind(params.id).all(),
+      env.DB.prepare("SELECT id, name_jp, creator_name, csv_data FROM horses WHERE parent_id = ? AND ng_flag IS NULL ORDER BY created_at ASC").bind(params.id).all(),
     ]);
 
     const lineageEntry = (r) => ({

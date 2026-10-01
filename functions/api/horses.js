@@ -5,7 +5,7 @@
 import ngWords from "../../data/ng_words.json";
 import ngWordsEn from "../../data/ng_words_en.json";
 
-function rowToHorse(row) {
+export function rowToHorse(row) {
   const cols = row.csv_data.split("\t");
   // csv_data は id を除いた COLUMN_ORDER 順の74列（script.js の COLUMN_ORDER 準拠）。
   // 6=horse_color, 11=turf_rating, 12=dirt_rating
@@ -35,7 +35,7 @@ export async function onRequestGet(context) {
 
     if (browse) {
       const { results } = await env.DB.prepare(
-        "SELECT id, name_jp, creator_name, csv_data, like_count, created_at FROM horses ORDER BY created_at DESC LIMIT 300"
+        "SELECT id, name_jp, creator_name, csv_data, like_count, created_at FROM horses WHERE ng_flag IS NULL ORDER BY created_at DESC LIMIT 300"
       ).all();
 
       return new Response(JSON.stringify({ items: results.map(rowToHorse) }), {
@@ -46,7 +46,7 @@ export async function onRequestGet(context) {
     if (q) {
       const like = `%${q}%`;
       const { results } = await env.DB.prepare(
-        "SELECT id, name_jp, creator_name, csv_data, like_count, created_at FROM horses WHERE name_jp LIKE ? COLLATE NOCASE OR creator_name LIKE ? COLLATE NOCASE ORDER BY created_at DESC LIMIT 60"
+        "SELECT id, name_jp, creator_name, csv_data, like_count, created_at FROM horses WHERE (name_jp LIKE ? COLLATE NOCASE OR creator_name LIKE ? COLLATE NOCASE) AND ng_flag IS NULL ORDER BY created_at DESC LIMIT 60"
       ).bind(like, like).all();
 
       return new Response(JSON.stringify({ search: results.map(rowToHorse) }), {
@@ -56,10 +56,10 @@ export async function onRequestGet(context) {
 
     const [newRows, rankingRows] = await Promise.all([
       env.DB.prepare(
-        "SELECT id, name_jp, creator_name, csv_data, like_count, created_at FROM horses ORDER BY created_at DESC LIMIT 4"
+        "SELECT id, name_jp, creator_name, csv_data, like_count, created_at FROM horses WHERE ng_flag IS NULL ORDER BY created_at DESC LIMIT 4"
       ).all(),
       env.DB.prepare(
-        "SELECT id, name_jp, creator_name, csv_data, like_count, created_at FROM horses ORDER BY like_count DESC, created_at DESC LIMIT 10"
+        "SELECT id, name_jp, creator_name, csv_data, like_count, created_at FROM horses WHERE ng_flag IS NULL ORDER BY like_count DESC, created_at DESC LIMIT 10"
       ).all(),
     ]);
 
@@ -150,8 +150,8 @@ export async function onRequestPost(context) {
     const createdAt = Date.now();
 
     await env.DB.prepare(
-      "INSERT INTO horses (id, name_jp, creator_name, csv_data, parent_id, delete_password_hash, like_count, created_at) VALUES (?, ?, ?, ?, ?, ?, 0, ?)"
-    ).bind(id, nameJp, creatorName, csvData, parentId, deletePasswordHash, createdAt).run();
+      "INSERT INTO horses (id, name_jp, creator_name, csv_data, parent_id, delete_password_hash, like_count, created_at, ng_flag) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?)"
+    ).bind(id, nameJp, creatorName, csvData, parentId, deletePasswordHash, createdAt, matchedWord || null).run();
 
     return new Response(JSON.stringify({ id }), {
       status: 201,

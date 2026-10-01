@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>管理用ページ | FSSplicer</title>
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.admin-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.2rem;
+}
+.admin-tabs {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.admin-tab-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  color: var(--ink-dim);
+  font-family: "IBM Plex Mono", monospace;
+  cursor: pointer;
+}
+.admin-tab-btn.active {
+  background: var(--panel);
+  color: var(--accent);
+  border-color: var(--accent-soft);
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.admin-table th,
+.admin-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.5rem 0.4rem;
+  text-align: left;
+  color: var(--ink-dim);
+  vertical-align: top;
+}
+.admin-table th {
+  color: var(--ink);
+  font-weight: 700;
+}
+.admin-row-btn {
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid #e85a5a;
+  background: transparent;
+  color: #e85a5a;
+  cursor: pointer;
+  margin-right: 0.4rem;
+  font-size: 0.82rem;
+}
+.admin-row-btn:hover {
+  background: rgba(232, 90, 90, 0.1);
+}
+.admin-row-btn.restore {
+  border-color: var(--accent-soft);
+  color: var(--accent-soft);
+}
+.admin-row-btn.restore:hover {
+  background: rgba(143, 232, 157, 0.1);
+}
+.admin-empty {
+  color: var(--muted);
+  padding: 1rem 0;
+}
+#admin-auth-modal .modal-content {
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+#admin-auth-modal input {
+  padding: 0.5rem 0.7rem;
+  border-radius: 4px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-family: "IBM Plex Mono", monospace;
+}
+#admin-auth-error {
+  color: #e85a5a;
+  font-size: 0.82rem;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-top">
+    <div class="header-left">
+      <h1 class="wordmark"><img src="images/favicon-192.png" alt="" class="logo-icon">FS<span>Splicer</span></h1>
+    </div>
+  </div>
+  <div class="header-sub-row">
+    <p class="subtitle">管理用ページ</p>
+  </div>
+</header>
+
+<main class="admin-main">
+  <div class="admin-tabs">
+    <button type="button" class="admin-tab-btn active" id="admin-tab-all">全馬一覧</button>
+    <button type="button" class="admin-tab-btn" id="admin-tab-flagged">非公開（通報）一覧</button>
+  </div>
+  <div id="admin-list-container"></div>
+</main>
+
+<div class="modal hidden" id="admin-auth-modal">
+  <div class="modal-content">
+    <p>管理者キーを入力してください</p>
+    <input type="password" id="admin-key-input" placeholder="管理者キー">
+    <button type="button" class="gallery-delete-btn" id="admin-key-submit">送信</button>
+    <p id="admin-auth-error" hidden>認証に失敗しました</p>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
