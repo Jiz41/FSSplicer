@@ -86,14 +86,20 @@ async function sha256Hex(text) {
     .join("");
 }
 
+function escapeRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// 英語リストは単語境界での完全一致（部分一致だと"Japan"が"jap"に、"Peacock"が"cock"に誤爆するため）
+const ngWordsEnPatterns = ngWordsEn.map((w) => ({ word: w, re: new RegExp("\\b" + escapeRegex(w) + "\\b", "i") }));
+
 function findNgWordMatch(name) {
   if (!name) return null;
   for (const word of ngWords) {
     if (name.includes(word)) return word;
   }
-  const lower = name.toLowerCase();
-  for (const word of ngWordsEn) {
-    if (lower.includes(word)) return word;
+  for (const { word, re } of ngWordsEnPatterns) {
+    if (re.test(name)) return word;
   }
   return null;
 }
