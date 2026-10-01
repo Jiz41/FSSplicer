@@ -846,11 +846,12 @@ function setupWordmarkLink() {
 let sourceRowValues = {};
 
 function loadSourceFromText(raw, status) {
-  raw = (raw || "").trim();
-  if (!raw) {
+  raw = raw || "";
+  if (!raw.trim()) {
     if (status) status.textContent = t("load_source_empty");
     return false;
   }
+  raw = raw.replace(/^﻿/, "").replace(/[\r\n]+$/, "");
   const fields = raw.split("\t");
   let cols;
   if (fields.length === COLUMN_ORDER.length) {
