@@ -92,7 +92,9 @@ function renderList(items, flaggedView) {
     const tr = document.createElement("tr");
 
     const nameTd = document.createElement("td");
-    nameTd.textContent = horse.name_jp || horse.name_en || "";
+    const jp = horse.name_jp || "";
+    const en = horse.name_en || "";
+    nameTd.textContent = en ? (jp ? `${jp} / ${en}` : en) : jp;
     tr.appendChild(nameTd);
 
     const creatorTd = document.createElement("td");
