@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-10-01",
+    "text": "英語NGワードリストに「suck」「sucks」を追加しました",
+    "text_en": "Added \"suck\" and \"sucks\" to the English banned-word list"
+  },
+  {
+    "date": "2026-10-01",
     "text": "アーカイヴ登録時のNGワードチェックに、英語の差別用語・侮辱語リストを追加しました。英語の馬名・製作者名も対象になります",
     "text_en": "Added an English list of slurs and profanity to the archive registration's banned-word check, now covering English horse names and creator names too"
   },
