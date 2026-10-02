@@ -852,7 +852,11 @@ function loadSourceFromText(raw, status) {
     return false;
   }
   raw = raw.replace(/^﻿/, "").replace(/[\r\n]+$/, "");
-  const fields = raw.split("\t");
+  let fields = raw.split("\t");
+  // マスターシート側に末尾2列の無名(未使用)列が追加されたため、その分を切り捨てて吸収する
+  if (fields.length === COLUMN_ORDER.length + 2 || fields.length === COLUMN_ORDER.length - 1 + 2) {
+    fields = fields.slice(0, fields.length - 2);
+  }
   let cols;
   if (fields.length === COLUMN_ORDER.length) {
     cols = COLUMN_ORDER;

@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-10-02",
+    "text": "「元の馬データを読み込む」で、マスターシート側の列構成変化により一部の馬が読み込めなかった不具合を修正しました",
+    "text_en": "Fixed \"Load Source Horse Data\" failing for some horses due to a column layout change on the master sheet side"
+  },
+  {
     "date": "2026-10-01",
     "text": "NGワードチェックの英語判定方法を改善し、実在の馬名等への誤検知を減らしました",
     "text_en": "Improved the English banned-word matching to reduce false positives against legitimate names"
