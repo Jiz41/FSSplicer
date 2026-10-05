@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-10-05",
+    "text": "アーカイヴの詳細ページで、同名の競走馬がWikipediaにある場合は「Wikipedia：馬名」のリンクを表示するようにしました",
+    "text_en": "On archive detail pages, a \"Wikipedia: <horse name>\" link now appears when a racehorse of the same name has a Wikipedia article"
+  },
+  {
     "date": "2026-10-02",
     "text": "「元の馬データを読み込む」で、マスターシート側の列構成変化により一部の馬が読み込めなかった不具合を修正しました",
     "text_en": "Fixed \"Load Source Horse Data\" failing for some horses due to a column layout change on the master sheet side"

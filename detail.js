@@ -229,6 +229,105 @@ function renderLineage(horse) {
   container.innerHTML = html;
 }
 
+const WIKI_CACHE_PREFIX = "fssp_wiki_v1:";
+const WIKI_TTL_FOUND_MS = 30 * 24 * 3600 * 1000;
+const WIKI_TTL_NONE_MS = 24 * 3600 * 1000;
+let wikiRenderToken = 0;
+
+function wikiCacheGet(name) {
+  try {
+    const raw = localStorage.getItem(WIKI_CACHE_PREFIX + name);
+    if (!raw) return undefined;
+    const parsed = JSON.parse(raw);
+    const ttl = parsed.t ? WIKI_TTL_FOUND_MS : WIKI_TTL_NONE_MS;
+    if (Date.now() - parsed.at > ttl) return undefined;
+    return parsed.t;
+  } catch (e) {
+    return undefined;
+  }
+}
+
+function wikiCacheSet(name, titleOrNull) {
+  try {
+    localStorage.setItem(WIKI_CACHE_PREFIX + name, JSON.stringify({ t: titleOrNull, at: Date.now() }));
+  } catch (e) {
+    // ignore
+  }
+}
+
+async function wikiLookup(name) {
+  const cached = wikiCacheGet(name);
+  if (cached !== undefined) return cached;
+
+  try {
+    const params = new URLSearchParams({
+      action: "query",
+      format: "json",
+      redirects: "1",
+      prop: "categories",
+      cllimit: "max",
+      origin: "*",
+      titles: `${name} (競走馬)|${name}`
+    });
+    const res = await fetch(`https://ja.wikipedia.org/w/api.php?${params.toString()}`);
+    if (!res.ok) throw new Error("wiki fetch failed");
+    const data = await res.json();
+    const pages = (data && data.query && data.query.pages) ? Object.values(data.query.pages) : [];
+
+    const isHorseArticle = (page) => {
+      if (!page || page.missing !== undefined) return false;
+      const cats = Array.isArray(page.categories) ? page.categories : [];
+      return cats.some((c) => {
+        const title = c.title || "";
+        return title.includes("サラブレッド") || /\d{4}年生 \(競走馬\)/.test(title);
+      });
+    };
+
+    const matches = pages.filter(isHorseArticle);
+    if (matches.length === 0) {
+      wikiCacheSet(name, null);
+      return null;
+    }
+    matches.sort((a, b) => {
+      const aEnds = a.title.endsWith("(競走馬)") ? 0 : 1;
+      const bEnds = b.title.endsWith("(競走馬)") ? 0 : 1;
+      return aEnds - bEnds;
+    });
+    const title = matches[0].title;
+    wikiCacheSet(name, title);
+    return title;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function renderWikiLink(horse) {
+  try {
+    const el = document.getElementById("detail-wiki");
+    if (!el) return;
+    el.hidden = true;
+    el.textContent = "";
+    if (!horse.name_jp) return;
+
+    const myToken = ++wikiRenderToken;
+    const title = await wikiLookup(horse.name_jp);
+    if (myToken !== wikiRenderToken) return;
+    if (!title) return;
+
+    const displayName = title.replace(/ \(競走馬\)$/, "");
+    el.appendChild(document.createTextNode("Wikipedia："));
+    const a = document.createElement("a");
+    a.textContent = displayName;
+    a.href = "https://ja.wikipedia.org/wiki/" + encodeURIComponent(title.replace(/ /g, "_"));
+    a.target = "_blank";
+    a.rel = "noopener";
+    el.appendChild(a);
+    el.hidden = false;
+  } catch (e) {
+    // swallow all errors; this is a best-effort decoration
+  }
+}
+
 function renderRunningStyle(runningStyleRaw) {
   const container = document.getElementById("detail-running-style");
   container.innerHTML = "";
@@ -299,6 +398,7 @@ function renderHorse(horse) {
   renderRunningStyle(horse.running_style);
 
   renderLineage(horse);
+  renderWikiLink(horse);
 
   document.getElementById("detail-slider-physical").innerHTML =
     sliderRowHTML(t("detail_slider_physical_label"), horse.physical !== null ? horse.physical : 0, 0, 1, t("physical_low_label"), t("physical_high_label"));

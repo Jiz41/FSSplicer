@@ -1853,6 +1853,25 @@ footer .fnote.footer-credit {
   font-size: 0.85rem;
 }
 
+/* ---- Wikipedia 参照表記（系譜の下・静かに） ---- */
+.gallery-detail-wiki {
+  margin: 0.5rem 0 0.2rem;
+  padding: 0 0.2rem;
+  text-align: left;
+  font-size: 0.55rem;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.gallery-detail-wiki[hidden] { display: none; }
+.gallery-detail-wiki a {
+  color: var(--muted);
+  text-decoration: underline;
+}
+.gallery-detail-wiki a:hover,
+.gallery-detail-wiki a:focus-visible {
+  color: var(--accent-soft);
+}
+
 /* ---- 「この馬を元に作る」ボタン ---- */
 .gallery-remix-btn {
   display: block;
