@@ -229,7 +229,7 @@ function renderLineage(horse) {
   container.innerHTML = html;
 }
 
-const WIKI_CACHE_PREFIX = "fssp_wiki_v1:";
+const WIKI_CACHE_PREFIX = "fssp_wiki_v2:";
 const WIKI_TTL_FOUND_MS = 30 * 24 * 3600 * 1000;
 const WIKI_TTL_NONE_MS = 24 * 3600 * 1000;
 let wikiRenderToken = 0;
@@ -264,8 +264,10 @@ async function wikiLookup(name) {
       action: "query",
       format: "json",
       redirects: "1",
-      prop: "categories",
+      prop: "categories|langlinks",
       cllimit: "max",
+      lllang: "en",
+      lllimit: "max",
       origin: "*",
       titles: `${name} (競走馬)|${name}`
     });
@@ -293,9 +295,14 @@ async function wikiLookup(name) {
       const bEnds = b.title.endsWith("(競走馬)") ? 0 : 1;
       return aEnds - bEnds;
     });
-    const title = matches[0].title;
-    wikiCacheSet(name, title);
-    return title;
+    const page = matches[0];
+    const ja = page.title;
+    const langlinks = Array.isArray(page.langlinks) ? page.langlinks : [];
+    const enLink = langlinks.find((l) => l.lang === "en");
+    const en = enLink ? enLink["*"] : null;
+    const result = { ja, en };
+    wikiCacheSet(name, result);
+    return result;
   } catch (e) {
     return null;
   }
@@ -310,17 +317,24 @@ async function renderWikiLink(horse) {
     if (!horse.name_jp) return;
 
     const myToken = ++wikiRenderToken;
-    const title = await wikiLookup(horse.name_jp);
+    const info = await wikiLookup(horse.name_jp);
     if (myToken !== wikiRenderToken) return;
-    if (!title) return;
+    if (!info) return;
 
-    const displayName = title.replace(/ \(競走馬\)$/, "");
-    el.appendChild(document.createTextNode("Wikipedia："));
     const a = document.createElement("a");
-    a.textContent = displayName;
-    a.href = "https://ja.wikipedia.org/wiki/" + encodeURIComponent(title.replace(/ /g, "_"));
     a.target = "_blank";
     a.rel = "noopener";
+
+    if (currentLang() === "en" && info.en) {
+      el.appendChild(document.createTextNode("Wikipedia: "));
+      a.textContent = info.en.replace(/ \((?:race)?horse\)$/, "");
+      a.href = "https://en.wikipedia.org/wiki/" + encodeURIComponent(info.en.replace(/ /g, "_"));
+    } else {
+      if (!info.ja) return;
+      el.appendChild(document.createTextNode("Wikipedia："));
+      a.textContent = info.ja.replace(/ \(競走馬\)$/, "");
+      a.href = "https://ja.wikipedia.org/wiki/" + encodeURIComponent(info.ja.replace(/ /g, "_"));
+    }
     el.appendChild(a);
     el.hidden = false;
   } catch (e) {

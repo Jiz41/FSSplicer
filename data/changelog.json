@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-10-05",
+    "text": "Wikipediaのリンクが、表示言語が英語のときは英語版Wikipediaの記事へ飛ぶようになりました（英語版が無い馬は日本語版）",
+    "text_en": "The Wikipedia link now points to the English Wikipedia article when the display language is English (falls back to the Japanese article if none exists)"
+  },
+  {
+    "date": "2026-10-05",
     "text": "アーカイヴの詳細ページで、同名の競走馬がWikipediaにある場合は「Wikipedia：馬名」のリンクを表示するようにしました",
     "text_en": "On archive detail pages, a \"Wikipedia: <horse name>\" link now appears when a racehorse of the same name has a Wikipedia article"
   },
