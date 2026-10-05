@@ -1857,7 +1857,7 @@ footer .fnote.footer-credit {
 .gallery-detail-wiki {
   margin: 0.5rem 0 0.2rem;
   padding: 0 0.2rem;
-  text-align: left;
+  text-align: right;
   font-size: 0.55rem;
   letter-spacing: 0;
   color: var(--muted);
