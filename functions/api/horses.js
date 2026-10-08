@@ -118,6 +118,65 @@ async function notifyDiscord(env, message) {
   }
 }
 
+function truncateCodePoints(str, max) {
+  const chars = Array.from(str);
+  if (chars.length <= max) return str;
+  return chars.slice(0, max).join("") + "…";
+}
+
+async function postToBluesky(env, { id, nameJp, creatorName }) {
+  const handle = env.BLUESKY_HANDLE;
+  const appPassword = env.BLUESKY_APP_PASSWORD;
+  if (!handle || !appPassword) return;
+  try {
+    const sessionRes = await fetch("https://bsky.social/xrpc/com.atproto.server.createSession", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ identifier: handle, password: appPassword }),
+    });
+    const session = await sessionRes.json();
+    const accessJwt = session && session.accessJwt;
+    const did = session && session.did;
+    if (!accessJwt || !did) return;
+
+    const name = truncateCodePoints(nameJp, 60);
+    const creator = truncateCodePoints(creatorName, 40);
+    const url = `https://fssplicer.pages.dev/detail?id=${id}`;
+    const text = `【FSSp新着】${name}\n製作者: ${creator}\n${url}`;
+
+    const encoder = new TextEncoder();
+    const prefixBytes = encoder.encode(text.slice(0, text.lastIndexOf(url))).length;
+    const urlBytes = encoder.encode(url).length;
+    const byteStart = prefixBytes;
+    const byteEnd = prefixBytes + urlBytes;
+
+    await fetch("https://bsky.social/xrpc/com.atproto.repo.createRecord", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${accessJwt}`,
+      },
+      body: JSON.stringify({
+        repo: did,
+        collection: "app.bsky.feed.post",
+        record: {
+          $type: "app.bsky.feed.post",
+          text,
+          facets: [
+            {
+              index: { byteStart, byteEnd },
+              features: [{ $type: "app.bsky.richtext.facet#link", uri: url }],
+            },
+          ],
+          createdAt: new Date().toISOString(),
+        },
+      }),
+    });
+  } catch (err) {
+    // 投稿失敗は登録処理を止めない
+  }
+}
+
 export async function onRequestPost(context) {
   const { env, request } = context;
   try {
@@ -158,6 +217,21 @@ export async function onRequestPost(context) {
     await env.DB.prepare(
       "INSERT INTO horses (id, name_jp, creator_name, csv_data, parent_id, delete_password_hash, like_count, created_at, ng_flag) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?)"
     ).bind(id, nameJp, creatorName, csvData, parentId, deletePasswordHash, createdAt, matchedWord || null).run();
+
+    if (!matchedWord) {
+      let shouldPost = false;
+      try {
+        const countRow = await env.DB.prepare(
+          "SELECT COUNT(*) AS c FROM horses WHERE created_at > ?"
+        ).bind(Date.now() - 3600000).first();
+        shouldPost = !!countRow && countRow.c <= 10;
+      } catch (err) {
+        shouldPost = false;
+      }
+      if (shouldPost) {
+        context.waitUntil(postToBluesky(env, { id, nameJp, creatorName }));
+      }
+    }
 
     return new Response(JSON.stringify({ id }), {
       status: 201,
