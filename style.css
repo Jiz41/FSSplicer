@@ -966,6 +966,23 @@ footer .fnote.footer-credit {
   border-bottom: none;
 }
 
+.bsky-notice {
+  margin: 0 0 2rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--surface), var(--panel));
+  color: var(--ink-dim);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.bsky-notice a {
+  color: var(--accent-cyan);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
 /* ---- color / mark samples ---- */
 .color-sample-strip {
   margin-top: 8px;
