@@ -124,7 +124,7 @@ function truncateCodePoints(str, max) {
   return chars.slice(0, max).join("") + "…";
 }
 
-async function postToBluesky(env, { id, nameJp, creatorName }) {
+async function postToBluesky(env, { id, nameJp, nameEn, creatorName }) {
   const handle = env.BLUESKY_HANDLE;
   const appPassword = env.BLUESKY_APP_PASSWORD;
   if (!handle || !appPassword) return;
@@ -140,15 +140,20 @@ async function postToBluesky(env, { id, nameJp, creatorName }) {
     if (!accessJwt || !did) return;
 
     const name = truncateCodePoints(nameJp, 60);
+    const en = (nameEn || "").trim();
+    const nameLine = en && en !== nameJp ? `${name} / ${truncateCodePoints(en, 60)}` : name;
     const creator = truncateCodePoints(creatorName, 40);
     const url = `https://fssplicer.pages.dev/detail?id=${id}`;
-    const text = `【FSSp新着】${name}\n製作者: ${creator}\n${url}`;
+    const tag = "#FSSuite";
+    const text = `【FSSp新着】\n${nameLine}\n製作者: ${creator}\n${url}\n${tag}`;
 
     const encoder = new TextEncoder();
     const prefixBytes = encoder.encode(text.slice(0, text.lastIndexOf(url))).length;
     const urlBytes = encoder.encode(url).length;
     const byteStart = prefixBytes;
     const byteEnd = prefixBytes + urlBytes;
+    const tagStart = encoder.encode(text.slice(0, text.lastIndexOf(tag))).length;
+    const tagEnd = tagStart + encoder.encode(tag).length;
 
     await fetch("https://bsky.social/xrpc/com.atproto.repo.createRecord", {
       method: "POST",
@@ -166,6 +171,10 @@ async function postToBluesky(env, { id, nameJp, creatorName }) {
             {
               index: { byteStart, byteEnd },
               features: [{ $type: "app.bsky.richtext.facet#link", uri: url }],
+            },
+            {
+              index: { byteStart: tagStart, byteEnd: tagEnd },
+              features: [{ $type: "app.bsky.richtext.facet#tag", tag: tag.slice(1) }],
             },
           ],
           createdAt: new Date().toISOString(),
@@ -229,7 +238,7 @@ export async function onRequestPost(context) {
         shouldPost = false;
       }
       if (shouldPost) {
-        context.waitUntil(postToBluesky(env, { id, nameJp, creatorName }));
+        context.waitUntil(postToBluesky(env, { id, nameJp, nameEn, creatorName }));
       }
     }
 
