@@ -2,6 +2,8 @@
 // GET /api/horses/:id -> { id, name_jp, creator_name, parent_id, like_count, created_at, ...74列 }
 // DELETE /api/horses/:id -> { success: true }
 
+import { logEvent } from "../../horses.js";
+
 // csv_data(74列、idを除いたCOLUMN_ORDER順）の列名。script.jsのCOLUMN_ORDERからidを除いたものと完全一致させること。
 const CSV_COLUMNS = [
   "name_jp", "name_en", "gender", "birth_year", "birth_month", "birth_day",
@@ -112,7 +114,7 @@ export async function onRequestDelete(context) {
     const body = await request.json();
     const deletePassword = typeof body.delete_password === "string" ? body.delete_password : "";
 
-    const row = await env.DB.prepare("SELECT delete_password_hash FROM horses WHERE id = ?").bind(horseId).first();
+    const row = await env.DB.prepare("SELECT delete_password_hash, name_jp, creator_name FROM horses WHERE id = ?").bind(horseId).first();
 
     if (!row) {
       return new Response(JSON.stringify({ error: "対象の馬が見つかりません" }), {
@@ -131,6 +133,8 @@ export async function onRequestDelete(context) {
 
     await env.DB.prepare("DELETE FROM likes WHERE horse_id = ?").bind(horseId).run();
     await env.DB.prepare("DELETE FROM horses WHERE id = ?").bind(horseId).run();
+
+    await logEvent(env, "delete_owner", horseId, row.name_jp, row.creator_name);
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { "content-type": "application/json; charset=utf-8" },

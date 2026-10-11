@@ -53,6 +53,79 @@ async function fetchAdminList(flagged) {
   return (data && data.items) || [];
 }
 
+async function fetchAdminLog() {
+  const res = await fetch("/api/admin/log", {
+    headers: { "X-Admin-Key": adminKey },
+  });
+  if (res.status === 401) {
+    throw new Error("unauthorized");
+  }
+  const data = await res.json();
+  return (data && data.items) || [];
+}
+
+const LOG_KIND_LABELS = {
+  register: "登録",
+  delete_owner: "製作者が削除（パスワード）",
+  delete_admin: "管理ページから削除",
+};
+
+function renderLog(items) {
+  const container = document.getElementById("admin-list-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  if (!items || items.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "admin-empty";
+    empty.textContent = "ログはまだありません";
+    container.appendChild(empty);
+    return;
+  }
+
+  const table = document.createElement("table");
+  table.className = "admin-table";
+  const thead = document.createElement("thead");
+  const headRow = document.createElement("tr");
+  const headers = ["日時", "操作", "馬名", "製作者名", "馬ID"];
+  headers.forEach((h) => {
+    const th = document.createElement("th");
+    th.textContent = h;
+    headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  items.forEach((item) => {
+    const tr = document.createElement("tr");
+
+    const dateTd = document.createElement("td");
+    dateTd.textContent = formatDate(item.at);
+    tr.appendChild(dateTd);
+
+    const kindTd = document.createElement("td");
+    kindTd.textContent = LOG_KIND_LABELS[item.kind] || item.kind;
+    tr.appendChild(kindTd);
+
+    const nameTd = document.createElement("td");
+    nameTd.textContent = item.name_jp || "";
+    tr.appendChild(nameTd);
+
+    const creatorTd = document.createElement("td");
+    creatorTd.textContent = item.creator_name || "";
+    tr.appendChild(creatorTd);
+
+    const idTd = document.createElement("td");
+    idTd.textContent = item.horse_id || "";
+    tr.appendChild(idTd);
+
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
 function formatDate(ts) {
   if (!ts) return "";
   const d = new Date(ts);
@@ -180,6 +253,22 @@ async function handleRestore(id, tr) {
 }
 
 async function loadCurrentTab() {
+  if (currentTab === "log") {
+    try {
+      const items = await fetchAdminLog();
+      renderLog(items);
+    } catch (err) {
+      if (err && err.message === "unauthorized") {
+        clearStoredKey();
+        showAuthModal(true);
+      } else {
+        const container = document.getElementById("admin-list-container");
+        if (container) container.innerHTML = "<p class=\"admin-empty\">読み込みに失敗しました</p>";
+      }
+    }
+    return;
+  }
+
   const flaggedView = currentTab === "flagged";
   try {
     const items = await fetchAdminList(flaggedView);
@@ -198,12 +287,14 @@ async function loadCurrentTab() {
 function setupTabs() {
   const allBtn = document.getElementById("admin-tab-all");
   const flaggedBtn = document.getElementById("admin-tab-flagged");
+  const logBtn = document.getElementById("admin-tab-log");
   if (!allBtn || !flaggedBtn) return;
 
   allBtn.addEventListener("click", () => {
     currentTab = "all";
     allBtn.classList.add("active");
     flaggedBtn.classList.remove("active");
+    if (logBtn) logBtn.classList.remove("active");
     loadCurrentTab();
   });
 
@@ -211,8 +302,19 @@ function setupTabs() {
     currentTab = "flagged";
     flaggedBtn.classList.add("active");
     allBtn.classList.remove("active");
+    if (logBtn) logBtn.classList.remove("active");
     loadCurrentTab();
   });
+
+  if (logBtn) {
+    logBtn.addEventListener("click", () => {
+      currentTab = "log";
+      logBtn.classList.add("active");
+      allBtn.classList.remove("active");
+      flaggedBtn.classList.remove("active");
+      loadCurrentTab();
+    });
+  }
 }
 
 function setupAuthModal() {

@@ -3,6 +3,8 @@
 // DELETE /api/admin/horses/:id -> 強制削除（delete_password不要）
 // 認証: X-Admin-Key ヘッダを env.FSSPLICER_ADMIN_KEY と厳密一致比較
 
+import { logEvent } from "../../horses.js";
+
 function checkAdminAuth(context) {
   const { env, request } = context;
   const key = request.headers.get("X-Admin-Key");
@@ -55,7 +57,7 @@ export async function onRequestDelete(context) {
     }
 
     const horseId = params.id;
-    const existing = await env.DB.prepare("SELECT id FROM horses WHERE id = ?").bind(horseId).first();
+    const existing = await env.DB.prepare("SELECT id, name_jp, creator_name FROM horses WHERE id = ?").bind(horseId).first();
     if (!existing) {
       return new Response(JSON.stringify({ error: "対象の馬が見つかりません" }), {
         status: 404,
@@ -65,6 +67,8 @@ export async function onRequestDelete(context) {
 
     await env.DB.prepare("DELETE FROM likes WHERE horse_id = ?").bind(horseId).run();
     await env.DB.prepare("DELETE FROM horses WHERE id = ?").bind(horseId).run();
+
+    await logEvent(env, "delete_admin", horseId, existing.name_jp, existing.creator_name);
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { "content-type": "application/json; charset=utf-8" },

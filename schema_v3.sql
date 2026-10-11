@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS event_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  at INTEGER NOT NULL,
+  kind TEXT NOT NULL,
+  horse_id TEXT NOT NULL,
+  name_jp TEXT NOT NULL DEFAULT '',
+  creator_name TEXT NOT NULL DEFAULT ''
+);
+
+CREATE INDEX IF NOT EXISTS idx_event_log_at ON event_log(at);

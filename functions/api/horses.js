@@ -26,6 +26,16 @@ export function rowToHorse(row) {
   };
 }
 
+export async function logEvent(env, kind, horseId, nameJp, creatorName) {
+  try {
+    await env.DB.prepare(
+      "INSERT INTO event_log (at, kind, horse_id, name_jp, creator_name) VALUES (?, ?, ?, ?, ?)"
+    ).bind(Date.now(), kind, horseId, nameJp || "", creatorName || "").run();
+  } catch (err) {
+    // ログ記録の失敗は本処理を止めない
+  }
+}
+
 export async function onRequestGet(context) {
   const { env, request } = context;
   try {
@@ -226,6 +236,8 @@ export async function onRequestPost(context) {
     await env.DB.prepare(
       "INSERT INTO horses (id, name_jp, creator_name, csv_data, parent_id, delete_password_hash, like_count, created_at, ng_flag) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?)"
     ).bind(id, nameJp, creatorName, csvData, parentId, deletePasswordHash, createdAt, matchedWord || null).run();
+
+    await logEvent(env, "register", id, nameJp, creatorName);
 
     if (!matchedWord) {
       let shouldPost = false;
