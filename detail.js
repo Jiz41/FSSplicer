@@ -383,6 +383,26 @@ function buildXShareText(horse) {
   return `「${name}」（by ${horse.creator_name}）\nこのデータを元に、自分だけの1頭も作れます\n${url}\n#FSSplicer`;
 }
 
+function renderDetailThemes(horse) {
+  const container = document.getElementById("detail-themes");
+  if (!container) return;
+  container.innerHTML = "";
+  const themes = Array.isArray(horse.themes) ? horse.themes : [];
+  if (themes.length === 0) {
+    container.hidden = true;
+    return;
+  }
+  container.hidden = false;
+  themes.forEach((id) => {
+    const a = document.createElement("a");
+    a.className = "detail-theme-tag";
+    a.href = "gallery.html?theme=" + encodeURIComponent(id);
+    const race = odaiFindRace(id);
+    a.textContent = race ? (t("odai_tag_prefix") + odaiRaceName(race)) : t("theme_tag_unknown");
+    container.appendChild(a);
+  });
+}
+
 function renderHorse(horse) {
   currentHorseData = horse;
   const displayName = (currentLang() === "en" && horse.name_en) ? horse.name_en : horse.name_jp;
@@ -504,6 +524,8 @@ function renderHorse(horse) {
 
     detailListenersAttached = true;
   }
+
+  onOdaiRacesReady(() => renderDetailThemes(horse));
 }
 
 async function loadDetail() {

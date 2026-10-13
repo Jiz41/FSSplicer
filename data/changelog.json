@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-10-13",
+    "text": "「今週のレース」を追加しました。ホームで今週開催のレース（中央・地方・海外）が見られ、レースを選んで作った馬をアーカイヴに登録すると「テーマ：レース名」のタグが付きます。アーカイヴには「今週のテーマ」の絞り込みが加わり、詳細ページのタグから同じレースの馬を見られます。あわせて、秘書アメリの案内をバナーにしました",
+    "text_en": "Added \"This Week's Races\". The home page now lists the races held this week (Central, Local, Overseas); register a horse made for a race to the archive and it gets a \"Theme: race name\" tag. The archive has a new \"This Week's Themes\" filter, and the tag on a detail page opens the horses of the same race. The secretary Ameri's guide is now a banner"
+  },
+  {
     "date": "2026-10-05",
     "text": "Wikipediaのリンクが、表示言語が英語のときは英語版Wikipediaの記事へ飛ぶようになりました（英語版が無い馬は日本語版）",
     "text_en": "The Wikipedia link now points to the English Wikipedia article when the display language is English (falls back to the Japanese article if none exists)"

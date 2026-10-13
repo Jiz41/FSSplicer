@@ -228,6 +228,8 @@ function closeBrowseView() {
   const sections = document.getElementById("gallery-sections");
   if (section) section.hidden = true;
   if (sections) sections.hidden = false;
+  const themeArea = document.getElementById("theme-area");
+  if (themeArea && themeAreaWasVisible) themeArea.hidden = false;
   if (btnLabel) {
     btnLabel.setAttribute("data-i18n", "gallery_browse_all");
     btnLabel.textContent = t("gallery_browse_all");
@@ -241,6 +243,9 @@ function openBrowseView() {
   const sections = document.getElementById("gallery-sections");
   if (sections) sections.hidden = true;
   if (section) section.hidden = false;
+  const themeArea = document.getElementById("theme-area");
+  themeAreaWasVisible = !!(themeArea && !themeArea.hidden);
+  if (themeArea) themeArea.hidden = true;
   loadBrowseAll();
   if (btnLabel) {
     btnLabel.setAttribute("data-i18n", "gallery_browse_close");
@@ -276,16 +281,154 @@ function setupBrowseAll() {
   }
 }
 
+// ---- 今週のテーマ ----
+let themeSelectedId = null;
+let themeHorses = [];
+let themeFetchToken = 0;
+let themeAreaWasVisible = false;
+
+function initThemeArea() {
+  const area = document.getElementById("theme-area");
+  if (!area) return;
+
+  const params = new URLSearchParams(location.search);
+  const themeParam = params.get("theme");
+  if (themeParam && /^[clo]-[a-z0-9-]{1,80}$/.test(themeParam)) {
+    themeSelectedId = themeParam;
+  }
+
+  if (themeSelectedId === null && odaiRaces.length === 0) {
+    area.hidden = true;
+    return;
+  }
+
+  area.hidden = false;
+  renderThemeChips();
+  renderThemeCondition();
+  loadThemeHorses();
+
+  if (themeParam) {
+    area.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function renderThemeChips() {
+  const container = document.getElementById("theme-chips");
+  if (!container) return;
+  container.innerHTML = "";
+
+  const allBtn = document.createElement("button");
+  allBtn.type = "button";
+  allBtn.className = "theme-chip";
+  allBtn.setAttribute("aria-pressed", String(themeSelectedId === null));
+  if (themeSelectedId === null) allBtn.classList.add("is-selected");
+  allBtn.textContent = t("theme_chip_all");
+  allBtn.addEventListener("click", () => {
+    themeSelectedId = null;
+    renderThemeChips();
+    renderThemeCondition();
+    loadThemeHorses();
+  });
+  container.appendChild(allBtn);
+
+  const sorted = sortOdaiListRaces(odaiRaces);
+  sorted.forEach((race) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "theme-chip";
+    btn.setAttribute("aria-pressed", String(themeSelectedId === race.id));
+    if (themeSelectedId === race.id) btn.classList.add("is-selected");
+    btn.appendChild(buildOdaiGradeBadge(race.grade));
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = odaiRaceName(race);
+    btn.appendChild(nameSpan);
+    btn.addEventListener("click", () => {
+      themeSelectedId = (themeSelectedId === race.id) ? null : race.id;
+      renderThemeChips();
+      renderThemeCondition();
+      loadThemeHorses();
+    });
+    container.appendChild(btn);
+  });
+}
+
+function renderThemeCondition() {
+  const el = document.getElementById("theme-condition");
+  if (!el) return;
+  el.innerHTML = "";
+  if (themeSelectedId === null) {
+    el.hidden = true;
+    return;
+  }
+  el.hidden = false;
+
+  const textSpan = document.createElement("span");
+  const race = odaiFindRace(themeSelectedId);
+  if (race) {
+    textSpan.textContent = t("theme_condition_showing")
+      .replace("{race}", t("odai_tag_prefix") + odaiRaceName(race))
+      .replace("{cond}", odaiConditionText(race));
+  } else {
+    textSpan.textContent = t("theme_condition_unknown");
+  }
+  el.appendChild(textSpan);
+
+  const clearBtn = document.createElement("button");
+  clearBtn.type = "button";
+  clearBtn.className = "theme-clear-btn";
+  clearBtn.textContent = t("theme_clear");
+  clearBtn.addEventListener("click", () => {
+    themeSelectedId = null;
+    const params = new URLSearchParams(location.search);
+    params.delete("theme");
+    const qs = params.toString();
+    history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+    if (odaiRaces.length === 0) {
+      const area = document.getElementById("theme-area");
+      if (area) area.hidden = true;
+      return;
+    }
+    renderThemeChips();
+    renderThemeCondition();
+    loadThemeHorses();
+  });
+  el.appendChild(clearBtn);
+}
+
+async function loadThemeHorses() {
+  const ids = themeSelectedId ? [themeSelectedId] : odaiRaces.map((r) => r.id);
+  const myToken = ++themeFetchToken;
+  try {
+    const res = await fetch("/api/horses?theme=" + ids.map(encodeURIComponent).join(","));
+    const data = await res.json();
+    if (myToken !== themeFetchToken) return;
+    themeHorses = (data && data.theme) || [];
+  } catch (err) {
+    if (myToken !== themeFetchToken) return;
+    themeHorses = [];
+  }
+  fillGrid("gallery-grid-theme", themeHorses);
+  const emptyEl = document.getElementById("theme-empty");
+  if (emptyEl) emptyEl.hidden = themeHorses.length > 0;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadGallery();
   updateGalleryTitle();
   setupBrowseAll();
+  onOdaiRacesReady(initThemeArea);
   const langBtn = document.getElementById("lang-toggle");
   if (langBtn) {
     langBtn.addEventListener("click", () => {
       updateGalleryTitle();
       if (cachedGalleryData) renderGallery(cachedGalleryData);
       if (browseLoaded) applyBrowseFilter();
+      const area = document.getElementById("theme-area");
+      if (area && !area.hidden) {
+        renderThemeChips();
+        renderThemeCondition();
+        fillGrid("gallery-grid-theme", themeHorses);
+      }
     });
   }
 });

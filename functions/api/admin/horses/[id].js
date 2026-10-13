@@ -66,6 +66,11 @@ export async function onRequestDelete(context) {
     }
 
     await env.DB.prepare("DELETE FROM likes WHERE horse_id = ?").bind(horseId).run();
+    try {
+      await env.DB.prepare("DELETE FROM horse_tags WHERE horse_id = ?").bind(horseId).run();
+    } catch (e) {
+      console.error(e);
+    }
     await env.DB.prepare("DELETE FROM horses WHERE id = ?").bind(horseId).run();
 
     await logEvent(env, "delete_admin", horseId, existing.name_jp, existing.creator_name);

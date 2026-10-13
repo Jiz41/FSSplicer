@@ -136,7 +136,26 @@ const I18N = {
     label_retire_age: "引退年齢",
     hint_age_decimal: "小数点は年内の経過月数を表します（例：0.5＝約6ヶ月＝6月ごろ、0.92＝約11ヶ月＝年末ごろ）",
     hint_physical_weight: "0.5前後が馬体重460〜470kg程度の目安です。マイナス方向で小さく、プラス方向で大きくなります。",
-    ameri_link: "実在馬のステータスは、\"FSSp専属秘書・谷上アメリ\"と一緒に考える →",
+    odai_title: "今週のレース",
+    odai_sub: "出走した過去の馬のうち、ゲームにいない一頭を。",
+    odai_empty: "今週はテーマにできるレースがありません",
+    odai_overseas_note: "海外レースの曜日は現地日付です",
+    odai_tag_prefix: "テーマ：",
+    odai_selected: "選択中：{race}",
+    odai_clear: "解除",
+    odai_go_edit: "入力へ ↓",
+    odai_confirm_master: "「{name}」はHorseMasterData内に存在する馬です。よろしいですか？\n（OKを押すと、テーマのタグを付けずに登録します）",
+    odai_registered_tagged: "{race} のタグを付けて登録しました",
+    odai_cat_central: "中央",
+    odai_cat_local: "地方",
+    odai_cat_overseas: "海外",
+    theme_area_title: "今週のテーマ",
+    theme_chip_all: "すべて",
+    theme_condition_showing: "表示中：{race}（{cond}）",
+    theme_condition_unknown: "表示中：テーマ（レース情報なし）",
+    theme_clear: "解除",
+    theme_empty: "このテーマの馬はまだいません",
+    theme_tag_unknown: "テーマ（レース情報なし）",
     howto_summary: "使い方",
     howto_1: "改変したい馬を、配布されているスプレッドシートで探し、その行をコピーします（行全体を選択してコピー）",
     howto_2: "コピーした行を「元の馬データを読み込む」に貼り付け、読み込むボタンを押します（未編集の項目は元の馬の値のまま出力されます）",
@@ -305,7 +324,26 @@ const I18N = {
     label_retire_age: "Retire Age",
     hint_age_decimal: "The decimal represents elapsed months within the year (e.g. 0.5 ≈ 6 months, around June; 0.92 ≈ 11 months, around year-end).",
     hint_physical_weight: "Around 0.5 corresponds to roughly 460-470kg of body weight. Lower values are smaller, higher values are larger.",
-    ameri_link: "Think it through with \"FSSp's dedicated secretary, Ameri Tanigami\" →",
+    odai_title: "This Week's Races",
+    odai_sub: "Create a past runner of these races that isn't in the game yet.",
+    odai_empty: "No races to use as a theme this week",
+    odai_overseas_note: "Overseas race days are shown in local time",
+    odai_tag_prefix: "Theme: ",
+    odai_selected: "Selected: {race}",
+    odai_clear: "Clear",
+    odai_go_edit: "Go to editor ↓",
+    odai_confirm_master: "\"{name}\" already exists in HorseMasterData. Continue?\n(Press OK to register without the Theme tag.)",
+    odai_registered_tagged: "Registered with the tag: {race}",
+    odai_cat_central: "Central",
+    odai_cat_local: "Local",
+    odai_cat_overseas: "Overseas",
+    theme_area_title: "This Week's Themes",
+    theme_chip_all: "All",
+    theme_condition_showing: "Showing: {race} ({cond})",
+    theme_condition_unknown: "Showing: Theme (race info unavailable)",
+    theme_clear: "Clear",
+    theme_empty: "No horses for this theme yet",
+    theme_tag_unknown: "Theme (race info unavailable)",
     howto_summary: "How to use",
     howto_1: "Find the horse you want to modify in the distributed spreadsheet and copy its whole row",
     howto_2: "Paste the copied row into \"Load source horse data\" and press Load (unedited fields keep the original horse's values)",
@@ -756,6 +794,7 @@ function applyLanguage(lang) {
   buildStatGrid();
   buildGearGrid();
   renderChangelog();
+  renderOdai();
   const menuToggle = document.getElementById("menu-toggle");
   if (menuToggle) menuToggle.setAttribute("aria-label", t("menu_aria"));
 }
@@ -967,6 +1006,284 @@ function buildShareUrl() {
   return "https://fssplicer.pages.dev/?data=" + encoded;
 }
 
+// ---- 今週のレース (odai) ----
+let odaiRaces = [];
+let odaiSelectedRace = null;
+let odaiMasterNames = null;
+let odaiMasterNamesLoading = null;
+
+const ODAI_GRADE_RANK = { G1: 1, JpnI: 2, G2: 3, G3: 4 };
+const ODAI_JA_WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
+const ODAI_EN_WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+function getOdaiWeekRange(nowMs) {
+  const j = new Date(nowMs + 9 * 3600 * 1000);
+  const dow = (j.getUTCDay() + 6) % 7;
+  const startMs = Date.UTC(j.getUTCFullYear(), j.getUTCMonth(), j.getUTCDate()) - dow * 86400000;
+  const endMs = startMs + 6 * 86400000;
+  const toStr = (ms) => new Date(ms).toISOString().slice(0, 10);
+  return { start: toStr(startMs), end: toStr(endMs) };
+}
+
+function pickOdaiRaces(races, nowMs) {
+  const { start, end } = getOdaiWeekRange(nowMs);
+  return races.filter((r) => r.date >= start && r.date <= end);
+}
+
+function odaiGradeRank(grade) {
+  return ODAI_GRADE_RANK[grade] || 99;
+}
+
+function sortOdaiRaces(races) {
+  return races.slice().sort((a, b) => {
+    const gr = odaiGradeRank(a.grade) - odaiGradeRank(b.grade);
+    if (gr !== 0) return gr;
+    if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+  });
+}
+
+function sortOdaiListRaces(races) {
+  return races.slice().sort((a, b) => {
+    if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+    const gr = odaiGradeRank(a.grade) - odaiGradeRank(b.grade);
+    if (gr !== 0) return gr;
+    return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+  });
+}
+
+function odaiWeekday(dateStr) {
+  const lang = currentLang();
+  const d = new Date(dateStr + "T00:00:00Z").getUTCDay();
+  return lang === "en" ? ODAI_EN_WEEKDAYS[d] : ODAI_JA_WEEKDAYS[d];
+}
+
+function odaiRaceName(race) {
+  return currentLang() === "en" ? race.name_en : race.name_ja;
+}
+
+function odaiVenue(race) {
+  return currentLang() === "en" ? race.venue_en : race.venue_ja;
+}
+
+function odaiSurface(race) {
+  const lang = currentLang();
+  if (lang === "en") return race.surface === "dirt" ? "Dirt" : "Turf";
+  return race.surface === "dirt" ? "ダ" : "芝";
+}
+
+function odaiGradeLabel(grade) {
+  const lang = currentLang();
+  if (grade === "G1") return lang === "en" ? "G1" : "GI";
+  if (grade === "G2") return lang === "en" ? "G2" : "GII";
+  if (grade === "G3") return lang === "en" ? "G3" : "GIII";
+  if (grade === "JpnI") return "JpnI";
+  return grade;
+}
+
+function odaiGradeClass(grade) {
+  if (grade === "JpnI") return "odai-grade-jpn";
+  if (grade === "G2" || grade === "G3") return "odai-grade-low";
+  return "";
+}
+
+function odaiCatLabel(category) {
+  if (category === "central") return t("odai_cat_central");
+  if (category === "local") return t("odai_cat_local");
+  return t("odai_cat_overseas");
+}
+
+function odaiMetaLine(race) {
+  return `${odaiWeekday(race.date)} ${odaiVenue(race)} ${odaiSurface(race)}${race.distance_m}m`;
+}
+
+function buildOdaiGradeBadge(grade) {
+  const span = document.createElement("span");
+  span.className = "odai-grade " + odaiGradeClass(grade);
+  span.textContent = odaiGradeLabel(grade);
+  return span;
+}
+
+function renderOdaiHeadliner(race) {
+  const container = document.getElementById("odai-headliner");
+  if (!container) return;
+  container.innerHTML = "";
+  if (!race) return;
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "odai-headliner-btn";
+  btn.setAttribute("aria-pressed", String(odaiSelectedRace === race));
+  if (odaiSelectedRace === race) btn.classList.add("is-selected");
+
+  const row = document.createElement("div");
+  row.appendChild(buildOdaiGradeBadge(race.grade));
+  const nameSpan = document.createElement("span");
+  nameSpan.textContent = " " + odaiRaceName(race);
+  row.appendChild(nameSpan);
+  btn.appendChild(row);
+
+  const meta = document.createElement("span");
+  meta.className = "odai-headliner-meta";
+  meta.textContent = odaiMetaLine(race);
+  btn.appendChild(meta);
+
+  btn.addEventListener("click", () => odaiToggleSelect(race));
+  container.appendChild(btn);
+}
+
+function renderOdaiList(races) {
+  const list = document.getElementById("odai-list");
+  if (!list) return;
+  list.innerHTML = "";
+  races.forEach((race) => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "odai-item";
+    btn.setAttribute("aria-pressed", String(odaiSelectedRace === race));
+    if (odaiSelectedRace === race) btn.classList.add("is-selected");
+
+    btn.appendChild(buildOdaiGradeBadge(race.grade));
+
+    const catSpan = document.createElement("span");
+    catSpan.className = "odai-cat";
+    catSpan.textContent = odaiCatLabel(race.category);
+    btn.appendChild(catSpan);
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = odaiRaceName(race);
+    btn.appendChild(nameSpan);
+
+    const metaSpan = document.createElement("span");
+    metaSpan.textContent = odaiMetaLine(race);
+    btn.appendChild(metaSpan);
+
+    btn.addEventListener("click", () => odaiToggleSelect(race));
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
+}
+
+function renderOdaiSelected() {
+  const spots = ["odai-selected-top", "odai-selected-name", "odai-selected-register"];
+  spots.forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = "";
+    if (!odaiSelectedRace) {
+      el.hidden = true;
+      return;
+    }
+    el.hidden = false;
+    const textSpan = document.createElement("span");
+    textSpan.textContent = t("odai_selected").replace("{race}", t("odai_tag_prefix") + odaiRaceName(odaiSelectedRace));
+    el.appendChild(textSpan);
+
+    const clearBtn = document.createElement("button");
+    clearBtn.type = "button";
+    clearBtn.className = "odai-clear-btn";
+    clearBtn.textContent = t("odai_clear");
+    clearBtn.addEventListener("click", () => odaiSelectRace(null));
+    el.appendChild(clearBtn);
+
+    if (id === "odai-selected-top") {
+      const goLink = document.createElement("a");
+      goLink.className = "odai-go-edit-link";
+      goLink.href = "#section-basic";
+      goLink.textContent = t("odai_go_edit");
+      el.appendChild(goLink);
+    }
+  });
+}
+
+function renderOdai() {
+  const sorted = sortOdaiRaces(odaiRaces);
+  const headliner = sorted[0] || null;
+  const rest = sortOdaiListRaces(sorted.slice(1));
+
+  renderOdaiHeadliner(headliner);
+  renderOdaiList(rest);
+  renderOdaiSelected();
+
+  const emptyEl = document.getElementById("odai-empty");
+  if (emptyEl) emptyEl.hidden = odaiRaces.length > 0;
+
+  const overseasEl = document.getElementById("odai-overseas-note");
+  if (overseasEl) overseasEl.hidden = !odaiRaces.some((r) => r.category === "overseas");
+}
+
+function odaiSelectRace(race) {
+  odaiSelectedRace = race;
+  if (race) {
+    loadOdaiMasterNames();
+  }
+  renderOdai();
+}
+
+function odaiToggleSelect(race) {
+  if (odaiSelectedRace === race) {
+    odaiSelectRace(null);
+  } else {
+    odaiSelectRace(race);
+  }
+}
+
+function loadOdaiMasterNames() {
+  if (odaiMasterNames !== null || odaiMasterNamesLoading) return odaiMasterNamesLoading;
+  odaiMasterNamesLoading = fetch("data/master_names.json")
+    .then((res) => (res.ok ? res.json() : Promise.reject(new Error("fetch failed"))))
+    .then((names) => {
+      odaiMasterNames = new Set(names);
+    })
+    .catch(() => {
+      odaiMasterNames = null;
+    });
+  return odaiMasterNamesLoading;
+}
+
+let odaiAllRaces = [];
+let odaiRacesLoaded = false;
+
+function setupOdai() {
+  fetch("data/races.json")
+    .then((res) => (res.ok ? res.json() : Promise.reject(new Error("fetch failed"))))
+    .then((data) => {
+      odaiAllRaces = data.races || [];
+      odaiRaces = pickOdaiRaces(odaiAllRaces, Date.now());
+      const section = document.getElementById("odai-section");
+      if (section) section.hidden = false;
+      renderOdai();
+      odaiRacesLoaded = true;
+      document.dispatchEvent(new CustomEvent("odai-races-ready"));
+    })
+    .catch(() => {
+      odaiAllRaces = [];
+      odaiRaces = [];
+      odaiRacesLoaded = true;
+      document.dispatchEvent(new CustomEvent("odai-races-ready"));
+    });
+}
+
+function odaiFindRace(id) {
+  return odaiAllRaces.find((r) => r.id === id) || null;
+}
+
+function onOdaiRacesReady(cb) {
+  if (odaiRacesLoaded) {
+    cb();
+  } else {
+    document.addEventListener("odai-races-ready", cb, { once: true });
+  }
+}
+
+function odaiConditionText(race) {
+  const lang = currentLang();
+  if (lang === "en") {
+    return [odaiGradeLabel(race.grade), odaiVenue(race), odaiSurface(race) + " " + race.distance_m + "m"].join(" · ");
+  }
+  return odaiGradeLabel(race.grade) + "・" + odaiVenue(race) + "・" + odaiSurface(race) + race.distance_m + "m";
+}
+
 // ---- アーカイヴ登録 ----
 function setupArchiveRegister() {
   const btn = document.getElementById("archive-register-btn");
@@ -1002,17 +1319,28 @@ function setupArchiveRegister() {
     localStorage.setItem("fssp_creator_name", creatorName);
     const parentId = sessionStorage.getItem("fssp_remix_parent_id") || null;
 
+    const body = {
+      name_jp: nameJp,
+      creator_name: creatorName,
+      csv_data: generateCsvRow(),
+      parent_id: parentId,
+      delete_password: deletePassword
+    };
+
+    if (odaiSelectedRace) {
+      if (odaiMasterNames && odaiMasterNames.has(nameJp)) {
+        const confirmed = window.confirm(t("odai_confirm_master").replace("{name}", nameJp));
+        if (!confirmed) return;
+      } else {
+        body.theme_race_id = odaiSelectedRace.id;
+      }
+    }
+
     try {
       const res = await fetch("/api/horses", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name_jp: nameJp,
-          creator_name: creatorName,
-          csv_data: generateCsvRow(),
-          parent_id: parentId,
-          delete_password: deletePassword
-        })
+        body: JSON.stringify(body)
       });
 
       const data = await res.json().catch(() => ({}));
@@ -1020,6 +1348,15 @@ function setupArchiveRegister() {
       if (res.ok && data.id) {
         sessionStorage.removeItem("fssp_remix_parent_id");
         status.textContent = "";
+        if (data.theme_tagged === true && odaiSelectedRace) {
+          const taggedLine = document.createElement("p");
+          taggedLine.textContent = t("odai_registered_tagged").replace(
+            "{race}",
+            t("odai_tag_prefix") + odaiRaceName(odaiSelectedRace)
+          );
+          status.appendChild(taggedLine);
+          odaiSelectRace(null);
+        }
         const link = document.createElement("a");
         link.href = `detail.html?id=${encodeURIComponent(data.id)}`;
         link.textContent = t("archive_register_success");
@@ -1117,6 +1454,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupArchiveRegister();
   setupInstallButton();
   loadChangelog();
+  setupOdai();
 
   const params = new URLSearchParams(location.search);
   const sharedData = params.get("data");

@@ -26,6 +26,18 @@ export function rowToHorse(row) {
   };
 }
 
+export async function loadStaticJson(context, path) {
+  try {
+    const res = await context.env.ASSETS.fetch(new Request(new URL(path, context.request.url)));
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (err) {
+    return null;
+  }
+}
+
+const THEME_RACE_ID_RE = /^[clo]-[a-z0-9-]{1,80}$/;
+
 export async function logEvent(env, kind, horseId, nameJp, creatorName) {
   try {
     await env.DB.prepare(
@@ -42,6 +54,38 @@ export async function onRequestGet(context) {
     const url = new URL(request.url);
     const q = url.searchParams.get("q");
     const browse = url.searchParams.get("browse");
+    const theme = url.searchParams.get("theme");
+
+    if (theme) {
+      const ids = theme
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => THEME_RACE_ID_RE.test(s))
+        .slice(0, 30);
+
+      if (ids.length === 0) {
+        return new Response(JSON.stringify({ theme: [] }), {
+          headers: { "content-type": "application/json; charset=utf-8" },
+        });
+      }
+
+      const placeholders = ids.map(() => "?").join(",");
+      const { results } = await env.DB.prepare(
+        `SELECT h.id, h.name_jp, h.creator_name, h.csv_data, h.like_count, h.created_at,
+          (SELECT GROUP_CONCAT(tag_value) FROM horse_tags WHERE horse_id = h.id AND tag_type = 'theme') AS themes
+        FROM horses h
+        WHERE h.ng_flag IS NULL
+          AND EXISTS (SELECT 1 FROM horse_tags t WHERE t.horse_id = h.id AND t.tag_type = 'theme' AND t.tag_value IN (${placeholders}))
+        ORDER BY h.created_at DESC LIMIT 300`
+      ).bind(...ids).all();
+
+      return new Response(
+        JSON.stringify({
+          theme: results.map((row) => ({ ...rowToHorse(row), themes: row.themes ? row.themes.split(",") : [] })),
+        }),
+        { headers: { "content-type": "application/json; charset=utf-8" } }
+      );
+    }
 
     if (browse) {
       const { results } = await env.DB.prepare(
@@ -205,6 +249,7 @@ export async function onRequestPost(context) {
     const csvData = typeof body.csv_data === "string" ? body.csv_data : "";
     const parentId = typeof body.parent_id === "string" && body.parent_id ? body.parent_id : null;
     const deletePassword = typeof body.delete_password === "string" ? body.delete_password : "";
+    const themeRaceId = typeof body.theme_race_id === "string" ? body.theme_race_id.trim() : "";
 
     if (!nameJp || !creatorName || !csvData || !deletePassword) {
       return new Response(JSON.stringify({ error: "必須項目が不足しています" }), {
@@ -233,9 +278,41 @@ export async function onRequestPost(context) {
     const deletePasswordHash = await sha256Hex(deletePassword);
     const createdAt = Date.now();
 
-    await env.DB.prepare(
-      "INSERT INTO horses (id, name_jp, creator_name, csv_data, parent_id, delete_password_hash, like_count, created_at, ng_flag) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?)"
-    ).bind(id, nameJp, creatorName, csvData, parentId, deletePasswordHash, createdAt, matchedWord || null).run();
+    const horseInsertSql =
+      "INSERT INTO horses (id, name_jp, creator_name, csv_data, parent_id, delete_password_hash, like_count, created_at, ng_flag) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?)";
+    const horseInsertArgs = [id, nameJp, creatorName, csvData, parentId, deletePasswordHash, createdAt, matchedWord || null];
+
+    let themeTagged = false;
+    let horseInserted = false;
+    if (THEME_RACE_ID_RE.test(themeRaceId)) {
+      const racesData = await loadStaticJson(context, "/data/races.json");
+      const race = racesData && Array.isArray(racesData.races) ? racesData.races.find((r) => r.id === themeRaceId) : null;
+      if (race) {
+        const masterNames = await loadStaticJson(context, "/data/master_names.json");
+        const alreadyInMaster = Array.isArray(masterNames) ? masterNames.includes(nameJp) : true;
+        if (!alreadyInMaster && Array.isArray(masterNames)) {
+          try {
+            await env.DB.batch([
+              env.DB.prepare(horseInsertSql).bind(...horseInsertArgs),
+              env.DB.prepare(
+                "INSERT INTO horse_tags (horse_id, tag_type, tag_value, created_at) VALUES (?, 'theme', ?, ?)"
+              ).bind(id, themeRaceId, createdAt),
+            ]);
+            themeTagged = true;
+            horseInserted = true;
+          } catch (err) {
+            console.error(err);
+            await env.DB.prepare(horseInsertSql).bind(...horseInsertArgs).run();
+            themeTagged = false;
+            horseInserted = true;
+          }
+        }
+      }
+    }
+
+    if (!horseInserted) {
+      await env.DB.prepare(horseInsertSql).bind(...horseInsertArgs).run();
+    }
 
     await logEvent(env, "register", id, nameJp, creatorName);
 
@@ -254,7 +331,7 @@ export async function onRequestPost(context) {
       }
     }
 
-    return new Response(JSON.stringify({ id }), {
+    return new Response(JSON.stringify({ id, theme_tagged: themeTagged }), {
       status: 201,
       headers: { "content-type": "application/json; charset=utf-8" },
     });

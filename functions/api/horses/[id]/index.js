@@ -88,6 +88,15 @@ export async function onRequestGet(context) {
     horse.parent = parentRow ? lineageEntry(parentRow) : null;
     horse.children = ((childrenResult && childrenResult.results) || []).map(lineageEntry);
 
+    try {
+      const { results: tagResults } = await env.DB.prepare(
+        "SELECT tag_value FROM horse_tags WHERE horse_id = ? AND tag_type = 'theme' ORDER BY tag_value"
+      ).bind(params.id).all();
+      horse.themes = (tagResults || []).map((r) => r.tag_value);
+    } catch (err) {
+      horse.themes = [];
+    }
+
     return new Response(JSON.stringify(horse), {
       headers: { "content-type": "application/json; charset=utf-8" },
     });
@@ -132,6 +141,11 @@ export async function onRequestDelete(context) {
     }
 
     await env.DB.prepare("DELETE FROM likes WHERE horse_id = ?").bind(horseId).run();
+    try {
+      await env.DB.prepare("DELETE FROM horse_tags WHERE horse_id = ?").bind(horseId).run();
+    } catch (e) {
+      console.error(e);
+    }
     await env.DB.prepare("DELETE FROM horses WHERE id = ?").bind(horseId).run();
 
     await logEvent(env, "delete_owner", horseId, row.name_jp, row.creator_name);
