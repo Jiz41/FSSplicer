@@ -465,7 +465,7 @@ summary h2 {
 
 .form-row input,
 .form-row select {
-  background: var(--surface-2);
+  background: var(--panel);
   color: var(--ink);
   border: 1px solid var(--line-strong);
   border-radius: 3px;
