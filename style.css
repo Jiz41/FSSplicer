@@ -1283,10 +1283,10 @@ footer .fnote.footer-credit {
   align-items: center;
   gap: 0.5rem;
   padding: 0.9rem 0.7rem 1rem;
-  background: linear-gradient(180deg, var(--surface) 0%, var(--panel) 100%);
-  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #101a11 0%, #0b130c 100%);
+  border: 1px solid #2a3d2b;
   border-radius: 4px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 10px 26px -20px #000;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 12px 26px -12px rgba(182, 232, 74, 0.24);
   color: var(--ink);
   font-family: inherit;
   cursor: pointer;
@@ -1452,8 +1452,8 @@ footer .fnote.footer-credit {
   position: relative;
   margin-bottom: 1.2rem;
   padding: 0.9rem 0.9rem 1rem;
-  background: linear-gradient(180deg, var(--surface) 0%, var(--panel) 100%);
-  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #101a11 0%, #0b130c 100%);
+  border: 1px solid #2a3d2b;
   border-radius: 4px;
 }
 
@@ -2066,10 +2066,10 @@ html[data-lang="en"] .ameri-banner-en {
 .odai {
   position: relative;
   padding: 1.4rem 1.3rem 1.6rem;
-  background: linear-gradient(180deg, var(--surface) 0%, var(--panel) 100%);
-  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #101a11 0%, #0b130c 100%);
+  border: 1px solid #2a3d2b;
   border-radius: 4px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 10px 26px -20px #000;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 12px 26px -12px rgba(182, 232, 74, 0.24);
   margin: 1.2rem 0 1.6rem;
 }
 
@@ -2221,10 +2221,10 @@ html[data-lang="en"] .ameri-banner-en {
 .theme-area {
   position: relative;
   padding: 1.2rem 1.1rem 1.4rem;
-  background: linear-gradient(180deg, var(--surface) 0%, var(--panel) 100%);
-  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #101a11 0%, #0b130c 100%);
+  border: 1px solid #2a3d2b;
   border-radius: 4px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 10px 26px -20px #000;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 12px 26px -12px rgba(182, 232, 74, 0.24);
   margin: 0 0 1.6rem;
 }
 
